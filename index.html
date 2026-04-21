@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HareideART Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f0f0f;
+  --paper: #f5f0e8;
+  --cream: #ede8db;
+  --accent: #c8402a;
+  --gold: #b8860b;
+  --green: #2a6b3c;
+  --muted: #6b6258;
+  --border: #d4cdc0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+}
+
+header {
+  padding: 3rem 3rem 2rem;
+  border-bottom: 1px solid #222;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--paper);
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.tagline {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+.header-right {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: right;
+}
+
+.header-right a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem;
+}
+
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #222;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.tool-card {
+  background: #161210;
+  border: 1px solid #2a2420;
+  border-radius: 4px;
+  padding: 1.8rem;
+  text-decoration: none;
+  color: var(--paper);
+  display: block;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s;
+}
+
+.tool-card:hover {
+  border-color: #3a3028;
+  background: #1c1814;
+  transform: translateY(-2px);
+}
+
+.tool-card:hover::before { transform: scaleX(1); }
+
+.tool-card.coming {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.tool-card.coming::before { display: none; }
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.card-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.card-status {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+}
+
+.status-live {
+  background: #1a3a22;
+  color: #5cb878;
+  border: 1px solid #2a5a32;
+}
+
+.status-coming {
+  background: #2a2420;
+  color: var(--muted);
+  border: 1px solid #3a3028;
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--paper);
+}
+
+.card-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  background: #2a2420;
+  border: 1px solid #3a3028;
+  border-radius: 2px;
+  color: var(--muted);
+}
+
+.card-arrow {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tool-card:hover .card-arrow { opacity: 1; }
+
+.plan-section {
+  background: #161210;
+  border: 1px solid #2a2420;
+  border-radius: 4px;
+  padding: 2rem;
+}
+
+.plan-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
+  color: var(--paper);
+}
+
+.plan-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.plan-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #1e1a16;
+}
+
+.plan-item:last-child { border-bottom: none; }
+
+.plan-month {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  min-width: 80px;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  color: #333;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-top: 1px solid #1a1610;
+  margin-top: 2rem;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">Hareide<span>ART</span></div>
+    <div class="tagline">Marketing & SEO Toolbox · 2026</div>
+  </div>
+  <div class="header-right">
+    <a href="https://svein-hareide.com" target="_blank">svein-hareide.com</a><br>
+    Privat verktøykasse
+  </div>
+</header>
+
+<main>
+
+  <div class="section-label">Shopify SEO</div>
+
+  <div class="tools-grid">
+
+    <a href="seo-auditor.html" class="tool-card">
+      <div class="card-top">
+        <span class="card-icon">🔍</span>
+        <span class="card-status status-live">Live</span>
+      </div>
+      <div class="card-title">SEO Auditor</div>
+      <div class="card-desc">Analyser alle Shopify-produkter mot SEO-sjekkliste. Rødt/gult/grønt per produkt. Eksporter kritiske til CSV.</div>
+      <div class="card-tags">
+        <span class="tag">Shopify CSV</span>
+        <span class="tag">SEO</span>
+        <span class="tag">Ingen API</span>
+      </div>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a href="seo-autofixer.html" class="tool-card">
+      <div class="card-top">
+        <span class="card-icon">⚡</span>
+        <span class="card-status status-live">Live</span>
+      </div>
+      <div class="card-title">SEO Auto-Fixer</div>
+      <div class="card-desc">Claude genererer SEO-tittel, meta-beskrivelse, produkttekst, alt-tekst og tags for alle produkter automatisk. Eksporter ferdig CSV til Shopify.</div>
+      <div class="card-tags">
+        <span class="tag">Shopify CSV</span>
+        <span class="tag">Claude API</span>
+        <span class="tag">Bulk</span>
+      </div>
+      <span class="card-arrow">→</span>
+    </a>
+
+  </div>
+
+  <div class="section-label">Pinterest</div>
+
+  <div class="tools-grid">
+
+    <a href="art-pin-generator.html" class="tool-card coming">
+      <div class="card-top">
+        <span class="card-icon">🎨</span>
+        <span class="card-status status-coming">Kommer juni</span>
+      </div>
+      <div class="card-title">Art Pin Generator</div>
+      <div class="card-desc">Generer 3 Pinterest-pins per Shopify-bilde. Tre typer: kunstfokus, historiepin og interiørmockup. Lenker direkte til produktside.</div>
+      <div class="card-tags">
+        <span class="tag">Pinterest</span>
+        <span class="tag">Shopify</span>
+        <span class="tag">Claude API</span>
+      </div>
+    </a>
+
+    <a href="portrait-pin-generator.html" class="tool-card coming">
+      <div class="card-top">
+        <span class="card-icon">🖼️</span>
+        <span class="card-status status-coming">Kommer sept</span>
+      </div>
+      <div class="card-title">Portrait Pin Generator</div>
+      <div class="card-desc">Dedikert generator for Etsy AI-portretter. Inspirasjon-pin, digital download-pin og nisjepin mot spesifikke søk.</div>
+      <div class="card-tags">
+        <span class="tag">Pinterest</span>
+        <span class="tag">Etsy</span>
+        <span class="tag">Claude API</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="section-label">Innhold & analyse</div>
+
+  <div class="tools-grid">
+
+    <a href="blog-topic-generator.html" class="tool-card coming">
+      <div class="card-top">
+        <span class="card-icon">✍️</span>
+        <span class="card-status status-coming">Kommer okt</span>
+      </div>
+      <div class="card-title">Blog Topic Generator</div>
+      <div class="card-desc">Generer SEO-optimaliserte blogginnlegg-ideer koblet til Shopify-produkter. Med søkeord, tittel og intern lenkestruktur.</div>
+      <div class="card-tags">
+        <span class="tag">Shopify blogg</span>
+        <span class="tag">SEO</span>
+        <span class="tag">Claude API</span>
+      </div>
+    </a>
+
+    <a href="dashboard.html" class="tool-card coming">
+      <div class="card-top">
+        <span class="card-icon">📊</span>
+        <span class="card-status status-coming">Kommer des</span>
+      </div>
+      <div class="card-title">HareideART Dashboard</div>
+      <div class="card-desc">Ukentlig oversikt over nøkkeltall fra alle kanaler på ett sted. Shopify, Etsy, Pinterest — manuelt oppdatert.</div>
+      <div class="card-tags">
+        <span class="tag">Analyse</span>
+        <span class="tag">Alle kanaler</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="section-label">Byggeplan 2026</div>
+
+  <div class="plan-section">
+    <div class="plan-title">Masterplan — verktøy etter prioritet</div>
+    <div class="plan-items">
+      <div class="plan-item"><span class="plan-month">Apr–Mai</span>SEO Auditor + Auto-Fixer → Shopify-fundament på plass</div>
+      <div class="plan-item"><span class="plan-month">Jun–Jul</span>Art Pin Generator → Pinterest-motor for 300+ kunstbilder</div>
+      <div class="plan-item"><span class="plan-month">Aug–Sep</span>Portrait Pin Generator → Etsy-motor for AI-portretter</div>
+      <div class="plan-item"><span class="plan-month">Okt–Nov</span>Blog Topic Generator → Shopify-blogg som salgstrakt</div>
+      <div class="plan-item"><span class="plan-month">Desember</span>Dashboard → samle alle kanaler, måle fremgang</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>HareideART Tools · Privat · shareide.github.io/hareide-tools</footer>
+
+</body>
+</html>

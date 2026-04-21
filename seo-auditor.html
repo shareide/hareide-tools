@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HareideART — SEO Auditor</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f0e8;
+    --cream: #ede8db;
+    --accent: #c8402a;
+    --gold: #b8860b;
+    --green: #2a6b3c;
+    --warn: #c87020;
+    --muted: #6b6258;
+    --border: #d4cdc0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem 3rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    border-bottom: 3px solid var(--accent);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+
+  header span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2.5rem 3rem;
+  }
+
+  /* UPLOAD ZONE */
+  .upload-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .upload-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .drop-zone {
+    border: 2px dashed var(--border);
+    background: var(--cream);
+    border-radius: 4px;
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .drop-zone:hover, .drop-zone.drag-over {
+    border-color: var(--accent);
+    background: #f0ebe0;
+  }
+
+  .drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0.01;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .drop-zone .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .drop-zone p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .drop-zone small {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* HOW TO EXPORT */
+  .how-to {
+    background: var(--cream);
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.5rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .how-to strong {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .how-to ol {
+    margin-left: 1.2rem;
+    color: var(--muted);
+  }
+
+  /* SUMMARY BAR */
+  #summary {
+    display: none;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    display: none;
+    gap: 3rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  #summary.visible { display: flex; }
+
+  .summary-stat {
+    text-align: center;
+  }
+
+  .summary-stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+    display: block;
+  }
+
+  .summary-stat .lbl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  .num.red { color: var(--accent); }
+  .num.yellow { color: var(--warn); }
+  .num.green { color: #5cb878; }
+
+  .score-bar-wrap {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .score-bar-wrap .lbl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .score-bar {
+    height: 8px;
+    background: #333;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    gap: 2px;
+  }
+
+  .score-bar .seg-red { background: var(--accent); transition: width 0.8s ease; }
+  .score-bar .seg-yellow { background: var(--warn); transition: width 0.8s ease; }
+  .score-bar .seg-green { background: #5cb878; transition: width 0.8s ease; }
+
+  /* FILTERS */
+  .filters {
+    display: none;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filters.visible { display: flex; }
+
+  .filter-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .filter-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+    color: var(--muted);
+  }
+
+  .filter-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .filter-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .filter-btn.red.active { background: var(--accent); border-color: var(--accent); }
+  .filter-btn.yellow.active { background: var(--warn); border-color: var(--warn); }
+  .filter-btn.green.active { background: var(--green); border-color: var(--green); }
+
+  .search-input {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.4rem 1rem;
+    border: 1.5px solid var(--border);
+    background: var(--cream);
+    border-radius: 2px;
+    outline: none;
+    color: var(--ink);
+    flex: 1;
+    min-width: 200px;
+    max-width: 350px;
+  }
+
+  .search-input:focus { border-color: var(--ink); }
+
+  /* TABLE */
+  #results-container {
+    display: none;
+  }
+
+  #results-container.visible { display: block; }
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+
+  thead tr {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  thead th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  thead th:hover { background: #222; }
+  thead th .sort-icon { margin-left: 0.3rem; opacity: 0.4; }
+  thead th.sorted .sort-icon { opacity: 1; }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+
+  tbody tr:hover { background: var(--cream); }
+
+  tbody td {
+    padding: 0.75rem 1rem;
+    vertical-align: top;
+    line-height: 1.4;
+  }
+
+  .product-title {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
+    color: var(--ink);
+    max-width: 220px;
+  }
+
+  .product-handle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  /* STATUS BADGE */
+  .badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .badge-red { background: #fde8e5; color: var(--accent); border: 1px solid #f0c4bd; }
+  .badge-yellow { background: #fdf0e0; color: var(--warn); border: 1px solid #f0d9b0; }
+  .badge-green { background: #e5f2e9; color: var(--green); border: 1px solid #b8d9c2; }
+
+  /* ISSUES LIST */
+  .issues {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 280px;
+  }
+
+  .issue {
+    font-size: 0.75rem;
+    display: flex;
+    gap: 0.4rem;
+    align-items: flex-start;
+    line-height: 1.35;
+  }
+
+  .issue-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .dot-red { background: var(--accent); }
+  .dot-yellow { background: var(--warn); }
+  .dot-green { background: var(--green); }
+
+  .score-cell {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .score-cell small {
+    font-size: 0.6rem;
+    color: var(--muted);
+    display: block;
+  }
+
+  /* PAGINATION */
+  .pagination {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem;
+    padding: 1rem;
+  }
+
+  .page-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    border-radius: 2px;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+
+  .page-btn:hover:not(:disabled) { border-color: var(--ink); color: var(--ink); }
+  .page-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .page-info {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* EXPORT */
+  .export-bar {
+    display: none;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .export-bar.visible { display: flex; }
+
+  .export-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    cursor: pointer;
+    border-radius: 2px;
+    color: var(--ink);
+    transition: all 0.15s;
+  }
+
+  .export-btn:hover { background: var(--ink); color: var(--paper); }
+  .export-btn.primary { background: var(--accent); border-color: var(--accent); color: white; }
+  .export-btn.primary:hover { background: #a33322; }
+
+  /* EMPTY / ERROR */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+  }
+
+  .empty-state p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state small {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+  }
+
+  /* LOADING */
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 3rem;
+  }
+
+  .loading.visible { display: block; }
+
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 1rem;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading p {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* TOOLTIP */
+  [data-tip] {
+    position: relative;
+    cursor: help;
+  }
+
+  [data-tip]:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--border);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>HareideART</h1>
+  <span>SEO Auditor v1.0</span>
+</header>
+
+<div class="main">
+
+  <div class="how-to">
+    <strong>Slik eksporterer du fra Shopify</strong>
+    <ol>
+      <li>Gå til <strong>Products</strong> i Shopify Admin</li>
+      <li>Klikk <strong>Export</strong> øverst til høyre</li>
+      <li>Velg <strong>All products</strong> → <strong>CSV for Excel, Numbers, or other spreadsheet programs</strong></li>
+      <li>Last ned filen og dra den inn i feltet under</li>
+    </ol>
+  </div>
+
+  <div class="upload-section">
+    <label class="upload-label">Last opp Shopify produkteksport (CSV)</label>
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept=".csv" style="position:absolute;inset:0;opacity:0.01;width:100%;height:100%;cursor:pointer;">
+      <span class="icon">📂</span>
+      <p>Dra CSV-filen hit, eller klikk for å velge</p>
+      <small>Shopify products_export.csv · Maks 50MB</small>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>Analyserer produkter...</p>
+  </div>
+
+  <div id="summary" class="visible" style="display:none">
+    <div class="summary-stat">
+      <span class="num" id="totalCount">0</span>
+      <span class="lbl">Produkter totalt</span>
+    </div>
+    <div class="summary-stat">
+      <span class="num red" id="redCount">0</span>
+      <span class="lbl">Kritisk</span>
+    </div>
+    <div class="summary-stat">
+      <span class="num yellow" id="yellowCount">0</span>
+      <span class="lbl">Forbedres</span>
+    </div>
+    <div class="summary-stat">
+      <span class="num green" id="greenCount">0</span>
+      <span class="lbl">OK</span>
+    </div>
+    <div class="score-bar-wrap">
+      <span class="lbl">Fordeling</span>
+      <div class="score-bar">
+        <div class="seg-red" id="barRed" style="width:0%"></div>
+        <div class="seg-yellow" id="barYellow" style="width:0%"></div>
+        <div class="seg-green" id="barGreen" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters" id="filters">
+    <span class="filter-label">Vis:</span>
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">Alle</button>
+    <button class="filter-btn red" data-filter="red" onclick="setFilter('red',this)">🔴 Kritisk</button>
+    <button class="filter-btn yellow" data-filter="yellow" onclick="setFilter('yellow',this)">🟡 Forbedres</button>
+    <button class="filter-btn green" data-filter="green" onclick="setFilter('green',this)">🟢 OK</button>
+    <input class="search-input" id="searchInput" type="text" placeholder="Søk etter produkt..." oninput="doSearch(this.value)">
+  </div>
+
+  <div class="export-bar" id="exportBar">
+    <button class="export-btn" onclick="exportCSV()">Eksporter CSV</button>
+    <button class="export-btn primary" onclick="exportCritical()">Eksporter kritiske</button>
+  </div>
+
+  <div id="results-container">
+    <div class="table-wrap">
+      <table id="resultsTable">
+        <thead>
+          <tr>
+            <th onclick="sortBy('title')">Produkt <span class="sort-icon">↕</span></th>
+            <th onclick="sortBy('score')">Score <span class="sort-icon">↕</span></th>
+            <th>Status</th>
+            <th>Funn</th>
+            <th onclick="sortBy('issues')">Antall feil <span class="sort-icon">↕</span></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+</div>
+
+<footer>HareideART SEO Auditor · svein-hareide.com · 2026</footer>
+
+<script>
+// ─── STATE ─────────────────────────────────────────
+let allProducts = [];
+let filtered = [];
+let currentFilter = 'all';
+let currentSearch = '';
+let sortKey = 'score';
+let sortDir = 1;
+let page = 1;
+const PER_PAGE = 25;
+
+// ─── CSV PARSER ────────────────────────────────────
+function parseCSV(text) {
+  const lines = [];
+  let cur = '', inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (c === '"') {
+      if (inQ && text[i+1] === '"') { cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if (c === ',' && !inQ) { lines[lines.length-1]?.push(cur); cur = ''; continue; }
+    else if ((c === '\n' || c === '\r') && !inQ) {
+      if (lines.length === 0) lines.push([]);
+      lines[lines.length-1].push(cur);
+      if (c === '\r' && text[i+1] === '\n') i++;
+      lines.push([]);
+      cur = '';
+      continue;
+    } else cur += c;
+    if (i === 0 || lines.length === 0) lines.push([]);
+  }
+  if (cur) lines[lines.length-1]?.push(cur);
+  return lines.filter(r => r.length > 1);
+}
+
+function csvToObjects(rows) {
+  const headers = rows[0].map(h => h.trim().toLowerCase().replace(/\s+/g, '_'));
+  return rows.slice(1).map(row => {
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (row[i] || '').trim());
+    return obj;
+  });
+}
+
+// ─── AUDIT LOGIC ───────────────────────────────────
+function auditProduct(p) {
+  const issues = [];
+
+  const title = p['title'] || p['name'] || '';
+  const body = p['body_(html)'] || p['body_html'] || p['description'] || p['body'] || '';
+  const metaTitle = p['seo_title'] || p['meta_title'] || '';
+  const metaDesc = p['seo_description'] || p['meta_description'] || '';
+  const altText = p['image_alt_text'] || p['alt_text'] || p['variant_image'] || '';
+  const vendor = p['vendor'] || '';
+  const tags = p['tags'] || '';
+  const handle = p['handle'] || p['url_handle'] || '';
+  const productType = p['type'] || p['product_type'] || '';
+
+  const bodyPlain = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  const wordCount = bodyPlain.split(/\s+/).filter(w => w.length > 0).length;
+
+  // KRITISK FEIL (rød)
+  if (!title) {
+    issues.push({ level: 'red', text: 'Mangler produkttittel' });
+  } else if (title.length < 20) {
+    issues.push({ level: 'red', text: `Tittel for kort (${title.length} tegn, min 20)` });
+  } else if (title.length > 70) {
+    issues.push({ level: 'yellow', text: `Tittel for lang (${title.length} tegn, maks 70)` });
+  }
+
+  if (!metaTitle) {
+    issues.push({ level: 'red', text: 'Mangler SEO-tittel (meta title)' });
+  } else {
+    if (metaTitle.length < 30) issues.push({ level: 'yellow', text: `SEO-tittel for kort (${metaTitle.length} tegn)` });
+    if (metaTitle.length > 70) issues.push({ level: 'yellow', text: `SEO-tittel for lang (${metaTitle.length} tegn, maks 70)` });
+  }
+
+  if (!metaDesc) {
+    issues.push({ level: 'red', text: 'Mangler meta-beskrivelse' });
+  } else {
+    if (metaDesc.length < 80) issues.push({ level: 'yellow', text: `Meta-beskrivelse for kort (${metaDesc.length} tegn)` });
+    if (metaDesc.length > 160) issues.push({ level: 'yellow', text: `Meta-beskrivelse for lang (${metaDesc.length} tegn, maks 160)` });
+  }
+
+  if (wordCount === 0) {
+    issues.push({ level: 'red', text: 'Mangler produktbeskrivelse' });
+  } else if (wordCount < 80) {
+    issues.push({ level: 'red', text: `Produktbeskrivelse for kort (${wordCount} ord, min 80)` });
+  } else if (wordCount < 150) {
+    issues.push({ level: 'yellow', text: `Produktbeskrivelse kan utvides (${wordCount} ord, anbefalt 150+)` });
+  }
+
+  if (!altText || altText.toLowerCase().includes('image') || altText === title) {
+    issues.push({ level: 'red', text: 'Alt-tekst mangler eller er generisk' });
+  }
+
+  // VENDOR-FELT
+  const vendorLower = vendor.toLowerCase();
+  if (vendorLower.includes('gelato') || vendorLower.includes('prodigi') || vendorLower.includes('printful') || vendorLower.includes('printify')) {
+    issues.push({ level: 'red', text: `Vendor viser "${vendor}" — bør være "HareideART"` });
+  } else if (!vendor) {
+    issues.push({ level: 'yellow', text: 'Vendor-felt er tomt — sett til "HareideART"' });
+  }
+
+  // TAGS
+  const tagList = tags.split(',').map(t => t.trim()).filter(Boolean);
+  if (tagList.length === 0) {
+    issues.push({ level: 'red', text: 'Ingen tags — legg til 5–10 relevante tags' });
+  } else if (tagList.length < 5) {
+    issues.push({ level: 'yellow', text: `Kun ${tagList.length} tags — legg til flere (5–10 anbefalt)` });
+  }
+
+  // PRODUCT TYPE
+  if (!productType) {
+    issues.push({ level: 'yellow', text: 'Product Type er tom — legg til (f.eks. "Fine Art Print")' });
+  }
+
+  // KEYWORD CHECK i tittel
+  const artKeywords = ['art', 'print', 'painting', 'portrait', 'landscape', 'abstract', 'original', 'canvas', 'wall art', 'poster'];
+  const titleLower = title.toLowerCase();
+  const hasArtKeyword = artKeywords.some(k => titleLower.includes(k));
+  if (!hasArtKeyword && title.length > 0) {
+    issues.push({ level: 'yellow', text: 'Tittelen mangler kunstnøkkelord (print, art, painting, etc.)' });
+  }
+
+  // HANDLE / URL
+  if (handle && handle.length > 60) {
+    issues.push({ level: 'yellow', text: `URL-handle lang (${handle.length} tegn)` });
+  }
+
+  // SCORE: start 100, trekk fra per feil
+  const deductions = { red: 15, yellow: 7 };
+  let score = 100;
+  issues.forEach(i => score -= deductions[i.level] || 0);
+  score = Math.max(0, score);
+
+  const redCount = issues.filter(i => i.level === 'red').length;
+  const status = redCount >= 2 ? 'red' : redCount === 1 ? 'red' : issues.some(i => i.level === 'yellow') ? 'yellow' : 'green';
+
+  return { title, handle, score, status, issues, vendor, metaTitle, metaDesc, wordCount };
+}
+
+// ─── RENDER ────────────────────────────────────────
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><p>Ingen produkter funnet</p><small>Prøv å endre filter eller søk</small></div></td></tr>`;
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  const start = (page - 1) * PER_PAGE;
+  const slice = filtered.slice(start, start + PER_PAGE);
+
+  tbody.innerHTML = slice.map(p => {
+    const badgeClass = { red: 'badge-red', yellow: 'badge-yellow', green: 'badge-green' }[p.status];
+    const badgeText = { red: 'Kritisk', yellow: 'Forbedres', green: 'OK' }[p.status];
+
+    const issueHtml = p.issues.length
+      ? `<ul class="issues">${p.issues.map(i =>
+          `<li class="issue"><span class="issue-dot dot-${i.level}"></span><span>${i.text}</span></li>`
+        ).join('')}</ul>`
+      : `<span style="font-size:0.75rem;color:var(--green)">✓ Ingen problemer funnet</span>`;
+
+    const scoreColor = p.score >= 75 ? 'var(--green)' : p.score >= 50 ? 'var(--warn)' : 'var(--accent)';
+
+    return `<tr>
+      <td>
+        <div class="product-title">${escHtml(p.title) || '<em style="color:var(--muted)">Uten tittel</em>'}</div>
+        <div class="product-handle">${escHtml(p.handle)}</div>
+      </td>
+      <td class="score-cell" style="color:${scoreColor}">
+        ${p.score}<small>/100</small>
+      </td>
+      <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+      <td>${issueHtml}</td>
+      <td style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;text-align:center;color:var(--muted)">${p.issues.length}</td>
+    </tr>`;
+  }).join('');
+
+  renderPagination();
+}
+
+function renderPagination() {
+  const totalPages = Math.ceil(filtered.length / PER_PAGE);
+  const pag = document.getElementById('pagination');
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+
+  let html = `<button class="page-btn" onclick="goPage(${page-1})" ${page===1?'disabled':''}>← Forrige</button>`;
+
+  const range = [];
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || Math.abs(i - page) <= 2) range.push(i);
+    else if (range[range.length-1] !== '…') range.push('…');
+  }
+
+  range.forEach(r => {
+    if (r === '…') html += `<span class="page-info">…</span>`;
+    else html += `<button class="page-btn ${r===page?'active':''}" onclick="goPage(${r})">${r}</button>`;
+  });
+
+  html += `<button class="page-btn" onclick="goPage(${page+1})" ${page===totalPages?'disabled':''}>Neste →</button>`;
+  html += `<span class="page-info">${filtered.length} produkter</span>`;
+  pag.innerHTML = html;
+}
+
+function goPage(p) {
+  const totalPages = Math.ceil(filtered.length / PER_PAGE);
+  if (p < 1 || p > totalPages) return;
+  page = p;
+  renderTable();
+  document.getElementById('resultsTable').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function applyFilters() {
+  page = 1;
+  filtered = allProducts.filter(p => {
+    const matchFilter = currentFilter === 'all' || p.status === currentFilter;
+    const matchSearch = !currentSearch || p.title.toLowerCase().includes(currentSearch.toLowerCase()) || p.handle.toLowerCase().includes(currentSearch.toLowerCase());
+    return matchFilter && matchSearch;
+  });
+
+  if (sortKey) {
+    filtered.sort((a, b) => {
+      let va = a[sortKey], vb = b[sortKey];
+      if (typeof va === 'string') va = va.toLowerCase();
+      if (typeof vb === 'string') vb = vb.toLowerCase();
+      return va < vb ? -sortDir : va > vb ? sortDir : 0;
+    });
+  }
+
+  renderTable();
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function doSearch(val) {
+  currentSearch = val;
+  applyFilters();
+}
+
+function sortBy(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = 1; }
+  document.querySelectorAll('thead th').forEach(th => th.classList.remove('sorted'));
+  applyFilters();
+}
+
+function updateSummary() {
+  const total = allProducts.length;
+  const red = allProducts.filter(p => p.status === 'red').length;
+  const yellow = allProducts.filter(p => p.status === 'yellow').length;
+  const green = allProducts.filter(p => p.status === 'green').length;
+
+  document.getElementById('totalCount').textContent = total;
+  document.getElementById('redCount').textContent = red;
+  document.getElementById('yellowCount').textContent = yellow;
+  document.getElementById('greenCount').textContent = green;
+
+  document.getElementById('barRed').style.width = (red/total*100) + '%';
+  document.getElementById('barYellow').style.width = (yellow/total*100) + '%';
+  document.getElementById('barGreen').style.width = (green/total*100) + '%';
+
+  document.getElementById('summary').classList.add('visible');
+  document.getElementById('summary').style.display = 'flex';
+  document.getElementById('filters').classList.add('visible');
+  document.getElementById('exportBar').classList.add('visible');
+  document.getElementById('results-container').classList.add('visible');
+}
+
+// ─── FILE HANDLING ─────────────────────────────────
+function processFile(file) {
+  if (!file || !file.name.endsWith('.csv')) {
+    alert('Vennligst last opp en CSV-fil fra Shopify.');
+    return;
+  }
+
+  document.getElementById('loading').classList.add('visible');
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const rows = parseCSV(e.target.result);
+      if (rows.length < 2) throw new Error('CSV ser tom ut');
+
+      const objects = csvToObjects(rows);
+
+      // Deduplicate by handle (Shopify exports one row per variant)
+      const seen = new Set();
+      const unique = objects.filter(p => {
+        const key = p['handle'] || p['title'];
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
+      allProducts = unique.map(p => auditProduct(p));
+      filtered = [...allProducts];
+
+      // Default sort: worst first
+      sortKey = 'score';
+      sortDir = 1;
+      filtered.sort((a, b) => a.score - b.score);
+
+      document.getElementById('loading').classList.remove('visible');
+      updateSummary();
+      renderTable();
+
+    } catch (err) {
+      document.getElementById('loading').classList.remove('visible');
+      alert('Kunne ikke lese CSV-filen. Pass på at det er en Shopify produkteksport.\n\nFeilmelding: ' + err.message);
+    }
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+// ─── EXPORT ────────────────────────────────────────
+function exportCSV() {
+  const rows = [['Tittel', 'Handle', 'Score', 'Status', 'Antall feil', 'Feil (detaljer)']];
+  filtered.forEach(p => {
+    rows.push([
+      p.title, p.handle, p.score,
+      { red: 'Kritisk', yellow: 'Forbedres', green: 'OK' }[p.status],
+      p.issues.length,
+      p.issues.map(i => `[${i.level.toUpperCase()}] ${i.text}`).join(' | ')
+    ]);
+  });
+  downloadCSV(rows, 'hareide-seo-audit.csv');
+}
+
+function exportCritical() {
+  const rows = [['Tittel', 'Handle', 'Score', 'Feil (detaljer)']];
+  allProducts.filter(p => p.status === 'red').forEach(p => {
+    rows.push([
+      p.title, p.handle, p.score,
+      p.issues.map(i => `[${i.level.toUpperCase()}] ${i.text}`).join(' | ')
+    ]);
+  });
+  downloadCSV(rows, 'hareide-kritisk.csv');
+}
+
+function downloadCSV(rows, filename) {
+  const content = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ─── DRAG & DROP ───────────────────────────────────
+const dz = document.getElementById('dropZone');
+const fi = document.getElementById('fileInput');
+
+fi.addEventListener('change', e => { if (e.target.files[0]) processFile(e.target.files[0]); });
+
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('drag-over');
+  processFile(e.dataTransfer.files[0]);
+});
+</script>
+</body>
+</html>
