@@ -910,8 +910,11 @@ function processFile(file) {
 
       auditedProducts = unique.map(p => auditProduct(p));
       renderAuditSummary();
-      updateEstimate();
       goToPanel(3);
+      setTimeout(updateEstimate, 150);
+      // Force panel 3 visible
+      document.getElementById('panel3').style.display = 'block';
+      document.getElementById('panel3').classList.add('visible');
 
     } catch (err) {
       alert('Kunne ikke lese filen: ' + err.message);
@@ -1016,7 +1019,7 @@ Strict rules:
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
+      max_tokens: 2000,
       messages: [{ role: 'user', content: prompt }]
     })
   });
