@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="no">
 <head>
 <meta charset="UTF-8">
@@ -20,101 +21,101 @@
   --blue: #1a4a7a;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+- { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 300;
-  min-height: 100vh;
+background: var(–paper);
+color: var(–ink);
+font-family: ‘IBM Plex Sans’, sans-serif;
+font-weight: 300;
+min-height: 100vh;
 }
 
 header {
-  background: var(--deep);
-  color: var(--paper);
-  padding: 1.5rem 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 3px solid var(--accent);
+background: var(–deep);
+color: var(–paper);
+padding: 1.5rem 3rem;
+display: flex;
+align-items: center;
+justify-content: space-between;
+border-bottom: 3px solid var(–accent);
 }
 
 .header-left { display: flex; align-items: baseline; gap: 1.2rem; }
 
 header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  font-weight: 900;
+font-family: ‘Playfair Display’, serif;
+font-size: 1.8rem;
+font-weight: 900;
 }
 
 header .subtitle {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--muted);
-  letter-spacing: 2px;
-  text-transform: uppercase;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.65rem;
+color: var(–muted);
+letter-spacing: 2px;
+text-transform: uppercase;
 }
 
 .api-badge {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 0.3rem 0.8rem;
-  border-radius: 2px;
-  border: 1px solid;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.65rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+padding: 0.3rem 0.8rem;
+border-radius: 2px;
+border: 1px solid;
 }
 
 .api-badge.ok { border-color: #5cb878; color: #5cb878; }
-.api-badge.missing { border-color: var(--accent); color: var(--accent); }
+.api-badge.missing { border-color: var(–accent); color: var(–accent); }
 
 /* STEPS */
 .main { max-width: 1300px; margin: 0 auto; padding: 2.5rem 3rem; }
 
 .steps {
-  display: flex;
-  gap: 0;
-  margin-bottom: 2.5rem;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
+display: flex;
+gap: 0;
+margin-bottom: 2.5rem;
+border: 1px solid var(–border);
+border-radius: 4px;
+overflow: hidden;
 }
 
 .step {
-  flex: 1;
-  padding: 1rem 1.5rem;
-  border-right: 1px solid var(--border);
-  background: var(--cream);
-  opacity: 0.4;
-  transition: opacity 0.3s;
+flex: 1;
+padding: 1rem 1.5rem;
+border-right: 1px solid var(–border);
+background: var(–cream);
+opacity: 0.4;
+transition: opacity 0.3s;
 }
 
 .step:last-child { border-right: none; }
-.step.active { opacity: 1; background: var(--paper); }
+.step.active { opacity: 1; background: var(–paper); }
 .step.done { opacity: 0.7; background: #e8f2ec; }
 
 .step-num {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.2rem;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.6rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(–muted);
+display: block;
+margin-bottom: 0.2rem;
 }
 
 .step-title {
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 500;
-  font-size: 0.85rem;
-  color: var(--ink);
+font-family: ‘IBM Plex Sans’, sans-serif;
+font-weight: 500;
+font-size: 0.85rem;
+color: var(–ink);
 }
 
 /* PANELS */
 .panel {
-  display: none;
-  animation: fadeIn 0.3s ease;
+display: none;
+animation: fadeIn 0.3s ease;
 }
 
 .panel.visible { display: block; }
@@ -123,116 +124,116 @@ header .subtitle {
 
 /* API KEY PANEL */
 .panel-card {
-  background: var(--cream);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 2rem;
-  margin-bottom: 1.5rem;
+background: var(–cream);
+border: 1px solid var(–border);
+border-radius: 4px;
+padding: 2rem;
+margin-bottom: 1.5rem;
 }
 
 .panel-card h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
+font-family: ‘Playfair Display’, serif;
+font-size: 1.3rem;
+margin-bottom: 0.5rem;
 }
 
 .panel-card p {
-  font-size: 0.85rem;
-  color: var(--muted);
-  line-height: 1.7;
-  margin-bottom: 1.2rem;
+font-size: 0.85rem;
+color: var(–muted);
+line-height: 1.7;
+margin-bottom: 1.2rem;
 }
 
 .field-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.5rem;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.65rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(–muted);
+display: block;
+margin-bottom: 0.5rem;
 }
 
 .text-input {
-  width: 100%;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.8rem;
-  padding: 0.7rem 1rem;
-  border: 1.5px solid var(--border);
-  background: var(--paper);
-  border-radius: 2px;
-  outline: none;
-  color: var(--ink);
-  transition: border-color 0.15s;
+width: 100%;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.8rem;
+padding: 0.7rem 1rem;
+border: 1.5px solid var(–border);
+background: var(–paper);
+border-radius: 2px;
+outline: none;
+color: var(–ink);
+transition: border-color 0.15s;
 }
 
-.text-input:focus { border-color: var(--ink); }
+.text-input:focus { border-color: var(–ink); }
 
 .warning-box {
-  background: #fdf0e0;
-  border-left: 3px solid var(--warn);
-  padding: 0.8rem 1rem;
-  margin-top: 1rem;
-  font-size: 0.8rem;
-  color: var(--warn);
-  line-height: 1.6;
+background: #fdf0e0;
+border-left: 3px solid var(–warn);
+padding: 0.8rem 1rem;
+margin-top: 1rem;
+font-size: 0.8rem;
+color: var(–warn);
+line-height: 1.6;
 }
 
 .warning-box strong {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 0.3rem;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.65rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+display: block;
+margin-bottom: 0.3rem;
 }
 
 /* UPLOAD */
 .drop-zone {
-  border: 2px dashed var(--border);
-  background: var(--cream);
-  border-radius: 4px;
-  padding: 2.5rem 2rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
+border: 2px dashed var(–border);
+background: var(–cream);
+border-radius: 4px;
+padding: 2.5rem 2rem;
+text-align: center;
+cursor: pointer;
+transition: all 0.2s;
+position: relative;
 }
 
-.drop-zone:hover, .drop-zone.drag-over { border-color: var(--accent); background: #f0ebe0; }
+.drop-zone:hover, .drop-zone.drag-over { border-color: var(–accent); background: #f0ebe0; }
 
-.drop-zone input[type="file"] {
-  position: absolute;
-  inset: 0;
-  opacity: 0.01;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
+.drop-zone input[type=“file”] {
+position: absolute;
+inset: 0;
+opacity: 0.01;
+width: 100%;
+height: 100%;
+cursor: pointer;
 }
 
 .drop-zone .dz-icon { font-size: 2rem; display: block; margin-bottom: 0.8rem; }
-.drop-zone p { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 0.4rem; }
-.drop-zone small { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 1px; }
+.drop-zone p { font-family: ‘Playfair Display’, serif; font-size: 1rem; margin-bottom: 0.4rem; }
+.drop-zone small { font-family: ‘IBM Plex Mono’, monospace; font-size: 0.65rem; color: var(–muted); letter-spacing: 1px; }
 
 /* BUTTONS */
 .btn {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 0.6rem 1.4rem;
-  border: 1.5px solid;
-  cursor: pointer;
-  border-radius: 2px;
-  transition: all 0.15s;
-  display: inline-block;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.72rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+padding: 0.6rem 1.4rem;
+border: 1.5px solid;
+cursor: pointer;
+border-radius: 2px;
+transition: all 0.15s;
+display: inline-block;
 }
 
-.btn-primary { background: var(--accent); border-color: var(--accent); color: white; }
+.btn-primary { background: var(–accent); border-color: var(–accent); color: white; }
 .btn-primary:hover:not(:disabled) { background: #a33322; border-color: #a33322; }
-.btn-secondary { background: transparent; border-color: var(--ink); color: var(--ink); }
-.btn-secondary:hover { background: var(--ink); color: var(--paper); }
-.btn-green { background: var(--green); border-color: var(--green); color: white; }
+.btn-secondary { background: transparent; border-color: var(–ink); color: var(–ink); }
+.btn-secondary:hover { background: var(–ink); color: var(–paper); }
+.btn-green { background: var(–green); border-color: var(–green); color: white; }
 .btn-green:hover:not(:disabled) { background: #1f5230; }
 .btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
@@ -240,306 +241,307 @@ header .subtitle {
 
 /* AUDIT SUMMARY */
 .audit-summary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+gap: 1rem;
+margin-bottom: 1.5rem;
 }
 
 .stat-card {
-  background: var(--cream);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 1.2rem;
-  text-align: center;
+background: var(–cream);
+border: 1px solid var(–border);
+border-radius: 4px;
+padding: 1.2rem;
+text-align: center;
 }
 
 .stat-card .num {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
-  font-weight: 900;
-  line-height: 1;
-  display: block;
+font-family: ‘Playfair Display’, serif;
+font-size: 2.2rem;
+font-weight: 900;
+line-height: 1;
+display: block;
 }
 
 .stat-card .lbl {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 0.3rem;
-  display: block;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.6rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(–muted);
+margin-top: 0.3rem;
+display: block;
 }
 
-.num-red { color: var(--accent); }
-.num-yellow { color: var(--warn); }
-.num-green { color: var(--green); }
-.num-blue { color: var(--blue); }
+.num-red { color: var(–accent); }
+.num-yellow { color: var(–warn); }
+.num-green { color: var(–green); }
+.num-blue { color: var(–blue); }
 
 /* PROGRESS SECTION */
 .progress-section {
-  background: var(--deep);
-  color: var(--paper);
-  border-radius: 4px;
-  padding: 1.5rem 2rem;
-  margin-bottom: 1.5rem;
+background: var(–deep);
+color: var(–paper);
+border-radius: 4px;
+padding: 1.5rem 2rem;
+margin-bottom: 1.5rem;
 }
 
 .progress-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 1rem;
 }
 
 .progress-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
+font-family: ‘Playfair Display’, serif;
+font-size: 1.1rem;
 }
 
 .progress-counter {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--muted);
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.75rem;
+color: var(–muted);
 }
 
 .progress-bar-outer {
-  height: 6px;
-  background: #333;
-  border-radius: 3px;
-  overflow: hidden;
-  margin-bottom: 0.8rem;
+height: 6px;
+background: #333;
+border-radius: 3px;
+overflow: hidden;
+margin-bottom: 0.8rem;
 }
 
 .progress-bar-inner {
-  height: 100%;
-  background: var(--accent);
-  border-radius: 3px;
-  transition: width 0.4s ease;
-  width: 0%;
+height: 100%;
+background: var(–accent);
+border-radius: 3px;
+transition: width 0.4s ease;
+width: 0%;
 }
 
 .progress-bar-inner.done { background: #5cb878; }
 
 .current-product {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--muted);
-  letter-spacing: 1px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.7rem;
+color: var(–muted);
+letter-spacing: 1px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 }
 
 .error-log {
-  margin-top: 0.8rem;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem;
-  color: #e88;
-  max-height: 80px;
-  overflow-y: auto;
+margin-top: 0.8rem;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.65rem;
+color: #e88;
+max-height: 80px;
+overflow-y: auto;
 }
 
 /* RESULTS TABLE */
 .table-controls {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  align-items: center;
+display: flex;
+gap: 0.75rem;
+margin-bottom: 1rem;
+flex-wrap: wrap;
+align-items: center;
 }
 
 .filter-btn {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 0.35rem 0.9rem;
-  border: 1.5px solid var(--border);
-  background: transparent;
-  cursor: pointer;
-  border-radius: 2px;
-  transition: all 0.15s;
-  color: var(--muted);
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.65rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+padding: 0.35rem 0.9rem;
+border: 1.5px solid var(–border);
+background: transparent;
+cursor: pointer;
+border-radius: 2px;
+transition: all 0.15s;
+color: var(–muted);
 }
 
-.filter-btn:hover { border-color: var(--ink); color: var(--ink); }
-.filter-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.filter-btn:hover { border-color: var(–ink); color: var(–ink); }
+.filter-btn.active { background: var(–ink); color: var(–paper); border-color: var(–ink); }
 
 .search-box {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.75rem;
-  padding: 0.35rem 0.9rem;
-  border: 1.5px solid var(--border);
-  background: var(--cream);
-  border-radius: 2px;
-  outline: none;
-  color: var(--ink);
-  flex: 1;
-  max-width: 300px;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.75rem;
+padding: 0.35rem 0.9rem;
+border: 1.5px solid var(–border);
+background: var(–cream);
+border-radius: 2px;
+outline: none;
+color: var(–ink);
+flex: 1;
+max-width: 300px;
 }
 
-.search-box:focus { border-color: var(--ink); }
+.search-box:focus { border-color: var(–ink); }
 
 .table-wrap {
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow-x: auto;
-  margin-bottom: 1rem;
+border: 1px solid var(–border);
+border-radius: 4px;
+overflow-x: auto;
+margin-bottom: 1rem;
 }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
 
-thead tr { background: var(--ink); color: var(--paper); }
+thead tr { background: var(–ink); color: var(–paper); }
 
 thead th {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 0.8rem 1rem;
-  text-align: left;
-  font-weight: 500;
-  white-space: nowrap;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.6rem;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding: 0.8rem 1rem;
+text-align: left;
+font-weight: 500;
+white-space: nowrap;
 }
 
-tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
-tbody tr:hover { background: var(--cream); }
+tbody tr { border-bottom: 1px solid var(–border); transition: background 0.1s; }
+tbody tr:hover { background: var(–cream); }
 tbody td { padding: 0.7rem 1rem; vertical-align: top; line-height: 1.45; }
 
 .product-name { font-weight: 500; max-width: 180px; font-size: 0.82rem; }
-.product-handle { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); margin-top: 0.15rem; }
+.product-handle { font-family: ‘IBM Plex Mono’, monospace; font-size: 0.6rem; color: var(–muted); margin-top: 0.15rem; }
 
 .badge {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 0.2rem 0.55rem;
-  border-radius: 2px;
-  white-space: nowrap;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.58rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+padding: 0.2rem 0.55rem;
+border-radius: 2px;
+white-space: nowrap;
 }
 
-.badge-red { background: #fde8e5; color: var(--accent); border: 1px solid #f0c4bd; }
-.badge-yellow { background: #fdf0e0; color: var(--warn); border: 1px solid #f0d9b0; }
-.badge-green { background: #e5f2e9; color: var(--green); border: 1px solid #b8d9c2; }
-.badge-processing { background: #e8eef8; color: var(--blue); border: 1px solid #b0c4e0; }
-.badge-fixed { background: #e5f2e9; color: var(--green); border: 1px solid #b8d9c2; }
-.badge-error { background: #fde8e5; color: var(--accent); border: 1px solid #f0c4bd; }
+.badge-red { background: #fde8e5; color: var(–accent); border: 1px solid #f0c4bd; }
+.badge-yellow { background: #fdf0e0; color: var(–warn); border: 1px solid #f0d9b0; }
+.badge-green { background: #e5f2e9; color: var(–green); border: 1px solid #b8d9c2; }
+.badge-processing { background: #e8eef8; color: var(–blue); border: 1px solid #b0c4e0; }
+.badge-fixed { background: #e5f2e9; color: var(–green); border: 1px solid #b8d9c2; }
+.badge-error { background: #fde8e5; color: var(–accent); border: 1px solid #f0c4bd; }
 
 .field-block { margin-bottom: 0.5rem; }
 
 .field-block .field-name {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.15rem;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.58rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: var(–muted);
+display: block;
+margin-bottom: 0.15rem;
 }
 
-.field-old { color: var(--muted); text-decoration: line-through; font-size: 0.75rem; }
-.field-new { color: var(--green); font-size: 0.78rem; font-weight: 500; }
-.field-unchanged { color: var(--muted); font-size: 0.75rem; font-style: italic; }
+.field-old { color: var(–muted); text-decoration: line-through; font-size: 0.75rem; }
+.field-new { color: var(–green); font-size: 0.78rem; font-weight: 500; }
+.field-unchanged { color: var(–muted); font-size: 0.75rem; font-style: italic; }
 
 .char-count {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.6rem;
-  color: var(--muted);
-  margin-left: 0.4rem;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.6rem;
+color: var(–muted);
+margin-left: 0.4rem;
 }
 
 /* PAGINATION */
 .pagination {
-  display: flex;
-  gap: 0.4rem;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  flex-wrap: wrap;
+display: flex;
+gap: 0.4rem;
+align-items: center;
+justify-content: center;
+padding: 1rem;
+flex-wrap: wrap;
 }
 
 .pg-btn {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem;
-  padding: 0.35rem 0.7rem;
-  border: 1.5px solid var(--border);
-  background: transparent;
-  cursor: pointer;
-  border-radius: 2px;
-  color: var(--muted);
-  transition: all 0.15s;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.65rem;
+padding: 0.35rem 0.7rem;
+border: 1.5px solid var(–border);
+background: transparent;
+cursor: pointer;
+border-radius: 2px;
+color: var(–muted);
+transition: all 0.15s;
 }
 
-.pg-btn:hover:not(:disabled) { border-color: var(--ink); color: var(--ink); }
-.pg-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.pg-btn:hover:not(:disabled) { border-color: var(–ink); color: var(–ink); }
+.pg-btn.active { background: var(–ink); color: var(–paper); border-color: var(–ink); }
 .pg-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-.pg-info { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--muted); }
+.pg-info { font-family: ‘IBM Plex Mono’, monospace; font-size: 0.6rem; color: var(–muted); }
 
 /* DOWNLOAD SECTION */
 .download-section {
-  background: var(--deep);
-  color: var(--paper);
-  border-radius: 4px;
-  padding: 2rem;
-  text-align: center;
+background: var(–deep);
+color: var(–paper);
+border-radius: 4px;
+padding: 2rem;
+text-align: center;
 }
 
 .download-section h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+font-family: ‘Playfair Display’, serif;
+font-size: 1.5rem;
+margin-bottom: 0.5rem;
 }
 
 .download-section p {
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin-bottom: 1.5rem;
-  line-height: 1.7;
+font-size: 0.85rem;
+color: var(–muted);
+margin-bottom: 1.5rem;
+line-height: 1.7;
 }
 
 .download-steps {
-  text-align: left;
-  background: #1f1a14;
-  border-radius: 4px;
-  padding: 1.2rem 1.5rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.82rem;
-  line-height: 1.8;
-  color: #ccc;
+text-align: left;
+background: #1f1a14;
+border-radius: 4px;
+padding: 1.2rem 1.5rem;
+margin-bottom: 1.5rem;
+font-size: 0.82rem;
+line-height: 1.8;
+color: #ccc;
 }
 
 .download-steps ol { margin-left: 1.2rem; }
-.download-steps strong { color: var(--paper); font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 1px; }
+.download-steps strong { color: var(–paper); font-family: ‘IBM Plex Mono’, monospace; font-size: 0.7rem; letter-spacing: 1px; }
 
 /* SPINNER */
 .spin {
-  display: inline-block;
-  width: 12px; height: 12px;
-  border: 2px solid rgba(255,255,255,0.2);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  margin-right: 0.5rem;
-  vertical-align: middle;
+display: inline-block;
+width: 12px; height: 12px;
+border: 2px solid rgba(255,255,255,0.2);
+border-top-color: white;
+border-radius: 50%;
+animation: spin 0.7s linear infinite;
+margin-right: 0.5rem;
+vertical-align: middle;
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
 footer {
-  text-align: center;
-  padding: 2rem;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.6rem;
-  color: var(--border);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border-top: 1px solid var(--border);
-  margin-top: 3rem;
+text-align: center;
+padding: 2rem;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.6rem;
+color: var(–border);
+letter-spacing: 2px;
+text-transform: uppercase;
+border-top: 1px solid var(–border);
+margin-top: 3rem;
 }
 </style>
+
 </head>
 <body>
 
@@ -554,6 +556,7 @@ footer {
 <div class="main">
 
   <!-- STEP INDICATORS -->
+
   <div class="steps">
     <div class="step active" id="step1"><span class="step-num">Steg 1</span><span class="step-title">API-nøkkel</span></div>
     <div class="step" id="step2"><span class="step-num">Steg 2</span><span class="step-title">Last opp CSV</span></div>
@@ -562,6 +565,7 @@ footer {
   </div>
 
   <!-- PANEL 1: API KEY -->
+
   <div class="panel visible" id="panel1">
     <div class="panel-card">
       <h2>Anthropic API-nøkkel</h2>
@@ -579,6 +583,7 @@ footer {
   </div>
 
   <!-- PANEL 2: UPLOAD -->
+
   <div class="panel" id="panel2">
     <div class="panel-card">
       <h2>Last opp Shopify CSV</h2>
@@ -593,141 +598,153 @@ footer {
   </div>
 
   <!-- PANEL 3: SELECT & FIX -->
+
   <div class="panel" id="panel3">
 
-    <div class="audit-summary" id="auditSummary"></div>
+```
+<div class="audit-summary" id="auditSummary"></div>
 
-    <div class="panel-card" style="margin-bottom:1.5rem">
-      <h2>Hva skal fikses?</h2>
-      <p style="margin-bottom:1rem">Claude genererer ny tekst for hvert produkt basert på eksisterende tittel, beskrivelse og tags. Du kan velge hvilke felt som skal oppdateres.</p>
+<div class="panel-card" style="margin-bottom:1.5rem">
+  <h2>Hva skal fikses?</h2>
+  <p style="margin-bottom:1rem">Claude genererer ny tekst for hvert produkt basert på eksisterende tittel, beskrivelse og tags. Du kan velge hvilke felt som skal oppdateres.</p>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-bottom:1.2rem">
-        <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
-          <input type="checkbox" id="fixMetaTitle" checked> SEO-tittel (meta title)
-        </label>
-        <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
-          <input type="checkbox" id="fixMetaDesc" checked> Meta-beskrivelse
-        </label>
-        <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
-          <input type="checkbox" id="fixBody" checked> Produktbeskrivelse
-        </label>
-        <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
-          <input type="checkbox" id="fixAlt" checked> Alt-tekst (bilder)
-        </label>
-        <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
-          <input type="checkbox" id="fixTags" checked> Tags (8–10 stk)
-        </label>
-        <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
-          <input type="checkbox" id="fixVendor" checked> Vendor → "HareideART"
-        </label>
-      </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-bottom:1.2rem">
+    <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
+      <input type="checkbox" id="fixMetaTitle" checked> SEO-tittel (meta title)
+    </label>
+    <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
+      <input type="checkbox" id="fixMetaDesc" checked> Meta-beskrivelse
+    </label>
+    <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
+      <input type="checkbox" id="fixBody" checked> Produktbeskrivelse
+    </label>
+    <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
+      <input type="checkbox" id="fixAlt" checked> Alt-tekst (bilder)
+    </label>
+    <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
+      <input type="checkbox" id="fixTags" checked> Tags (8–10 stk)
+    </label>
+    <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
+      <input type="checkbox" id="fixVendor" checked> Vendor → "HareideART"
+    </label>
+  </div>
 
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
-        <div>
-          <label class="field-label">Fiks kun</label>
-          <select id="fixScope" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;padding:0.4rem 0.8rem;border:1.5px solid var(--border);background:var(--cream);border-radius:2px;outline:none;color:var(--ink)">
-            <option value="red">Kritiske produkter (rød)</option>
-            <option value="redyellow">Kritiske + forbedring (rød + gul)</option>
-            <option value="all">Alle produkter</option>
-          </select>
-        </div>
-        <div>
-          <label class="field-label">Maks antall</label>
-          <select id="maxProducts" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;padding:0.4rem 0.8rem;border:1.5px solid var(--border);background:var(--cream);border-radius:2px;outline:none;color:var(--ink)">
-            <option value="10">10 produkter (test)</option>
-            <option value="25">25 produkter</option>
-            <option value="50">50 produkter</option>
-            <option value="100">100 produkter</option>
-            <option value="9999" selected>Alle</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn btn-primary" id="startFixBtn" onclick="startFix()">▶ Start Auto-Fiks</button>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--muted)" id="estimateText"></span>
-      </div>
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
+    <div>
+      <label class="field-label">Fiks kun</label>
+      <select id="fixScope" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;padding:0.4rem 0.8rem;border:1.5px solid var(--border);background:var(--cream);border-radius:2px;outline:none;color:var(--ink)">
+        <option value="red">Kritiske produkter (rød)</option>
+        <option value="redyellow">Kritiske + forbedring (rød + gul)</option>
+        <option value="all">Alle produkter</option>
+      </select>
     </div>
-
-    <!-- PROGRESS -->
-    <div class="progress-section" id="progressSection" style="display:none">
-      <div class="progress-header">
-        <span class="progress-title">Behandler produkter...</span>
-        <span class="progress-counter" id="progressCounter">0 / 0</span>
-      </div>
-      <div class="progress-bar-outer">
-        <div class="progress-bar-inner" id="progressBar"></div>
-      </div>
-      <div class="current-product" id="currentProduct">Starter...</div>
-      <div class="error-log" id="errorLog"></div>
-      <div class="btn-row" style="margin-top:1rem">
-        <button class="btn btn-secondary" id="pauseBtn" onclick="togglePause()" style="color:var(--paper);border-color:#666">⏸ Pause</button>
-        <button class="btn" onclick="stopFix()" style="color:var(--accent);border-color:var(--accent)">■ Stopp</button>
-      </div>
+    <div>
+      <label class="field-label">Maks antall</label>
+      <select id="maxProducts" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;padding:0.4rem 0.8rem;border:1.5px solid var(--border);background:var(--cream);border-radius:2px;outline:none;color:var(--ink)">
+        <option value="10">10 produkter (test)</option>
+        <option value="25">25 produkter</option>
+        <option value="50">50 produkter</option>
+        <option value="100">100 produkter</option>
+        <option value="9999" selected>Alle</option>
+      </select>
     </div>
+  </div>
 
-    <!-- RESULTS TABLE -->
-    <div id="resultsSection" style="display:none">
-      <div class="table-controls">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Vis:</span>
-        <button class="filter-btn active" onclick="setResFilter('all',this)">Alle</button>
-        <button class="filter-btn" onclick="setResFilter('fixed',this)">✓ Fikset</button>
-        <button class="filter-btn" onclick="setResFilter('pending',this)">⏳ Venter</button>
-        <button class="filter-btn" onclick="setResFilter('error',this)">✗ Feil</button>
-        <input class="search-box" type="text" placeholder="Søk..." oninput="searchResults(this.value)">
-      </div>
+  <div class="btn-row">
+    <button class="btn btn-primary" id="startFixBtn" onclick="startFix()">▶ Start Auto-Fiks</button>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--muted)" id="estimateText"></span>
+  </div>
+</div>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Produkt</th>
-              <th>Status</th>
-              <th>SEO-tittel</th>
-              <th>Meta-beskrivelse</th>
-              <th>Tags</th>
-              <th>Beskrivelse</th>
-            </tr>
-          </thead>
-          <tbody id="resultsBody"></tbody>
-        </table>
-      </div>
-      <div class="pagination" id="resPagination"></div>
+<!-- PROGRESS -->
+<div class="progress-section" id="progressSection" style="display:none">
+  <div class="progress-header">
+    <span class="progress-title">Behandler produkter...</span>
+    <span class="progress-counter" id="progressCounter">0 / 0</span>
+  </div>
+  <div class="progress-bar-outer">
+    <div class="progress-bar-inner" id="progressBar"></div>
+  </div>
+  <div class="current-product" id="currentProduct">Starter...</div>
+  <div class="error-log" id="errorLog"></div>
+  <div class="btn-row" style="margin-top:1rem">
+    <button class="btn btn-secondary" id="pauseBtn" onclick="togglePause()" style="color:var(--paper);border-color:#666">⏸ Pause</button>
+    <button class="btn" onclick="stopFix()" style="color:var(--accent);border-color:var(--accent)">■ Stopp</button>
+  </div>
+</div>
 
-      <div class="btn-row" style="justify-content:flex-end">
-        <button class="btn btn-secondary" onclick="goToPanel(4)">Last ned CSV →</button>
-      </div>
-    </div>
+<!-- RESULTS TABLE -->
+<div id="resultsSection" style="display:none">
+  <div class="table-controls">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Vis:</span>
+    <button class="filter-btn active" onclick="setResFilter('all',this)">Alle</button>
+    <button class="filter-btn" onclick="setResFilter('fixed',this)">✓ Fikset</button>
+    <button class="filter-btn" onclick="setResFilter('pending',this)">⏳ Venter</button>
+    <button class="filter-btn" onclick="setResFilter('error',this)">✗ Feil</button>
+    <input class="search-box" type="text" placeholder="Søk..." oninput="searchResults(this.value)">
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Produkt</th>
+          <th>Status</th>
+          <th>SEO-tittel 🇳🇴 / 🇬🇧</th>
+          <th>Meta-beskrivelse 🇳🇴 / 🇬🇧</th>
+          <th>Tags 🇳🇴 / 🇬🇧</th>
+          <th>Beskrivelse</th>
+        </tr>
+      </thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+  </div>
+  <div class="pagination" id="resPagination"></div>
+
+  <div class="btn-row" style="justify-content:flex-end">
+    <button class="btn btn-secondary" onclick="goToPanel(4)">Last ned CSV →</button>
+  </div>
+</div>
+```
 
   </div>
 
   <!-- PANEL 4: DOWNLOAD -->
+
   <div class="panel" id="panel4">
     <div class="download-section">
       <h2>Klar til opplasting</h2>
       <p>Claude har generert forbedret SEO-tekst for alle valgte produkter.<br>Last ned CSV-filen og importer den direkte til Shopify.</p>
 
-      <div class="download-steps">
-        <strong>Slik importerer du til Shopify:</strong>
-        <ol>
-          <li>Klikk "Last ned CSV" nedenfor</li>
-          <li>Gå til Shopify Admin → <strong>Products</strong></li>
-          <li>Klikk <strong>Import</strong> øverst til høyre</li>
-          <li>Last opp CSV-filen</li>
-          <li>Velg <strong>"Overwrite existing products"</strong> — dette oppdaterer eksisterende produkter uten å slette dem</li>
-          <li>Klikk Import og vent — Shopify behandler alle endringene automatisk</li>
-        </ol>
-      </div>
+```
+  <div class="download-steps">
+    <strong>To filer lastes ned:</strong>
+    <ol>
+      <li><strong>hareide-shopify-NO-[dato].csv</strong> — Last denne opp i Shopify. Inneholder norsk SEO-tekst på alle produkter.</li>
+      <li><strong>hareide-shopify-EN-referanse-[dato].csv</strong> — Oppbevar denne. Inneholder engelsk tekst klar til bruk når du aktiverer Shopify Markets.</li>
+    </ol>
+    <br>
+    <strong>Slik importerer du NO-filen til Shopify:</strong>
+    <ol>
+      <li>Gå til Shopify Admin → <strong>Products</strong></li>
+      <li>Klikk <strong>Import</strong> øverst til høyre</li>
+      <li>Last opp NO-CSV-filen</li>
+      <li>Velg <strong>"Overwrite existing products"</strong></li>
+      <li>Klikk Import — Shopify oppdaterer alle produkter automatisk</li>
+    </ol>
+  </div>
 
-      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-        <button class="btn btn-green" onclick="downloadFixed()">⬇ Last ned ferdig CSV</button>
-        <button class="btn btn-secondary" style="color:var(--paper);border-color:#666" onclick="goToPanel(3)">← Tilbake til resultater</button>
-      </div>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+    <button class="btn btn-green" onclick="downloadFixed()">⬇ Last ned ferdig CSV</button>
+    <button class="btn btn-secondary" style="color:var(--paper);border-color:#666" onclick="goToPanel(3)">← Tilbake til resultater</button>
+  </div>
 
-      <p style="margin-top:1.5rem;font-size:0.75rem;color:var(--muted)">
-        Kun produkter som ble vellykket behandlet av Claude er inkludert i nedlastingen.
-      </p>
-    </div>
+  <p style="margin-top:1.5rem;font-size:0.75rem;color:var(--muted)">
+    Kun produkter som ble vellykket behandlet av Claude er inkludert i nedlastingen.
+  </p>
+</div>
+```
+
   </div>
 
 </div>
@@ -944,30 +961,49 @@ async function fixProductWithClaude(product) {
   const existingTags = product.tags || '';
 
   const fieldsNeeded = [];
-  if (fixMetaTitle) fieldsNeeded.push('seo_title: A compelling SEO title, 50-65 characters, include "HareideART" and key art terms');
-  if (fixMetaDesc) fieldsNeeded.push('seo_description: Meta description, 130-155 characters, describes the artwork and its emotional appeal');
-  if (fixBody) fieldsNeeded.push('body_html: A rich product description, 150-200 words, in the style of a wise art connoisseur. Include mood, technique, atmosphere. Use simple HTML with <p> tags only.');
-  if (fixAlt) fieldsNeeded.push('alt_text: Image alt text, 10-15 words, descriptive for accessibility and SEO');
-  if (fixTags) fieldsNeeded.push('tags: Comma-separated list of 8-10 SEO tags relevant for Pinterest and Google (art styles, colors, moods, use cases like "wall art", "home decor")');
+  if (fixMetaTitle) {
+    fieldsNeeded.push('no_seo_title: SEO-tittel på NORSK, 50-65 tegn, inkluder "HareideART" og relevante kunstord');
+    fieldsNeeded.push('en_seo_title: SEO title in ENGLISH, 50-65 chars, include "HareideART" and key art terms like "wall art", "print", "Scandinavian"');
+  }
+  if (fixMetaDesc) {
+    fieldsNeeded.push('no_seo_description: Meta-beskrivelse på NORSK, 130-155 tegn, varm og litterær tone, beskriver stemning og kvalitet');
+    fieldsNeeded.push('en_seo_description: Meta description in ENGLISH, 130-155 chars, warm literary tone, describes mood and quality');
+  }
+  if (fixBody) {
+    fieldsNeeded.push('no_body_html: Produktbeskrivelse på NORSK, 150-200 ord, litterær og varm tone som en klok venn. Stemning, teknikk, atmosfære. Kun <p> tagger.');
+    fieldsNeeded.push('en_body_html: Product description in ENGLISH, 150-200 words, same literary warm tone. Mood, technique, atmosphere. Use only <p> tags.');
+  }
+  if (fixAlt) {
+    fieldsNeeded.push('no_alt_text: Bildetekst på NORSK, 10-15 ord, beskrivende for tilgjengelighet og SEO');
+    fieldsNeeded.push('en_alt_text: Image alt text in ENGLISH, 10-15 words, descriptive for accessibility and SEO');
+  }
+  if (fixTags) {
+    fieldsNeeded.push('no_tags: Kommaseparerte tags på NORSK, 5-6 stk (kunststil, farger, stemning, bruksområde som "veggkunst", "stue")');
+    fieldsNeeded.push('en_tags: Comma-separated tags in ENGLISH, 5-6 items (art style, colors, mood, use cases like "wall art", "home decor", "Scandinavian art")');
+  }
 
   if (!fieldsNeeded.length && !fixVendor) return { vendor: 'HareideART' };
 
-  const prompt = `You are an expert SEO copywriter specializing in fine art and print-on-demand products. 
+  const prompt = `You are an expert bilingual SEO copywriter specializing in fine art and print-on-demand products.
 The artist is Svein Hareide (HareideART), a Norwegian artist based in Spain creating original paintings and prints.
-Style: literary, warm, atmospheric — like a wise friend who has lived a lot. No marketing clichés.
+His customers are both Norwegian (older buyers who prefer Norwegian for trust and familiarity) and international English-speaking buyers.
+Style: literary, warm, atmospheric — like a wise friend who has lived a lot. No marketing clichés. No hollow phrases.
 
 Product title: "${title}"
 ${existingBody ? `Existing description: "${existingBody.substring(0, 300)}"` : ''}
 ${existingTags ? `Existing tags: "${existingTags}"` : ''}
 
-Generate ONLY a valid JSON object with these fields:
+Generate ONLY a valid JSON object with these exact fields:
 ${fieldsNeeded.join('\n')}
 
-Rules:
-- seo_title: max 65 chars
-- seo_description: 130-155 chars
-- body_html: use only <p> tags, 150-200 words, literary tone
-- tags: no quotes around individual tags, just comma-separated
+Strict rules:
+- ALL "no_" fields must be 100% Norwegian (bokmål)
+- ALL "en_" fields must be 100% English
+- NEVER mix languages within a single field
+- no_seo_title and en_seo_title: max 65 chars each
+- no_seo_description and en_seo_description: 130-155 chars each
+- body_html fields: use only <p> tags, 150-200 words
+- tags fields: plain comma-separated values, no quotes around individual tags
 - Respond with ONLY the JSON object, no markdown, no explanation`;
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -1105,30 +1141,36 @@ function renderResultsTable() {
     const metaDescOld = p['seo_description'] || '';
     const tagsOld = p.tags || '';
 
+    const langFlag = (flag, text, chars) => text
+      ? `<div style="margin-bottom:0.3rem"><span style="font-size:0.65rem;margin-right:0.3rem">${flag}</span><span class="field-new">${esc(text)}</span>${chars ? `<span class="char-count">${text.length}t</span>` : ''}</div>`
+      : '';
+
     return `<tr>
       <td>
         <div class="product-name">${esc(p.title || '—')}</div>
         <div class="product-handle">${esc(p.handle || '')}</div>
       </td>
       <td>${statusBadge}</td>
-      <td>
-        ${g.seo_title
-          ? `<div class="field-new">${esc(g.seo_title)}<span class="char-count">${g.seo_title.length}t</span></div>${metaTitleOld ? `<div class="field-old">${esc(metaTitleOld)}</div>` : ''}`
+      <td style="min-width:180px">
+        ${g.no_seo_title || g.en_seo_title
+          ? `${langFlag('🇳🇴', g.no_seo_title, true)}${langFlag('🇬🇧', g.en_seo_title, true)}${metaTitleOld ? `<div class="field-old" style="font-size:0.68rem;margin-top:0.2rem">${esc(metaTitleOld)}</div>` : ''}`
           : `<div class="field-unchanged">${esc(metaTitleOld) || '—'}</div>`}
       </td>
-      <td style="max-width:200px">
-        ${g.seo_description
-          ? `<div class="field-new" style="font-size:0.72rem">${esc(g.seo_description)}<span class="char-count">${g.seo_description.length}t</span></div>`
-          : `<div class="field-unchanged">${esc(metaDescOld) || '—'}</div>`}
+      <td style="max-width:220px">
+        ${g.no_seo_description || g.en_seo_description
+          ? `${langFlag('🇳🇴', g.no_seo_description, true)}${langFlag('🇬🇧', g.en_seo_description, true)}`
+          : `<div class="field-unchanged" style="font-size:0.72rem">${esc(metaDescOld) || '—'}</div>`}
       </td>
       <td style="max-width:180px">
-        ${g.tags
-          ? `<div class="field-new" style="font-size:0.7rem">${esc(g.tags)}</div>`
+        ${g.no_tags || g.en_tags
+          ? `${langFlag('🇳🇴', g.no_tags, false)}${langFlag('🇬🇧', g.en_tags, false)}`
           : `<div class="field-unchanged" style="font-size:0.7rem">${esc(tagsOld) || '—'}</div>`}
       </td>
       <td>
-        ${g.body_html
-          ? `<span class="badge badge-fixed">✓ Ny tekst</span>`
+        ${g.no_body_html && g.en_body_html
+          ? `<span class="badge badge-fixed">✓ 🇳🇴 + 🇬🇧</span>`
+          : g.no_body_html || g.en_body_html
+          ? `<span class="badge badge-yellow">✓ Delvis</span>`
           : `<span class="badge" style="background:#f0ede8;color:var(--muted);border:1px solid var(--border)">Uendret</span>`}
       </td>
     </tr>`;
@@ -1177,8 +1219,11 @@ function downloadFixed() {
     fixedMap[p.handle] = p;
   });
 
-  // Rebuild CSV with updated fields
-  const outRows = [originalRows[0]]; // headers
+  // Export Norwegian version (for Shopify default)
+  const noRows = [originalRows[0]];
+  // Export English version (extra columns appended)
+  const enHeaders = [...originalRows[0], 'en_seo_title', 'en_seo_description', 'en_body_html', 'en_alt_text', 'en_tags'];
+  const enRows = [enHeaders];
 
   originalRows.slice(1).forEach(row => {
     const obj = {};
@@ -1188,30 +1233,52 @@ function downloadFixed() {
 
     if (fixed && fixed._generated) {
       const g = fixed._generated;
-      const newRow = [...row];
+
+      // Norwegian row — updates existing Shopify fields
+      const noRow = [...row];
       csvHeaders.forEach((h, i) => {
-        if (h === 'seo_title' && g.seo_title) newRow[i] = g.seo_title;
-        if (h === 'seo_description' && g.seo_description) newRow[i] = g.seo_description;
-        if ((h === 'body_html' || h === 'body_html_' || h === 'body') && g.body_html) newRow[i] = g.body_html;
-        if (h === 'image_alt_text' && g.alt_text) newRow[i] = g.alt_text;
-        if (h === 'tags' && g.tags) newRow[i] = g.tags;
-        if (h === 'vendor' && g.vendor) newRow[i] = g.vendor;
+        if (h === 'seo_title' && g.no_seo_title) noRow[i] = g.no_seo_title;
+        if (h === 'seo_description' && g.no_seo_description) noRow[i] = g.no_seo_description;
+        if ((h === 'body_html' || h === 'body_html_' || h === 'body') && g.no_body_html) noRow[i] = g.no_body_html;
+        if (h === 'image_alt_text' && g.no_alt_text) noRow[i] = g.no_alt_text;
+        if (h === 'tags' && g.no_tags) noRow[i] = g.no_tags;
+        if (h === 'vendor' && g.vendor) noRow[i] = g.vendor;
       });
-      outRows.push(newRow);
+      noRows.push(noRow);
+
+      // English row — same + extra EN columns
+      const enRow = [...noRow,
+        g.en_seo_title || '',
+        g.en_seo_description || '',
+        g.en_body_html || '',
+        g.en_alt_text || '',
+        g.en_tags || ''
+      ];
+      enRows.push(enRow);
     } else {
-      outRows.push(row);
+      noRows.push(row);
+      enRows.push([...row, '', '', '', '', '']);
     }
   });
 
-  const content = outRows.map(r =>
+  // Download Norwegian CSV
+  triggerDownload(noRows, `hareide-shopify-NO-${new Date().toISOString().slice(0,10)}.csv`);
+
+  // Short delay then download English reference CSV
+  setTimeout(() => {
+    triggerDownload(enRows, `hareide-shopify-EN-referanse-${new Date().toISOString().slice(0,10)}.csv`);
+  }, 800);
+}
+
+function triggerDownload(rows, filename) {
+  const content = rows.map(r =>
     r.map(c => `"${String(c || '').replace(/"/g,'""')}"`).join(',')
   ).join('\n');
-
   const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `hareide-shopify-seo-fixed-${new Date().toISOString().slice(0,10)}.csv`;
+  a.download = filename;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -1235,5 +1302,6 @@ dz.addEventListener('drop', e => {
 document.getElementById('fixScope').addEventListener('change', updateEstimate);
 document.getElementById('maxProducts').addEventListener('change', updateEstimate);
 </script>
+
 </body>
 </html>
