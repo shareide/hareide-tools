@@ -13,11 +13,11 @@
   --cream: #ede8db;
   --deep: #1a1410;
   --accent: #c8402a;
-  --gold: #b8860b;
-  --green: #2a6b3c;
-  --warn: #c87020;
-  --muted: #6b6258;
-  --border: #d4cdc0;
+  --gold: #9a6e08;
+  --green: #1e5228;
+  --warn: #a85a10;
+  --muted: #3d3530;
+  --border: #c4bdb0;
   --blue: #1a4a7a;
 }
 
@@ -100,9 +100,10 @@ font-family: ‘IBM Plex Mono’, monospace;
 font-size: 0.6rem;
 letter-spacing: 2px;
 text-transform: uppercase;
-color: var(–muted);
+color: var(–ink);
 display: block;
 margin-bottom: 0.2rem;
+font-weight: 500;
 }
 
 .step-title {
@@ -139,7 +140,7 @@ margin-bottom: 0.5rem;
 
 .panel-card p {
 font-size: 0.85rem;
-color: var(–muted);
+color: var(–ink);
 line-height: 1.7;
 margin-bottom: 1.2rem;
 }
@@ -149,9 +150,10 @@ font-family: ‘IBM Plex Mono’, monospace;
 font-size: 0.65rem;
 letter-spacing: 2px;
 text-transform: uppercase;
-color: var(–muted);
+color: var(–ink);
 display: block;
 margin-bottom: 0.5rem;
+font-weight: 500;
 }
 
 .text-input {
@@ -268,9 +270,10 @@ font-family: ‘IBM Plex Mono’, monospace;
 font-size: 0.6rem;
 letter-spacing: 2px;
 text-transform: uppercase;
-color: var(–muted);
+color: var(–ink);
 margin-top: 0.3rem;
 display: block;
+font-weight: 500;
 }
 
 .num-red { color: var(–accent); }
@@ -362,7 +365,7 @@ background: transparent;
 cursor: pointer;
 border-radius: 2px;
 transition: all 0.15s;
-color: var(–muted);
+color: var(–ink);
 }
 
 .filter-btn:hover { border-color: var(–ink); color: var(–ink); }
@@ -441,9 +444,9 @@ display: block;
 margin-bottom: 0.15rem;
 }
 
-.field-old { color: var(–muted); text-decoration: line-through; font-size: 0.75rem; }
-.field-new { color: var(–green); font-size: 0.78rem; font-weight: 500; }
-.field-unchanged { color: var(–muted); font-size: 0.75rem; font-style: italic; }
+.field-old { color: #7a6a60; text-decoration: line-through; font-size: 0.75rem; }
+.field-new { color: var(–green); font-size: 0.78rem; font-weight: 600; }
+.field-unchanged { color: var(–ink); font-size: 0.75rem; font-style: italic; }
 
 .char-count {
 font-family: ‘IBM Plex Mono’, monospace;
@@ -470,14 +473,14 @@ border: 1.5px solid var(–border);
 background: transparent;
 cursor: pointer;
 border-radius: 2px;
-color: var(–muted);
+color: var(–ink);
 transition: all 0.15s;
 }
 
-.pg-btn:hover:not(:disabled) { border-color: var(–ink); color: var(–ink); }
+.pg-btn:hover:not(:disabled) { border-color: var(–ink); color: var(–ink); background: var(–cream); }
 .pg-btn.active { background: var(–ink); color: var(–paper); border-color: var(–ink); }
 .pg-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-.pg-info { font-family: ‘IBM Plex Mono’, monospace; font-size: 0.6rem; color: var(–muted); }
+.pg-info { font-family: ‘IBM Plex Mono’, monospace; font-size: 0.6rem; color: var(–ink); }
 
 /* DOWNLOAD SECTION */
 .download-section {
@@ -1007,6 +1010,7 @@ Strict rules:
 - no_seo_description and en_seo_description: 130-155 chars each
 - body_html fields: use only <p> tags, 150-200 words
 - tags fields: plain comma-separated values, no quotes around individual tags
+- NEVER include product_type, type, category, or google_shopping_category fields
 - Respond with ONLY the JSON object, no markdown, no explanation`;
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -1246,6 +1250,7 @@ function downloadFixed() {
         if (h === 'image_alt_text' && g.no_alt_text) noRow[i] = g.no_alt_text;
         if (h === 'tags' && g.no_tags) noRow[i] = g.no_tags;
         if (h === 'vendor' && g.vendor) noRow[i] = g.vendor;
+        // Never touch category/product_type — keep original
       });
       noRows.push(noRow);
 
