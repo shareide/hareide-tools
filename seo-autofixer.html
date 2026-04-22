@@ -1089,13 +1089,31 @@ async function startFix() {
         fixedProducts[idx]._fixStatus = 'fixed';
       }
     } catch (err) {
-      if (idx >= 0) fixedProducts[idx]._fixStatus = 'error';
-      const log = document.getElementById('errorLog');
-      log.innerHTML += `<div>✗ ${product.title}: ${err.message}</div>`;
+      // Retry once on rate limit (429)
+      if (err.message.includes('429') || err.message.includes('rate')) {
+        document.getElementById('currentProduct').textContent = `Rate limit — venter 15 sek og prøver igjen...`;
+        await sleep(15000);
+        try {
+          const generated = await fixProductWithClaude(product);
+          if (idx >= 0) {
+            fixedProducts[idx]._generated = generated;
+            fixedProducts[idx]._fixed = true;
+            fixedProducts[idx]._fixStatus = 'fixed';
+          }
+        } catch (err2) {
+          if (idx >= 0) fixedProducts[idx]._fixStatus = 'error';
+          const log = document.getElementById('errorLog');
+          log.innerHTML += `<div>✗ ${product.title}: ${err2.message}</div>`;
+        }
+      } else {
+        if (idx >= 0) fixedProducts[idx]._fixStatus = 'error';
+        const log = document.getElementById('errorLog');
+        log.innerHTML += `<div>✗ ${product.title}: ${err.message}</div>`;
+      }
     }
 
     done++;
-    await sleep(300); // rate limiting buffer
+    await sleep(800); // rate limiting buffer — 800ms between calls
   }
 
   // Done
