@@ -760,17 +760,17 @@ function csvToObjects(rows) {
 // ─── AUDIT LOGIC ───────────────────────────────────
 function auditProduct(p) {
   const issues = [];
-const keywordCheck = analyzeKeywords(p.title);
+const keywordCheck = analyzeKeywords(p['title'] || p['name'] || '');
 
 if (keywordCheck.level === "red") {
 
-  issues.push({ level: "red", field: "keywords", msg: keywordCheck.msg });
+  issues.push({ level: "red", text: keywordCheck.msg });
 
 }
 
 if (keywordCheck.level === "yellow") {
 
-  issues.push({ level: "yellow", field: "keywords", msg: keywordCheck.msg });
+  issues.push({ level: "yellow", text: keywordCheck.msg });
 
 }
   const title = p['title'] || p['name'] || '';
