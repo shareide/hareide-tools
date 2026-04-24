@@ -1122,7 +1122,13 @@ function escHtml(str) {
 const dz = document.getElementById('dropZone');
 const fi = document.getElementById('fileInput');
 
-fi.addEventListener('change', e => { if (e.target.files[0]) processFile(e.target.files[0]); });
+fi.addEventListener('change', e => { 
+
+  alert('Fil valgt: ' + e.target.files[0].name); 
+
+  if (e.target.files[0]) processFile(e.target.files[0]); 
+
+});
 
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
