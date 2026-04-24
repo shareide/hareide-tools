@@ -1121,7 +1121,7 @@ function escHtml(str) {
 // ─── DRAG & DROP ───────────────────────────────────
 const dz = document.getElementById('dropZone');
 const fi = document.getElementById('fileInput');
-
+alert('Script lastet og fileInput funnet: ' + !!fi);
 fi.addEventListener('change', e => { 
 
   alert('Fil valgt: ' + e.target.files[0].name); 
