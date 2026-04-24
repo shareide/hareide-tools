@@ -152,7 +152,6 @@
     border-radius: 4px;
     padding: 1.5rem 2rem;
     margin-bottom: 2rem;
-    display: none;
     gap: 3rem;
     align-items: center;
     flex-wrap: wrap;
@@ -699,20 +698,25 @@ function analyzeKeywords(title) {
 
   const hasSubject = subjectKeywords.some(k => t.includes(k));
 
-  if (hasCore) {
+ if (hasCore && hasPremium) {
 
-    return { level: "green", msg: "God SEO-tittel" };
+  return { level: "green", msg: "Sterk SEO-tittel (premium + core)" };
 
-  }
+}
 
-  if (hasSubject) {
+if (hasCore) {
 
-    return { level: "yellow", msg: "Har motiv, men mangler 'kunstprint' / 'veggkunst'" };
+  return { level: "green", msg: "God SEO-tittel" };
 
-  }
+}
 
-  return { level: "red", msg: "Manglar kunstnøkkelord" };
+if (hasSubject) {
 
+  return { level: "yellow", msg: "Har motiv, men mangler 'kunstprint' / 'veggkunst'" };
+
+}
+
+return { level: "red", msg: "Manglar kunstnøkkelord" };
 }
 // ─── STATE ─────────────────────────────────────────
 let allProducts = [];
@@ -853,7 +857,13 @@ if (keywordCheck.level === "yellow") {
   score = Math.max(0, score);
 
   const redCount = issues.filter(i => i.level === 'red').length;
-  const status = redCount >= 2 ? 'red' : redCount === 1 ? 'red' : issues.some(i => i.level === 'yellow') ? 'yellow' : 'green';
+  const status =
+
+  redCount >= 1 ? 'red' :
+
+  issues.some(i => i.level === 'yellow') ? 'yellow' :
+
+  'green';
 
   return { title, handle, score, status, issues, vendor, metaTitle, metaDesc, wordCount };
 }
@@ -980,9 +990,17 @@ function updateSummary() {
   document.getElementById('yellowCount').textContent = yellow;
   document.getElementById('greenCount').textContent = green;
 
-  document.getElementById('barRed').style.width = (red/total*100) + '%';
-  document.getElementById('barYellow').style.width = (yellow/total*100) + '%';
-  document.getElementById('barGreen').style.width = (green/total*100) + '%';
+  const redPct = total ? (red / total * 100) : 0;
+
+const yellowPct = total ? (yellow / total * 100) : 0;
+
+const greenPct = total ? (green / total * 100) : 0;
+
+document.getElementById('barRed').style.width = redPct + '%';
+
+document.getElementById('barYellow').style.width = yellowPct + '%';
+
+document.getElementById('barGreen').style.width = greenPct + '%';
 
   document.getElementById('summary').classList.add('visible');
   document.getElementById('summary').style.display = 'flex';
