@@ -639,6 +639,81 @@
 <footer>HareideART SEO Auditor · svein-hareide.com · 2026</footer>
 
 <script>
+  // ── KEYWORD ENGINE ─────────────────────────────────
+
+const coreKeywords = [
+
+  "kunstprint",
+
+  "veggkunst",
+
+  "wall art",
+
+  "print"
+
+];
+
+const premiumKeywords = [
+
+  "giclée",
+
+  "giclee",
+
+  "fine art",
+
+  "museum",
+
+  "arkiv"
+
+];
+
+const subjectKeywords = [
+
+  "abstrakt",
+
+  "landskap",
+
+  "blomst",
+
+  "portrett",
+
+  "natur",
+
+  "fjell",
+
+  "hav",
+
+  "dyr",
+
+  "figurativ"
+
+];
+
+function analyzeKeywords(title) {
+
+  const t = (title || "").toLowerCase();
+
+  const hasCore = coreKeywords.some(k => t.includes(k));
+
+  const hasPremium = premiumKeywords.some(k => t.includes(k));
+
+  const hasSubject = subjectKeywords.some(k => t.includes(k));
+
+  if (hasCore) {
+
+    return { level: "green", msg: "God SEO-tittel" };
+
+  }
+
+  if (hasSubject) {
+
+    return { level: "yellow", msg: "Har motiv, men mangler 'kunstprint' / 'veggkunst'" };
+
+  }
+
+  return { level: "red", msg: "Manglar kunstnøkkelord" };
+
+}
 // ─── STATE ─────────────────────────────────────────
 let allProducts = [];
 let filtered = [];
@@ -685,7 +760,19 @@ function csvToObjects(rows) {
 // ─── AUDIT LOGIC ───────────────────────────────────
 function auditProduct(p) {
   const issues = [];
+const keywordCheck = analyzeKeywords(p.title);
 
+if (keywordCheck.level === "red") {
+
+  issues.push({ level: "red", field: "keywords", msg: keywordCheck.msg });
+
+}
+
+if (keywordCheck.level === "yellow") {
+
+  issues.push({ level: "yellow", field: "keywords", msg: keywordCheck.msg });
+
+}
   const title = p['title'] || p['name'] || '';
   const body = p['body_(html)'] || p['body_html'] || p['description'] || p['body'] || '';
   const metaTitle = p['seo_title'] || p['meta_title'] || '';
