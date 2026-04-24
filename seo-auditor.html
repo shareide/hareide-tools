@@ -710,9 +710,9 @@ if (hasCore) {
 
 }
 
-if (hasSubject) {
+if (hasPremium) {
 
-  return { level: "yellow", msg: "Har motiv, men mangler 'kunstprint' / 'veggkunst'" };
+  return { level: "yellow", msg: "Har premium-ord, men mangler 'kunstprint'" };
 
 }
 
@@ -859,7 +859,9 @@ if (keywordCheck.level === "yellow") {
   const redCount = issues.filter(i => i.level === 'red').length;
   const status =
 
-  redCount >= 1 ? 'red' :
+  redCount >= 2 ? 'red' :
+
+  redCount === 1 ? 'yellow' :
 
   issues.some(i => i.level === 'yellow') ? 'yellow' :
 
