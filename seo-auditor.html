@@ -771,7 +771,6 @@ function csvToObjects(rows) {
 function auditProduct(p) {
   const suggestions = [];
   const issues = [];
-  const suggestions = [];
 const keywordCheck = analyzeKeywords(p['title'] || p['name'] || '');
 
 if (keywordCheck.level === "red") {
