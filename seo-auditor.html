@@ -562,7 +562,12 @@
   <div class="upload-section">
     <label class="upload-label">Last opp Shopify produkteksport (CSV)</label>
     <div class="drop-zone" id="dropZone">
-      <input type="file" id="fileInput" accept=".csv" style="position:absolute;inset:0;opacity:0.01;width:100%;height:100%;cursor:pointer;">
+     <input type="file" id="fileInput" accept=".csv">
+      <button type="button" onclick="document.getElementById('fileInput').click()">
+
+  Velg CSV-fil
+
+</button>
       <span class="icon">📂</span>
       <p>Dra CSV-filen hit, eller klikk for å velge</p>
       <small>Shopify products_export.csv · Maks 50MB</small>
