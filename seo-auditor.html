@@ -841,15 +841,6 @@ if (keywordCheck.level === "yellow") {
   if (!productType) {
     issues.push({ level: 'yellow', text: 'Product Type er tom — legg til (f.eks. "Fine Art Print")' });
   }
-
-  // KEYWORD CHECK i tittel
-  const artKeywords = ['art', 'print', 'painting', 'portrait', 'landscape', 'abstract', 'original', 'canvas', 'wall art', 'poster'];
-  const titleLower = title.toLowerCase();
-  const hasArtKeyword = artKeywords.some(k => titleLower.includes(k));
-  if (!hasArtKeyword && title.length > 0) {
-    issues.push({ level: 'yellow', text: 'Tittelen mangler kunstnøkkelord (print, art, painting, etc.)' });
-  }
-
   // HANDLE / URL
   if (handle && handle.length > 60) {
     issues.push({ level: 'yellow', text: `URL-handle lang (${handle.length} tegn)` });
