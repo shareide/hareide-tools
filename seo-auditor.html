@@ -1127,25 +1127,73 @@ function buildFixedMeta(title) {
 
 function exportFixCSV() {
 
-  const rows = [['Handle', 'Title', 'SEO Title', 'SEO Description']];
+  const rows = [[
+
+    'Handle',
+
+    'Title',
+
+    'Body (HTML)',
+
+    'SEO Title',
+
+    'SEO Description',
+
+    'Image Alt Text',
+
+    'Vendor',
+
+    'Tags'
+
+  ]];
 
   allProducts.forEach(p => {
+
+    const fixedTitle = buildFixedTitle(p.title);
+
+    const fixedMeta = buildFixedMeta(p.title);
+
+    const fixedDesc = `
+
+<p>${p.title} er et kunstprint fra HareideART, utviklet for hjem som ønsker ro, dybde og visuell karakter.</p>
+
+<p>Motivet gir rommet en balansert følelse – enten det henger i stue, gang eller soverom.</p>
+
+<p>Trykket leveres som digital kunst i høy kvalitet, klart til bruk i moderne interiør.</p>
+
+`.trim();
+
+    const fixedAlt = p.title + ' kunstprint fra HareideART';
+
+    const fixedVendor = 'HareideART';
+
+    const fixedTags = (p.title + ', kunstprint, veggkunst, wall art')
+
+      .toLowerCase();
 
     rows.push([
 
       p.handle,
 
-      p.title,
+      fixedTitle,
 
-      buildFixedTitle(p.title),
+      fixedDesc,
 
-      buildFixedMeta(p.title)
+      fixedTitle,
+
+      fixedMeta,
+
+      fixedAlt,
+
+      fixedVendor,
+
+      fixedTags
 
     ]);
 
   });
 
-  downloadCSV(rows, 'hareide-autofix-seo.csv');
+  downloadCSV(rows, 'hareide-autofix-import.csv');
 
 }
 function exportCritical() {
@@ -1180,10 +1228,8 @@ function escHtml(str) {
 const dz = document.getElementById('dropZone');
 const fi = document.getElementById('fileInput');
   fi.style.display = 'none';
-  alert('Script lastet og fileInput funnet: ' + !!fi);
+  
 fi.addEventListener('change', e => { 
-
-  alert('Fil valgt: ' + e.target.files[0].name); 
 
   if (e.target.files[0]) processFile(e.target.files[0]); 
 
