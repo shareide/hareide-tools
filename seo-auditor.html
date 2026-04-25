@@ -1127,7 +1127,22 @@ function buildFixedMeta(title) {
   return text.length > 160 ? text.slice(0, 157).trim() + '…' : text;
 
 }
+function buildDescription(title) {
 
+  const clean = (title || 'Kunstprint').trim();
+
+  return `
+
+<p><strong>${clean}</strong> er et kunstprint fra HareideART, laget for hjem som ønsker ro, dybde og et personlig uttrykk.</p>
+
+<p>Motivet bruker farger, former og stemning til å gi rommet karakter – enten det henger i stue, gang eller soverom.</p>
+
+<p>Beskrivelsen bygger på korte, levende og søkbare kunsttekster: moderne veggkunst, nettgalleri, online kunst og giclée print.</p>
+
+`.trim();
+
+}
+  
 function exportFixCSV(limit = null) {
 
   const rows = [[
