@@ -90,15 +90,6 @@
     background: #f0ebe0;
   }
 
-  .drop-zone input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0.01;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
-
   .drop-zone .icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -1121,6 +1112,7 @@ function escHtml(str) {
 // ─── DRAG & DROP ───────────────────────────────────
 const dz = document.getElementById('dropZone');
 const fi = document.getElementById('fileInput');
+  fi.style.display = 'none';
   alert('Script lastet og fileInput funnet: ' + !!fi);
 alert('Script lastet og fileInput funnet: ' + !!fi);
 fi.addEventListener('change', e => { 
