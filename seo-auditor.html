@@ -785,6 +785,9 @@ if (keywordCheck.level === "yellow") {
   const tags = p['tags'] || '';
   const handle = p['handle'] || p['url_handle'] || '';
   const productType = p['type'] || p['product_type'] || '';
+  const option1Name = p['option1_name'] || 'Title';
+
+const option1Value = p['option1_value'] || 'Default Title';
 
   const bodyPlain = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   const wordCount = bodyPlain.split(/\s+/).filter(w => w.length > 0).length;
@@ -882,7 +885,7 @@ if (!metaTitle) {
 
   'green';
 
-  return { title, handle, score, status, issues, suggestions, vendor, metaTitle, metaDesc, wordCount };
+  return { title, handle, score, status, issues, suggestions, vendor, metaTitle, metaDesc, wordCount, option1Name, option1Value };
 }
 
 // ─── RENDER ────────────────────────────────────────
@@ -1135,7 +1138,11 @@ function exportFixCSV(limit = null) {
 
     'SEO Title',
 
-    'SEO Description'
+    'SEO Description',
+
+    'Option1 Name',
+
+    'Option1 Value'
 
   ]];
 
@@ -1155,7 +1162,11 @@ function exportFixCSV(limit = null) {
 
       fixedTitle,
 
-      fixedMeta
+      fixedMeta,
+
+      p.option1Name || 'Title',
+
+      p.option1Value || 'Default Title'
 
     ]);
 
