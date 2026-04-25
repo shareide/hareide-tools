@@ -1150,6 +1150,7 @@ function exportFixCSV(limit = null) {
     'Handle',
 
     'Title',
+    'Body (HTML)',
 
     'SEO Title',
 
@@ -1168,22 +1169,37 @@ function exportFixCSV(limit = null) {
     const fixedTitle = buildFixedTitle(p.title);
 
     const fixedMeta = buildFixedMeta(p.title);
+    const fixedDesc = `
+
+<p><strong>${p.title}</strong> er et kunstprint fra HareideART.</p>
+
+<p>Motivet gir rommet en rolig og harmonisk stemning, med et uttrykk som passer både moderne og klassiske interiør.</p>
+
+<p>Farger og former er valgt for å skape balanse og dybde – et bilde som ikke roper, men som blir værende.</p>
+
+<p>Perfekt for deg som ønsker veggkunst med karakter, enten til stue, gang eller soverom.</p>
+
+<p><em>kunstprint, veggkunst, wall art, moderne kunst</em></p>
+
+`.trim();
 
     rows.push([
 
-      p.handle,
+  p.handle,
 
-      fixedTitle,
+  fixedTitle,
 
-      fixedTitle,
+  fixedDesc,
 
-      fixedMeta,
+  fixedTitle,
 
-      p.option1Name || 'Title',
+  fixedMeta,
 
-      p.option1Value || 'Default Title'
+  p.option1Name || 'Title',
 
-    ]);
+  p.option1Value || 'Default Title'
+
+]);
 
   });
 
