@@ -1129,52 +1129,23 @@ function exportFixCSV(limit = null) {
 
   const rows = [[
 
-  'Handle',
+    'Handle',
 
-  'Title',
+    'Title',
 
-  'Body (HTML)',
+    'SEO Title',
 
-  'SEO Title',
+    'SEO Description'
 
-  'SEO Description',
-
-  'Vendor',
-
-  'Tags',
-
-  'Option1 Name',
-
-  'Option1 Value'
-  'Title',
-  'Default Title'
-
-]];
+  ]];
 
   const productsToExport = limit ? allProducts.slice(0, limit) : allProducts;
 
-productsToExport.forEach(p => {
+  productsToExport.forEach(p => {
 
     const fixedTitle = buildFixedTitle(p.title);
 
     const fixedMeta = buildFixedMeta(p.title);
-
-    const fixedDesc = `
-
-<p>${p.title} er et kunstprint fra HareideART, utviklet for hjem som ønsker ro, dybde og visuell karakter.</p>
-
-<p>Motivet gir rommet en balansert følelse – enten det henger i stue, gang eller soverom.</p>
-
-<p>Trykket leveres som digital kunst i høy kvalitet, klart til bruk i moderne interiør.</p>
-
-`.trim();
-
-
-    const fixedVendor = 'HareideART';
-
-    const fixedTags = (p.title + ', kunstprint, veggkunst, wall art')
-
-      .toLowerCase();
 
     rows.push([
 
@@ -1182,15 +1153,9 @@ productsToExport.forEach(p => {
 
       fixedTitle,
 
-      fixedDesc,
-
       fixedTitle,
 
-      fixedMeta,
-
-      fixedVendor,
-
-      fixedTags
+      fixedMeta
 
     ]);
 
