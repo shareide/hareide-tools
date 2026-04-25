@@ -1150,6 +1150,7 @@ async function exportFixCSV(limit = null) {
     'Handle',
 
     'Title',
+
     'Body (HTML)',
 
     'SEO Title',
@@ -1169,58 +1170,44 @@ async function exportFixCSV(limit = null) {
     const fixedTitle = buildFixedTitle(p.title);
 
     const fixedMeta = buildFixedMeta(p.title);
-    const fixedDesc = `
 
-<p><strong>${p.title}</strong> er et kunstprint fra HareideART.</p>
+    const aiDesc = await fetch('/api/generate-description', {
 
-<p>Motivet gir rommet en rolig og harmonisk stemning, med et uttrykk som passer både moderne og klassiske interiør.</p>
+      method: 'POST',
 
-<p>Farger og former er valgt for å skape balanse og dybde – et bilde som ikke roper, men som blir værende.</p>
+      headers: {
 
-<p>Perfekt for deg som ønsker veggkunst med karakter, enten til stue, gang eller soverom.</p>
+        'Content-Type': 'application/json'
 
-<p><em>kunstprint, veggkunst, wall art, moderne kunst</em></p>
+      },
 
-`.trim();
+      body: JSON.stringify({ title: p.title })
 
-  const aiDesc = await fetch('/api/generate-description', {
+    })
 
-  method: 'POST',
+    .then(res => res.json())
 
-  headers: {
+    .then(data => data.description || buildDescription(p.title))
 
-    'Content-Type': 'application/json'
+    .catch(() => buildDescription(p.title));
 
-  },
+    rows.push([
 
-  body: JSON.stringify({ title: p.title })
+      p.handle,
 
-})
+      fixedTitle,
 
-.then(res => res.json())
+      aiDesc,
 
-.then(data => data.description || '')
+      fixedTitle,
 
-.catch(() => '');
+      fixedMeta,
 
-rows.push([
+      p.option1Name || 'Title',
 
-  p.handle,
+      p.option1Value || 'Default Title'
 
-  fixedTitle,
-
-  aiDesc,
-
-  fixedTitle,
-
-  fixedMeta,
-
-  p.option1Name || 'Title',
-
-  p.option1Value || 'Default Title'
-  downloadCSV(rows, limit ? 'hareide-autofix-test-10.csv' : 'hareide-autofix-import.csv');
-
-]);
+    ]);
 
   }
 
