@@ -801,7 +801,7 @@ if (!metaTitle) {
 
   issues.push({ level: 'red', text: 'Mangler SEO-tittel (meta title)' });
 
-  suggestions.push("Lag SEO-tittel: [motiv] + kunstprint + HareideART");
+  suggestions.push({ type: "metaTitle", action: "Lag SEO-tittel" });
 
 } else {
     if (metaTitle.length < 30) issues.push({ level: 'yellow', text: `SEO-tittel for kort (${metaTitle.length} tegn)` });
@@ -812,7 +812,7 @@ if (!metaTitle) {
 
   issues.push({ level: 'red', text: 'Mangler meta-beskrivelse' });
 
-  suggestions.push("Skriv meta: følelse + rom + bruk (max 160 tegn)");
+  suggestions.push({ type: "metaDesc", action: "Lag meta-beskrivelse" });
 
 } else {
     if (metaDesc.length < 80) issues.push({ level: 'yellow', text: `Meta-beskrivelse for kort (${metaDesc.length} tegn)` });
