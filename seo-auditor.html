@@ -1164,7 +1164,7 @@ async function exportFixCSV(limit = null) {
 
   const productsToExport = limit ? allProducts.slice(0, limit) : allProducts;
 
-  productsToExport.forEach(p => {
+  for (const p of productsToExport) {
 
     const fixedTitle = buildFixedTitle(p.title);
 
@@ -1218,10 +1218,11 @@ rows.push([
   p.option1Name || 'Title',
 
   p.option1Value || 'Default Title'
+  downloadCSV(rows, limit ? 'hareide-autofix-test-10.csv' : 'hareide-autofix-import.csv');
 
 ]);
 
-  });
+  }
 
   downloadCSV(rows, limit ? 'hareide-autofix-test-10.csv' : 'hareide-autofix-import.csv');
 
