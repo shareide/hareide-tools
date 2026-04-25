@@ -1164,7 +1164,11 @@ function downloadCSV(rows, filename) {
   const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = filename; a.click();
+  a.href = url; a.download = filename; document.body.appendChild(a);
+
+a.click();
+
+document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 
@@ -1193,6 +1197,29 @@ dz.addEventListener('drop', e => {
   dz.classList.remove('drag-over');
   processFile(e.dataTransfer.files[0]);
 });
+  function exportAutoFixCSV() {
+
+  alert('Starter eksport');
+
+  const rows = [['Tittel', 'Handle', 'Forslag']];
+
+  allProducts.forEach(p => {
+
+    rows.push([
+
+      p.title,
+
+      p.handle,
+
+      (p.suggestions || []).join(' | ')
+
+    ]);
+
+  });
+
+  downloadCSV(rows, 'hareide-autofix-seo.csv');
+
+}
 </script>
 </body>
 </html>
