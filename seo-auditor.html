@@ -608,7 +608,7 @@
 
   <div class="export-bar" id="exportBar">
     <button class="export-btn" onclick="exportCSV()">Eksporter CSV</button>
-    <button class="export-btn primary" onclick="exportFixCSV()">Eksporter AutoFix CSV</button>
+ <button class="export-btn" onclick="exportFixCSV(10)">Test AutoFix CSV – 10 produkter</button>
  
   </div>
 
@@ -1125,7 +1125,7 @@ function buildFixedMeta(title) {
 
 }
 
-function exportFixCSV() {
+function exportFixCSV(limit = null) {
 
   const rows = [[
 
@@ -1145,7 +1145,9 @@ function exportFixCSV() {
 
   ]];
 
-  allProducts.forEach(p => {
+  const productsToExport = limit ? allProducts.slice(0, limit) : allProducts;
+
+productsToExport.forEach(p => {
 
     const fixedTitle = buildFixedTitle(p.title);
 
@@ -1188,7 +1190,7 @@ function exportFixCSV() {
 
   });
 
-  downloadCSV(rows, 'hareide-autofix-import.csv');
+  downloadCSV(rows, limit ? 'hareide-autofix-test-10.csv' : 'hareide-autofix-import.csv');
 
 }
 function exportCritical() {
