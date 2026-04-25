@@ -1103,7 +1103,51 @@ function exportCSV() {
   });
   downloadCSV(rows, 'hareide-seo-audit.csv');
 }
+function buildFixedTitle(title) {
 
+  const clean = (title || '').trim();
+
+  if (!clean) return 'Kunstprint fra HareideART';
+
+  if (clean.toLowerCase().includes('kunstprint')) return clean;
+
+  return clean + ' – kunstprint | HareideART';
+
+}
+
+function buildFixedMeta(title) {
+
+  const clean = (title || 'Kunstprint').trim();
+
+  let text = `${clean} fra HareideART. Stemningsfull veggkunst med personlig uttrykk, laget for hjem som ønsker kunst med ro, farge og karakter.`;
+
+  return text.length > 160 ? text.slice(0, 157).trim() + '…' : text;
+
+}
+
+function exportFixCSV() {
+
+  const rows = [['Handle', 'Title', 'SEO Title', 'SEO Description']];
+
+  allProducts.forEach(p => {
+
+    rows.push([
+
+      p.handle,
+
+      p.title,
+
+      buildFixedTitle(p.title),
+
+      buildFixedMeta(p.title)
+
+    ]);
+
+  });
+
+  downloadCSV(rows, 'hareide-autofix-seo.csv');
+
+}
 function exportCritical() {
   const rows = [['Tittel', 'Handle', 'Score', 'Feil (detaljer)']];
   allProducts.filter(p => p.status === 'red').forEach(p => {
