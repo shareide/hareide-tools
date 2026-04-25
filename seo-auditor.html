@@ -1183,13 +1183,33 @@ function exportFixCSV(limit = null) {
 
 `.trim();
 
-    rows.push([
+  const aiDesc = await fetch('/api/generate-description', {
+
+  method: 'POST',
+
+  headers: {
+
+    'Content-Type': 'application/json'
+
+  },
+
+  body: JSON.stringify({ title: p.title })
+
+})
+
+.then(res => res.json())
+
+.then(data => data.description || '')
+
+.catch(() => '');
+
+rows.push([
 
   p.handle,
 
   fixedTitle,
 
-  fixedDesc,
+  aiDesc,
 
   fixedTitle,
 
