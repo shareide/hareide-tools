@@ -1129,21 +1129,27 @@ function exportFixCSV(limit = null) {
 
   const rows = [[
 
-    'Handle',
+  'Handle',
 
-    'Title',
+  'Title',
 
-    'Body (HTML)',
+  'Body (HTML)',
 
-    'SEO Title',
+  'SEO Title',
 
-    'SEO Description',
+  'SEO Description',
 
-    'Vendor',
+  'Vendor',
 
-    'Tags'
+  'Tags',
 
-  ]];
+  'Option1 Name',
+
+  'Option1 Value'
+  'Title',
+  'Default Title'
+
+]];
 
   const productsToExport = limit ? allProducts.slice(0, limit) : allProducts;
 
