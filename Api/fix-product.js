@@ -12,7 +12,11 @@ export default async function handler(req, res) {
 
     if (!apiKey) {
 
-      return res.status(500).json({ error: 'Missing ANTHROPIC_API_KEY on server' });
+      return res.status(500).json({
+
+        error: 'Missing ANTHROPIC_API_KEY in Vercel Environment Variables'
+
+      });
 
     }
 
@@ -20,109 +24,131 @@ export default async function handler(req, res) {
 
       product,
 
-      fixMetaTitle,
+      fixMetaTitle = true,
 
-      fixMetaDesc,
+      fixMetaDesc = true,
 
-      fixBody,
+      fixBody = true,
 
-      fixAlt,
+      fixAlt = true,
 
-      fixTags,
+      fixTags = true,
 
-      fixVendor
+      fixVendor = true
 
     } = req.body || {};
 
-    const title = product?.title || 'Untitled artwork';
+    if (!product) {
 
-    const existingBody = (product?.body_html || product?.body || '')
+      return res.status(400).json({ error: 'Missing product data' });
 
-      .replace(/<[^>]+>/g, ' ')
+    }
 
-      .trim();
+    const title = product.title || 'Uten tittel';
 
-    const existingTags = product?.tags || '';
+    const bodyRaw = product.body_html || product.body || product['body_html'] || '';
+
+    const existingBody = String(bodyRaw).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+
+    const existingTags = product.tags || '';
 
     const fieldsNeeded = [];
 
     if (fixMetaTitle) {
 
-      fieldsNeeded.push('no_seo_title: SEO-tittel på NORSK, 50-65 tegn, inkluder "HareideART" og relevante kunstord');
+      fieldsNeeded.push('"no_seo_title"');
 
-      fieldsNeeded.push('en_seo_title: SEO title in ENGLISH, 50-65 chars, include "HareideART" and key art terms');
+      fieldsNeeded.push('"en_seo_title"');
 
     }
 
     if (fixMetaDesc) {
 
-      fieldsNeeded.push('no_seo_description: Meta-beskrivelse på NORSK, 130-155 tegn, varm og levende tone');
+      fieldsNeeded.push('"no_seo_description"');
 
-      fieldsNeeded.push('en_seo_description: Meta description in ENGLISH, 130-155 chars, warm and atmospheric');
+      fieldsNeeded.push('"en_seo_description"');
 
     }
 
     if (fixBody) {
 
-      fieldsNeeded.push('no_body_html: Produktbeskrivelse på NORSK, 150-200 ord. Kort, levende, informativ. Bruk kun <p>-tagger.');
+      fieldsNeeded.push('"no_body_html"');
 
-      fieldsNeeded.push('en_body_html: Product description in ENGLISH, 150-200 words. Warm, clear, atmospheric. Use only <p> tags.');
+      fieldsNeeded.push('"en_body_html"');
 
     }
 
     if (fixAlt) {
 
-      fieldsNeeded.push('no_alt_text: Alt-tekst på NORSK, 10-15 ord, beskrivende og konkret');
+      fieldsNeeded.push('"no_alt_text"');
 
-      fieldsNeeded.push('en_alt_text: Alt text in ENGLISH, 10-15 words, descriptive and concrete');
+      fieldsNeeded.push('"en_alt_text"');
 
     }
 
     if (fixTags) {
 
-      fieldsNeeded.push('no_tags: Kommaseparerte norske tags, 5-6 stk');
+      fieldsNeeded.push('"no_tags"');
 
-      fieldsNeeded.push('en_tags: Comma-separated English tags, 5-6 items');
+      fieldsNeeded.push('"en_tags"');
 
     }
 
     const prompt = `
 
-Du er en ekspert på SEO-tekster for kunst, kunstprint og nettgalleri.
+Du er en profesjonell SEO-tekstforfatter for kunst, kunstprint, giclée print og nettgalleri.
 
 Kunstner: Svein Hareide / HareideART.
 
-Tone: varm, litterær, kort, informativ og levende. Ikke bruk tomme reklamefraser.
+Tone: varm, konkret, levende, kort og informativ.
 
-Produktittel:
+Unngå tomme reklamefraser.
 
-"${title}"
+Beskriv stemning, farger, uttrykk, teknikk og mulig bruk i hjemmet.
 
-Eksisterende beskrivelse:
+Produkt:
 
-"${existingBody.substring(0, 500)}"
+${title}
+
+Eksisterende tekst:
+
+${existingBody.slice(0, 800)}
 
 Eksisterende tags:
 
-"${existingTags}"
+${existingTags}
 
-Lag KUN gyldig JSON med disse feltene:
+Returner KUN gyldig JSON med disse feltene:
 
-${fieldsNeeded.join('\n')}
+${fieldsNeeded.join(', ')}
 
-Regler:
+Krav:
 
-- Alle no_-felt skal være norsk bokmål.
+- no_seo_title: norsk, maks 65 tegn.
 
-- Alle en_-felt skal være engelsk.
+- en_seo_title: engelsk, maks 65 tegn.
 
-- Ikke bland språk.
+- no_seo_description: norsk, 130–155 tegn.
 
-- Body HTML skal kun bruke <p>-tagger.
+- en_seo_description: engelsk, 130–155 tegn.
 
-- Ikke inkluder produktkategori, product_type eller Google-kategori.
+- no_body_html: norsk, 120–180 ord, kun <p>-tagger.
 
-- Svar kun med JSON. Ingen forklaring.
+- en_body_html: engelsk, 120–180 ord, kun <p>-tagger.
+
+- no_alt_text: norsk, 10–18 ord.
+
+- en_alt_text: engelsk, 10–18 words.
+
+- no_tags: norske tags, kommaseparert.
+
+- en_tags: English tags, comma-separated.
+
+- Ikke inkluder forklaring.
+
+- Ikke bruk markdown.
+
+- Ikke bland norsk og engelsk i samme felt.
 
 `;
 
@@ -144,9 +170,19 @@ Regler:
 
         model: 'claude-sonnet-4-20250514',
 
-        max_tokens: 2000,
+        max_tokens: 2500,
 
-        messages: [{ role: 'user', content: prompt }]
+        messages: [
+
+          {
+
+            role: 'user',
+
+            content: prompt
+
+          }
+
+        ]
 
       })
 
@@ -156,17 +192,37 @@ Regler:
 
       const errorText = await claudeRes.text();
 
-      return res.status(claudeRes.status).json({ error: errorText });
+      return res.status(claudeRes.status).json({
+
+        error: errorText
+
+      });
 
     }
 
     const data = await claudeRes.json();
 
-    const text = data.content?.map(c => c.text || '').join('') || '';
+    const text = data.content?.map(part => part.text || '').join('').trim() || '';
 
-    const clean = text.replace(/```json|```/g, '').trim();
+    const jsonStart = text.indexOf('{');
 
-    const parsed = JSON.parse(clean);
+    const jsonEnd = text.lastIndexOf('}');
+
+    if (jsonStart === -1 || jsonEnd === -1) {
+
+      return res.status(500).json({
+
+        error: 'Claude returned no JSON',
+
+        raw: text
+
+      });
+
+    }
+
+    const jsonText = text.slice(jsonStart, jsonEnd + 1);
+
+    const parsed = JSON.parse(jsonText);
 
     if (fixVendor) {
 
@@ -178,7 +234,11 @@ Regler:
 
   } catch (err) {
 
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({
+
+      error: err.message
+
+    });
 
   }
 
