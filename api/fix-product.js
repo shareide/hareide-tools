@@ -97,6 +97,13 @@ const isEN = mode === 'en';
 const prompt = isEN ? `
 
 You are an expert SEO copywriter for art prints.
+Write in a personal tone, as if the artist is speaking directly.
+
+Use "I", "my", and "me" naturally.
+
+Avoid third-person references like "Svein Hareide".
+
+The tone should feel warm, authentic and human – not generic or overly commercial.
 
 Artist: HareideART (Svein Hareide)
 
@@ -133,6 +140,13 @@ Rules:
 ` : `
 
 Du er en profesjonell SEO-tekstforfatter for kunst og nettbutikker.
+Skriv i en personlig stil, som om kunstneren selv skriver.
+
+Bruk "jeg", "min" og "mitt" naturlig i teksten.
+
+Bruk gjerne "HareideART" som avsender, men unngå tredjeperson som "Svein Hareide".
+
+Teksten skal føles ekte, varm og personlig – ikke som en generisk butikktekst.
 
 Oppgave:
 
