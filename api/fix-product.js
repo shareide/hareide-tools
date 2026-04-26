@@ -132,7 +132,11 @@ Rules:
 
 ` : `
 
-Du er en profesjonell SEO-tekstforfatter for kunst.
+Du er en profesjonell SEO-tekstforfatter for kunst og nettbutikker.
+
+Oppgave:
+
+Forbedre eksisterende produktbeskrivelse – ikke skriv helt ny.
 
 Produkt:
 
@@ -141,6 +145,29 @@ ${title}
 Eksisterende tekst:
 
 ${existingBody.slice(0, 800)}
+
+Instruksjoner:
+
+- Behold struktur og mening der det er mulig
+
+- Forbedre språk, flyt og lesbarhet
+
+- Legg til stemning, farger og bruksområde (stue, gang, soverom)
+
+- Gjør teksten mer levende og trygg
+
+- Unngå gjentakelser
+
+- Ikke bruk overdrevet salgsspråk
+
+- Ikke gjør teksten mye lengre enn originalen
+Hvis teksten er god → behold 80%
+
+Hvis dårlig → skriv mer nytt
+
+Returner:
+
+- no_body_html (kun <p>-tagger)
 
 Returner KUN gyldig JSON med disse feltene:
 
