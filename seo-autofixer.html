@@ -1346,6 +1346,16 @@ function esc(str) {
   return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+  document.addEventListener('DOMContentLoaded', () => {
+
+  document.getElementById('apiBadge').textContent = 'API: Serverkoblet ✓';
+
+  document.getElementById('apiBadge').className = 'api-badge ok';
+
+  goToPanel(2);
+
+});
+  
 // ── FILE DROP ──────────────────────────────────────────────
 const dz = document.getElementById('dropZone');
 const fi = document.getElementById('fileInput');
