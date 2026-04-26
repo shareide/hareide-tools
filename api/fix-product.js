@@ -20,23 +20,25 @@ export default async function handler(req, res) {
 
     }
 
-    const {
+ const {
 
-      product,
+  product,
 
-      fixMetaTitle = true,
+  mode = 'no',
 
-      fixMetaDesc = true,
+  fixMetaTitle = true,
 
-      fixBody = true,
+  fixMetaDesc = true,
 
-      fixAlt = true,
+  fixBody = true,
 
-      fixTags = true,
+  fixAlt = true,
 
-      fixVendor = true
+  fixTags = true,
 
-    } = req.body || {};
+  fixVendor = true
+
+} = req.body || {};
 
     if (!product) {
 
@@ -90,17 +92,47 @@ export default async function handler(req, res) {
 
     }
 
-    const prompt = `
+const isEN = mode === 'en';
 
-Du er en profesjonell SEO-tekstforfatter for kunst, kunstprint, giclée print og nettgalleri.
+const prompt = isEN ? `
 
-Kunstner: Svein Hareide / HareideART.
+You are an expert SEO copywriter for art prints.
 
-Tone: varm, konkret, levende, kort og informativ.
+Artist: HareideART (Svein Hareide)
 
-Unngå tomme reklamefraser.
+Write ONLY in English.
 
-Beskriv stemning, farger, uttrykk, teknikk og mulig bruk i hjemmet.
+Product: ${title}
+
+Existing text:
+
+${existingBody.slice(0, 800)}
+
+Return ONLY valid JSON with these fields:
+
+${fieldsNeeded.join(', ')}
+
+Rules:
+
+- All fields must be in English
+
+- seo_title: max 65 chars
+
+- seo_description: 130–155 chars
+
+- body_html: 120–180 words, only <p> tags
+
+- alt_text: 10–18 words
+
+- tags: comma-separated
+
+- No explanations
+
+- No markdown
+
+` : `
+
+Du er en profesjonell SEO-tekstforfatter for kunst.
 
 Produkt:
 
@@ -110,32 +142,25 @@ Eksisterende tekst:
 
 ${existingBody.slice(0, 800)}
 
-Eksisterende tags:
+Returner KUN gyldig JSON med disse feltene:
 
-${existingTags}
-
-Returner KUN gyldig JSON med disse feltene (kun norsk):
+${fieldsNeeded.join(', ')}
 
 Krav:
 
-- Alle felter skal være på norsk (bokmål)
+- Alle felter på norsk
 
 - no_seo_title: maks 65 tegn
 
 - no_seo_description: 130–155 tegn
 
-- no_body_html: 120–180 ord, kun <p>-tagger
+- no_body_html: 120–180 ord
 
 - no_alt_text: 10–18 ord
 
 - no_tags: kommaseparert
 
-- Ikke inkluder engelsk tekst
-
-- Ikke inkluder forklaring
-
-- Ikke bruk markdown
-- Ikke bland norsk og engelsk i samme felt.
+- Kun JSON
 
 `;
 
