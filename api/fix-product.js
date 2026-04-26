@@ -199,7 +199,6 @@ Krav:
 
 `;
 
-    const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
 let data;
 
 let lastError = null;
@@ -299,7 +298,6 @@ if (!data) {
   });
 
 }
-    const data = await claudeRes.json();
 
     const text = data.content?.map(part => part.text || '').join('').trim() || '';
 
