@@ -54,45 +54,39 @@ export default async function handler(req, res) {
 
     const existingTags = product.tags || '';
 
-    const fieldsNeeded = [];
+   const isEN = mode === 'en';
 
-   if (fixMetaTitle) {
+const fieldsNeeded = [];
 
-  fieldsNeeded.push('"no_seo_title"');
+if (fixMetaTitle) {
+
+  fieldsNeeded.push(isEN ? '"seo_title"' : '"no_seo_title"');
 
 }
 
-    if (fixMetaDesc) {
+if (fixMetaDesc) {
 
-      fieldsNeeded.push('"no_seo_description"');
+  fieldsNeeded.push(isEN ? '"seo_description"' : '"no_seo_description"');
 
-    }
+}
 
-    if (fixBody) {
+if (fixBody) {
 
-      fieldsNeeded.push('"no_body_html"');
+  fieldsNeeded.push(isEN ? '"body_html"' : '"no_body_html"');
 
-      fieldsNeeded.push('"en_body_html"');
+}
 
-    }
+if (fixAlt) {
 
-    if (fixAlt) {
+  fieldsNeeded.push(isEN ? '"alt_text"' : '"no_alt_text"');
 
-      fieldsNeeded.push('"no_alt_text"');
+}
 
-      fieldsNeeded.push('"en_alt_text"');
+if (fixTags) {
 
-    }
+  fieldsNeeded.push(isEN ? '"tags"' : '"no_tags"');
 
-    if (fixTags) {
-
-      fieldsNeeded.push('"no_tags"');
-
-      fieldsNeeded.push('"en_tags"');
-
-    }
-
-const isEN = mode === 'en';
+}
 
 const prompt = isEN ? `
 
