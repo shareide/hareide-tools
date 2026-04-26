@@ -745,10 +745,6 @@ margin-top: 3rem;
 ⬇ Last ned EN (referanse)
 
 </button>
-
-⬇ Last ned EN (referanse)
-
-</button>
     <button class="btn btn-secondary" style="color:var(--paper);border-color:#666" onclick="goToPanel(3)">← Tilbake til resultater</button>
   </div>
 
@@ -1279,7 +1275,113 @@ function searchResults(val) {
   resPage = 1;
   renderResultsTable();
 }
+function buildCSVRows() {
 
+  const fixedMap = {};
+
+  fixedProducts.filter(p => p._fixed).forEach(p => {
+
+    fixedMap[p.handle] = p;
+
+  });
+
+  const noRows = [originalRows[0]];
+
+  const enHeaders = [...originalRows[0], 'en_seo_title', 'en_seo_description', 'en_body_html', 'en_alt_text', 'en_tags'];
+
+  const enRows = [enHeaders];
+
+  originalRows.slice(1).forEach(row => {
+
+    const obj = {};
+
+    csvHeaders.forEach((h, i) => obj[h] = (row[i] || '').trim());
+
+    const handle = obj.handle || obj.title;
+
+    const fixed = fixedMap[handle];
+
+    if (fixed && fixed._generated) {
+
+      const g = fixed._generated;
+
+      const noRow = [...row];
+
+      csvHeaders.forEach((h, i) => {
+
+        if (h === 'seo_title' && g.no_seo_title) noRow[i] = g.no_seo_title;
+
+        if (h === 'seo_description' && g.no_seo_description) noRow[i] = g.no_seo_description;
+
+        if ((h === 'body_html' || h === 'body_html_' || h === 'body') && g.no_body_html) noRow[i] = g.no_body_html;
+
+        if (h === 'image_alt_text' && g.no_alt_text) noRow[i] = g.no_alt_text;
+
+        if (h === 'tags' && g.no_tags) noRow[i] = g.no_tags;
+
+        if (h === 'vendor' && g.vendor) noRow[i] = g.vendor;
+
+      });
+
+      noRows.push(noRow);
+
+      enRows.push([
+
+        ...noRow,
+
+        g.en_seo_title || '',
+
+        g.en_seo_description || '',
+
+        g.en_body_html || '',
+
+        g.en_alt_text || '',
+
+        g.en_tags || ''
+
+      ]);
+
+    } else {
+
+      noRows.push(row);
+
+      enRows.push([...row, '', '', '', '', '']);
+
+    }
+
+  });
+
+  return { noRows, enRows };
+
+}
+
+function downloadNO() {
+
+  const { noRows } = buildCSVRows();
+
+  triggerDownload(
+
+    noRows,
+
+    `hareide-shopify-NO-${new Date().toISOString().slice(0,10)}.csv`
+
+  );
+
+}
+
+function downloadEN() {
+
+  const { enRows } = buildCSVRows();
+
+  triggerDownload(
+
+    enRows,
+
+    `hareide-shopify-EN-referanse-${new Date().toISOString().slice(0,10)}.csv`
+
+  );
+
+}
 // ── EXPORT CSV ─────────────────────────────────────────────
 function triggerDownload(rows, filename) {
   const content = rows.map(r =>
