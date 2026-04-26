@@ -192,6 +192,15 @@ Krav:
 `;
 
     const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
+let data;
+
+let lastError = null;
+
+for (let attempt = 1; attempt <= 2; attempt++) {
+
+  try {
+
+    const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
 
       method: 'POST',
 
@@ -231,14 +240,57 @@ Krav:
 
       const errorText = await claudeRes.text();
 
-      return res.status(claudeRes.status).json({
+      lastError = `Claude API error ${claudeRes.status}: ${errorText}`;
 
-        error: errorText
+      if (attempt === 2) {
+
+        return res.status(200).json({
+
+          error: lastError
+
+        });
+
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      continue;
+
+    }
+
+    data = await claudeRes.json();
+
+    break;
+
+  } catch (err) {
+
+    lastError = err.message;
+
+    if (attempt === 2) {
+
+      return res.status(200).json({
+
+        error: lastError
 
       });
 
     }
 
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+  }
+
+}
+
+if (!data) {
+
+  return res.status(200).json({
+
+    error: lastError || 'Unknown Claude error'
+
+  });
+
+}
     const data = await claudeRes.json();
 
     const text = data.content?.map(part => part.text || '').join('').trim() || '';
