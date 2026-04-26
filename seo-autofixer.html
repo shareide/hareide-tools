@@ -756,7 +756,7 @@ margin-top: 3rem;
 
 <script>
 // ── STATE ──────────────────────────────────────────────────
-let apiKey = '';
+let apiKey = localStorage.getItem('claude_api_key') || '';
 let rawProducts = [];      // parsed from CSV
 let auditedProducts = [];  // with SEO issues
 let fixedProducts = [];    // with Claude-generated fields
@@ -814,10 +814,13 @@ async function validateApiKey() {
       })
     });
 
-    if (res.ok) {
-      apiKey = key;
-      document.getElementById('apiBadge').textContent = 'API: Tilkoblet ✓';
-      document.getElementById('apiBadge').className = 'api-badge ok';
+  if (res.ok) {
+
+  apiKey = key;
+
+  localStorage.setItem('claude_api_key', key);
+
+  document.getElementById('apiBadge').textContent = 'API: Tilkoblet ✓';
       goToPanel(2);
     } else {
       const err = await res.json();
