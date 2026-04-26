@@ -738,9 +738,13 @@ margin-top: 3rem;
   </div>
 
   <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-    <button class="btn btn-green" onclick="downloadNO()">⬇ Last ned NO (Shopify)</button>
+<button class="btn btn-green" onclick="downloadNO(); return false;">⬇ Last ned NO (Shopify)</button>
 
-<button class="btn btn-secondary" onclick="downloadEN()" style="color:var(--paper);border-color:#666">
+<button class="btn btn-secondary" onclick="downloadEN(); return false;" style="color:var(--paper);border-color:#666">
+
+⬇ Last ned EN (referanse)
+
+</button>
 
 ⬇ Last ned EN (referanse)
 
