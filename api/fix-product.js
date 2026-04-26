@@ -54,19 +54,15 @@ export default async function handler(req, res) {
 
     const fieldsNeeded = [];
 
-    if (fixMetaTitle) {
+   if (fixMetaTitle) {
 
-      fieldsNeeded.push('"no_seo_title"');
+  fieldsNeeded.push('"no_seo_title"');
 
-      fieldsNeeded.push('"en_seo_title"');
-
-    }
+}
 
     if (fixMetaDesc) {
 
       fieldsNeeded.push('"no_seo_description"');
-
-      fieldsNeeded.push('"en_seo_description"');
 
     }
 
@@ -118,36 +114,27 @@ Eksisterende tags:
 
 ${existingTags}
 
-Returner KUN gyldig JSON med disse feltene:
-
-${fieldsNeeded.join(', ')}
+Returner KUN gyldig JSON med disse feltene (kun norsk):
 
 Krav:
 
-- no_seo_title: norsk, maks 65 tegn.
+- Alle felter skal være på norsk (bokmål)
 
-- en_seo_title: engelsk, maks 65 tegn.
+- no_seo_title: maks 65 tegn
 
-- no_seo_description: norsk, 130–155 tegn.
+- no_seo_description: 130–155 tegn
 
-- en_seo_description: engelsk, 130–155 tegn.
+- no_body_html: 120–180 ord, kun <p>-tagger
 
-- no_body_html: norsk, 120–180 ord, kun <p>-tagger.
+- no_alt_text: 10–18 ord
 
-- en_body_html: engelsk, 120–180 ord, kun <p>-tagger.
+- no_tags: kommaseparert
 
-- no_alt_text: norsk, 10–18 ord.
+- Ikke inkluder engelsk tekst
 
-- en_alt_text: engelsk, 10–18 words.
+- Ikke inkluder forklaring
 
-- no_tags: norske tags, kommaseparert.
-
-- en_tags: English tags, comma-separated.
-
-- Ikke inkluder forklaring.
-
-- Ikke bruk markdown.
-
+- Ikke bruk markdown
 - Ikke bland norsk og engelsk i samme felt.
 
 `;
