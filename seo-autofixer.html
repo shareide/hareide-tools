@@ -984,90 +984,46 @@ function updateEstimate() {
 
 // ── CLAUDE API CALL ────────────────────────────────────────
 async function fixProductWithClaude(product) {
-  const fixMetaTitle = document.getElementById('fixMetaTitle').checked;
-  const fixMetaDesc = document.getElementById('fixMetaDesc').checked;
-  const fixBody = document.getElementById('fixBody').checked;
-  const fixAlt = document.getElementById('fixAlt').checked;
-  const fixTags = document.getElementById('fixTags').checked;
-  const fixVendor = document.getElementById('fixVendor').checked;
 
-  const title = product.title || 'Untitled artwork';
-  const existingBody = (product['body_html'] || product['body'] || '').replace(/<[^>]+>/g,' ').trim();
-  const existingTags = product.tags || '';
+  const payload = {
 
-  const fieldsNeeded = [];
-  if (fixMetaTitle) {
-    fieldsNeeded.push('no_seo_title: SEO-tittel på NORSK, 50-65 tegn, inkluder "HareideART" og relevante kunstord');
-    fieldsNeeded.push('en_seo_title: SEO title in ENGLISH, 50-65 chars, include "HareideART" and key art terms like "wall art", "print", "Scandinavian"');
-  }
-  if (fixMetaDesc) {
-    fieldsNeeded.push('no_seo_description: Meta-beskrivelse på NORSK, 130-155 tegn, varm og litterær tone, beskriver stemning og kvalitet');
-    fieldsNeeded.push('en_seo_description: Meta description in ENGLISH, 130-155 chars, warm literary tone, describes mood and quality');
-  }
-  if (fixBody) {
-    fieldsNeeded.push('no_body_html: Produktbeskrivelse på NORSK, 150-200 ord, litterær og varm tone som en klok venn. Stemning, teknikk, atmosfære. Kun <p> tagger.');
-    fieldsNeeded.push('en_body_html: Product description in ENGLISH, 150-200 words, same literary warm tone. Mood, technique, atmosphere. Use only <p> tags.');
-  }
-  if (fixAlt) {
-    fieldsNeeded.push('no_alt_text: Bildetekst på NORSK, 10-15 ord, beskrivende for tilgjengelighet og SEO');
-    fieldsNeeded.push('en_alt_text: Image alt text in ENGLISH, 10-15 words, descriptive for accessibility and SEO');
-  }
-  if (fixTags) {
-    fieldsNeeded.push('no_tags: Kommaseparerte tags på NORSK, 5-6 stk (kunststil, farger, stemning, bruksområde som "veggkunst", "stue")');
-    fieldsNeeded.push('en_tags: Comma-separated tags in ENGLISH, 5-6 items (art style, colors, mood, use cases like "wall art", "home decor", "Scandinavian art")');
-  }
+    product,
 
-  if (!fieldsNeeded.length && !fixVendor) return { vendor: 'HareideART' };
+    fixMetaTitle: document.getElementById('fixMetaTitle').checked,
 
-  const prompt = `You are an expert bilingual SEO copywriter specializing in fine art and print-on-demand products.
-The artist is Svein Hareide (HareideART), a Norwegian artist based in Spain creating original paintings and prints.
-His customers are both Norwegian (older buyers who prefer Norwegian for trust and familiarity) and international English-speaking buyers.
-Style: literary, warm, atmospheric — like a wise friend who has lived a lot. No marketing clichés. No hollow phrases.
+    fixMetaDesc: document.getElementById('fixMetaDesc').checked,
 
-Product title: "${title}"
-${existingBody ? `Existing description: "${existingBody.substring(0, 300)}"` : ''}
-${existingTags ? `Existing tags: "${existingTags}"` : ''}
+    fixBody: document.getElementById('fixBody').checked,
 
-Generate ONLY a valid JSON object with these exact fields:
-${fieldsNeeded.join('\n')}
+    fixAlt: document.getElementById('fixAlt').checked,
 
-Strict rules:
-- ALL "no_" fields must be 100% Norwegian (bokmål)
-- ALL "en_" fields must be 100% English
-- NEVER mix languages within a single field
-- no_seo_title and en_seo_title: max 65 chars each
-- no_seo_description and en_seo_description: 130-155 chars each
-- body_html fields: use only <p> tags, 150-200 words
-- tags fields: plain comma-separated values, no quotes around individual tags
-- NEVER include product_type, type, category, or google_shopping_category fields
-- Respond with ONLY the JSON object, no markdown, no explanation`;
+    fixTags: document.getElementById('fixTags').checked,
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    fixVendor: document.getElementById('fixVendor').checked
+
+  };
+
+  const res = await fetch('/api/fix-product', {
+
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 2000,
-      messages: [{ role: 'user', content: prompt }]
-    })
+
+    headers: { 'Content-Type': 'application/json' },
+
+    body: JSON.stringify(payload)
+
   });
 
-  if (!res.ok) throw new Error('API status ' + res.status);
+  if (!res.ok) {
 
-  const data = await res.json();
-  const text = data.content?.map(c => c.text || '').join('') || '';
-  const clean = text.replace(/```json|```/g, '').trim();
-  const parsed = JSON.parse(clean);
+    const err = await res.json().catch(() => ({}));
 
-  if (fixVendor) parsed.vendor = 'HareideART';
-  return parsed;
+    throw new Error(err.error || 'Serverfeil fra /api/fix-product');
+
+  }
+
+  return await res.json();
+
 }
-
 // ── FIX LOOP ───────────────────────────────────────────────
 async function startFix() {
   const scope = document.getElementById('fixScope').value;
