@@ -1145,7 +1145,7 @@ function buildDescription(title) {
   
 async function exportFixCSV(limit = null) {
 
-  const rows = [[
+  const rowsNO = [[
 
     'Handle',
 
@@ -1163,6 +1163,20 @@ async function exportFixCSV(limit = null) {
 
   ]];
 
+  const rowsEN = [[
+
+    'Handle',
+
+    'Title',
+
+    'Body (HTML)',
+
+    'SEO Title',
+
+    'SEO Description'
+
+  ]];
+
   const productsToExport = limit ? allProducts.slice(0, limit) : allProducts;
 
   for (const p of productsToExport) {
@@ -1171,17 +1185,13 @@ async function exportFixCSV(limit = null) {
 
     const fixedMeta = buildFixedMeta(p.title);
 
-    const aiDesc = await fetch('/api/generate-description', {
+    const aiNO = await fetch('/api/generate-description', {
 
       method: 'POST',
 
-      headers: {
+      headers: { 'Content-Type': 'application/json' },
 
-        'Content-Type': 'application/json'
-
-      },
-
-      body: JSON.stringify({ title: p.title })
+      body: JSON.stringify({ title: p.title, lang: 'no' })
 
     })
 
@@ -1191,13 +1201,29 @@ async function exportFixCSV(limit = null) {
 
     .catch(() => buildDescription(p.title));
 
-    rows.push([
+    const aiEN = await fetch('/api/generate-description', {
+
+      method: 'POST',
+
+      headers: { 'Content-Type': 'application/json' },
+
+      body: JSON.stringify({ title: p.title, lang: 'en' })
+
+    })
+
+    .then(res => res.json())
+
+    .then(data => data.description || '')
+
+    .catch(() => '');
+
+    rowsNO.push([
 
       p.handle,
 
       fixedTitle,
 
-      aiDesc,
+      aiNO,
 
       fixedTitle,
 
@@ -1209,9 +1235,37 @@ async function exportFixCSV(limit = null) {
 
     ]);
 
+    rowsEN.push([
+
+      p.handle,
+
+      fixedTitle,
+
+      aiEN,
+
+      fixedTitle,
+
+      fixedMeta
+
+    ]);
+
   }
 
-  downloadCSV(rows, limit ? 'hareide-autofix-test-10.csv' : 'hareide-autofix-import.csv');
+  downloadCSV(
+
+    rowsNO,
+
+    limit ? 'hareide-shopify-NO-test-10.csv' : 'hareide-shopify-NO.csv'
+
+  );
+
+  downloadCSV(
+
+    rowsEN,
+
+    limit ? 'hareide-shopify-EN-reference-test-10.csv' : 'hareide-shopify-EN-reference.csv'
+
+  );
 
 }
 function exportCritical() {
