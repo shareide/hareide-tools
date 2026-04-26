@@ -20,25 +20,25 @@ export default async function handler(req, res) {
 
     }
 
- const {
+    const {
 
-  product,
+      product,
 
-  mode = 'no',
+      mode = 'no',
 
-  fixMetaTitle = true,
+      fixMetaTitle = true,
 
-  fixMetaDesc = true,
+      fixMetaDesc = true,
 
-  fixBody = true,
+      fixBody = true,
 
-  fixAlt = true,
+      fixAlt = true,
 
-  fixTags = true,
+      fixTags = true,
 
-  fixVendor = true
+      fixVendor = true
 
-} = req.body || {};
+    } = req.body || {};
 
     if (!product) {
 
@@ -46,68 +46,43 @@ export default async function handler(req, res) {
 
     }
 
+    const isEN = mode === 'en';
+
     const title = product.title || 'Uten tittel';
 
-    const bodyRaw = product.body_html || product.body || product['body_html'] || '';
+    const bodyRaw = product.body_html || product.body || '';
 
-    const existingBody = String(bodyRaw).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const existingBody = String(bodyRaw)
+
+      .replace(/<[^>]+>/g, ' ')
+
+      .replace(/\s+/g, ' ')
+
+      .trim();
 
     const existingTags = product.tags || '';
 
-   const isEN = mode === 'en';
+    const fieldsNeeded = [];
 
-const fieldsNeeded = [];
+    if (fixMetaTitle) fieldsNeeded.push(isEN ? '"seo_title"' : '"no_seo_title"');
 
-if (fixMetaTitle) {
+    if (fixMetaDesc) fieldsNeeded.push(isEN ? '"seo_description"' : '"no_seo_description"');
 
-  fieldsNeeded.push(isEN ? '"seo_title"' : '"no_seo_title"');
+    if (fixBody) fieldsNeeded.push(isEN ? '"body_html"' : '"no_body_html"');
 
-}
+    if (fixAlt) fieldsNeeded.push(isEN ? '"alt_text"' : '"no_alt_text"');
 
-if (fixMetaDesc) {
+    if (fixTags) fieldsNeeded.push(isEN ? '"tags"' : '"no_tags"');
 
-  fieldsNeeded.push(isEN ? '"seo_description"' : '"no_seo_description"');
+    const prompt = isEN ? `
 
-}
-
-if (fixBody) {
-
-  fieldsNeeded.push(isEN ? '"body_html"' : '"no_body_html"');
-
-}
-
-if (fixAlt) {
-
-  fieldsNeeded.push(isEN ? '"alt_text"' : '"no_alt_text"');
-
-}
-
-if (fixTags) {
-
-  fieldsNeeded.push(isEN ? '"tags"' : '"no_tags"');
-
-}
-
-const prompt = isEN ? `
-
-You are an expert SEO copywriter for art prints.
-Write in a personal tone, as if the artist is speaking directly.
-
-Use "I", "my", and "me" naturally.
-
-Avoid third-person references like "Svein Hareide".
-
-The tone should feel warm, authentic and human – not generic or overly commercial.
-
-Artist: HareideART (Svein Hareide)
-
-Write ONLY in English.
+Write ONLY in English. Use a personal first-person artist voice.
 
 Product: ${title}
 
-Existing text:
+Existing text: ${existingBody.slice(0, 800)}
 
-${existingBody.slice(0, 800)}
+Existing tags: ${existingTags}
 
 Return ONLY valid JSON with these fields:
 
@@ -115,67 +90,29 @@ ${fieldsNeeded.join(', ')}
 
 Rules:
 
-- All fields must be in English
+- seo_title max 65 chars
 
-- seo_title: max 65 chars
+- seo_description 130-155 chars
 
-- seo_description: 130–155 chars
+- body_html 120-180 words, only <p> tags
 
-- body_html: 120–180 words, only <p> tags
+- alt_text 10-18 words
 
-- alt_text: 10–18 words
+- tags comma-separated
 
-- tags: comma-separated
-
-- No explanations
-
-- No markdown
+- No markdown, no explanation
 
 ` : `
 
-Du er en profesjonell SEO-tekstforfatter for kunst og nettbutikker.
-Skriv i en personlig stil, som om kunstneren selv skriver.
+Skriv KUN på norsk bokmål. Bruk personlig kunstnerstemme med "jeg", "min" og "mitt" der det passer. Ikke skriv "Svein Hareide".
 
-Bruk "jeg", "min" og "mitt" naturlig i teksten.
+Produkt: ${title}
 
-Bruk gjerne "HareideART" som avsender, men unngå tredjeperson som "Svein Hareide".
+Eksisterende tekst: ${existingBody.slice(0, 800)}
 
-Teksten skal føles ekte, varm og personlig – ikke som en generisk butikktekst.
+Eksisterende tags: ${existingTags}
 
-Oppgave:
-
-Forbedre eksisterende produktbeskrivelse – ikke skriv helt ny.
-
-Produkt:
-
-${title}
-
-Eksisterende tekst:
-
-${existingBody.slice(0, 800)}
-
-Instruksjoner:
-
-- Behold struktur og mening der det er mulig
-
-- Forbedre språk, flyt og lesbarhet
-
-- Legg til stemning, farger og bruksområde (stue, gang, soverom)
-
-- Gjør teksten mer levende og trygg
-
-- Unngå gjentakelser
-
-- Ikke bruk overdrevet salgsspråk
-
-- Ikke gjør teksten mye lengre enn originalen
-Hvis teksten er god → behold 80%
-
-Hvis dårlig → skriv mer nytt
-
-Returner:
-
-- no_body_html (kun <p>-tagger)
+Forbedre eksisterende tekst. Hvis teksten er god, behold mye av den. Hvis den er svak, skriv mer nytt.
 
 Returner KUN gyldig JSON med disse feltene:
 
@@ -183,145 +120,99 @@ ${fieldsNeeded.join(', ')}
 
 Krav:
 
-- Alle felter på norsk
+- no_seo_title maks 65 tegn
 
-- no_seo_title: maks 65 tegn
+- no_seo_description 130-155 tegn
 
-- no_seo_description: 130–155 tegn
+- no_body_html 120-180 ord, kun <p>-tagger
 
-- no_body_html: 120–180 ord
+- no_alt_text 10-18 ord
 
-- no_alt_text: 10–18 ord
+- no_tags kommaseparert
 
-- no_tags: kommaseparert
-
-- Kun JSON
+- Ingen markdown, ingen forklaring
 
 `;
 
-let data;
+    let data = null;
 
-let lastError = null;
+    let lastError = null;
 
-for (let attempt = 1; attempt <= 2; attempt++) {
+    for (let attempt = 1; attempt <= 2; attempt++) {
 
-  try {
+      try {
 
-    const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
+        const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
 
-      method: 'POST',
+          method: 'POST',
 
-      headers: {
+          headers: {
 
-        'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
 
-        'x-api-key': apiKey,
+            'x-api-key': apiKey,
 
-        'anthropic-version': '2023-06-01'
+            'anthropic-version': '2023-06-01'
 
-      },
+          },
 
-      body: JSON.stringify({
+          body: JSON.stringify({
 
-        model: 'claude-sonnet-4-20250514',
+            model: 'claude-sonnet-4-20250514',
 
-        max_tokens: 2500,
+            max_tokens: 2500,
 
-        messages: [
+            messages: [{ role: 'user', content: prompt }]
 
-          {
-
-            role: 'user',
-
-            content: prompt
-
-          }
-
-        ]
-
-      })
-
-    });
-
-    if (!claudeRes.ok) {
-
-      const errorText = await claudeRes.text();
-
-      lastError = `Claude API error ${claudeRes.status}: ${errorText}`;
-
-      if (attempt === 2) {
-
-        return res.status(200).json({
-
-          error: lastError
+          })
 
         });
 
+        if (!claudeRes.ok) {
+
+          lastError = await claudeRes.text();
+
+          await new Promise(r => setTimeout(r, 1500));
+
+          continue;
+
+        }
+
+        data = await claudeRes.json();
+
+        break;
+
+      } catch (err) {
+
+        lastError = err.message;
+
+        await new Promise(r => setTimeout(r, 1500));
+
       }
 
-      await new Promise(resolve => setTimeout(resolve, 1500));
+    }
 
-      continue;
+    if (!data) {
+
+      return res.status(200).json({ error: lastError || 'Claude failed' });
 
     }
 
-    data = await claudeRes.json();
+    const text = data.content?.map(p => p.text || '').join('').trim() || '';
 
-    break;
+    const start = text.indexOf('{');
 
-  } catch (err) {
+    const end = text.lastIndexOf('}');
 
-    lastError = err.message;
+    if (start === -1 || end === -1) {
 
-    if (attempt === 2) {
-
-      return res.status(200).json({
-
-        error: lastError
-
-      });
+      return res.status(200).json({ error: 'Claude returned no JSON', raw: text });
 
     }
 
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    const parsed = JSON.parse(text.slice(start, end + 1));
 
-  }
-
-}
-
-if (!data) {
-
-  return res.status(200).json({
-
-    error: lastError || 'Unknown Claude error'
-
-  });
-
-}
-
-    const text = data.content?.map(part => part.text || '').join('').trim() || '';
-
-    const jsonStart = text.indexOf('{');
-
-    const jsonEnd = text.lastIndexOf('}');
-
-    if (jsonStart === -1 || jsonEnd === -1) {
-
-      return res.status(500).json({
-
-        error: 'Claude returned no JSON',
-
-        raw: text
-
-      });
-
-    }
-
-    const jsonText = text.slice(jsonStart, jsonEnd + 1);
-
-    const parsed = JSON.parse(jsonText);
-
-    if (fixVendor) {
+    if (!isEN && fixVendor) {
 
       parsed.vendor = 'HareideART';
 
@@ -331,13 +222,8 @@ if (!data) {
 
   } catch (err) {
 
-    return res.status(500).json({
-
-      error: err.message
-
-    });
+    return res.status(200).json({ error: err.message });
 
   }
 
 }
-
