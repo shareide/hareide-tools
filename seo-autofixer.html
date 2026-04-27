@@ -1448,7 +1448,11 @@ function esc(str) {
   return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+
+  apiKey = 'server';
+
+  localStorage.setItem('claude_api_key', 'server');
 
   document.getElementById('apiBadge').textContent = 'API: Serverkoblet ✓';
 
