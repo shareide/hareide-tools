@@ -999,6 +999,8 @@ async function fixProductWithClaude(product) {
 
     product,
 
+    mode: 'no',
+
     fixMetaTitle: document.getElementById('fixMetaTitle').checked,
 
     fixMetaDesc: document.getElementById('fixMetaDesc').checked,
@@ -1023,15 +1025,15 @@ async function fixProductWithClaude(product) {
 
   });
 
-  if (!res.ok) {
+  const data = await res.json().catch(() => ({}));
 
-    const err = await res.json().catch(() => ({}));
+  if (!res.ok || data.error) {
 
-    throw new Error(err.error || 'Serverfeil fra /api/fix-product');
+    throw new Error(data.error || 'Feil fra /api/fix-product');
 
   }
 
-  return await res.json();
+  return data;
 
 }
 // ── FIX LOOP ───────────────────────────────────────────────
