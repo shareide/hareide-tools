@@ -12,11 +12,7 @@ export default async function handler(req, res) {
 
     if (!apiKey) {
 
-      return res.status(500).json({
-
-        error: 'Missing ANTHROPIC_API_KEY in Vercel Environment Variables'
-
-      });
+      return res.status(200).json({ error: 'Missing ANTHROPIC_API_KEY' });
 
     }
 
@@ -42,7 +38,7 @@ export default async function handler(req, res) {
 
     if (!product) {
 
-      return res.status(400).json({ error: 'Missing product data' });
+      return res.status(200).json({ error: 'Missing product data' });
 
     }
 
@@ -50,9 +46,7 @@ export default async function handler(req, res) {
 
     const title = product.title || 'Uten tittel';
 
-    const bodyRaw = product.body_html || product.body || '';
-
-    const existingBody = String(bodyRaw)
+    const existingBody = String(product.body_html || product.body || '')
 
       .replace(/<[^>]+>/g, ' ')
 
@@ -74,9 +68,9 @@ export default async function handler(req, res) {
 
     if (fixTags) fieldsNeeded.push(isEN ? '"tags"' : '"no_tags"');
 
-const prompt = isEN ? `
+    const prompt = isEN ? `
 
-Write ONLY in English. Use a personal first-person artist voice.
+Write ONLY English JSON.
 
 Original title: ${title}
 
@@ -100,11 +94,13 @@ Rules:
 
 - tags comma-separated
 
-- No markdown, no explanation
+- No markdown
+
+- No explanation
 
 ` : `
 
-Skriv KUN på norsk bokmål.
+Skriv KUN norsk bokmål.
 
 Original tittel:
 
@@ -120,37 +116,33 @@ ${existingTags}
 
 Oppgave:
 
-Skriv en forbedret norsk produkttekst basert på eksisterende tekst. Behold hovedideen, men skriv naturlig, personlig og flytende i en varm Fanny Blake-inspirert stil.
+Skriv en forbedret produkttekst i varm, personlig og naturlig stil inspirert av Fanny Blake.
 
-Viktige regler:
+Regler:
 
-- Skriv i førsteperson som kunstner: bruk "jeg", "min", "mitt" der det passer.
+- Skriv som om jeg selv skriver som kunstner.
+
+- Bruk "jeg", "min" og "mitt" naturlig der det passer.
 
 - Ikke bruk navnet "Svein Hareide".
 
-- Ikke bruk tredjeperson som "kunstneren", "han" eller "Hareide".
+- Ikke bruk "kunstneren", "han" eller "Hareide".
 
-- Ikke skriv mekaniske formuleringer som "fra meg viser", "mitt motiv viser" eller "bildet viser".
+- Ikke skriv "fra meg viser", "mitt motiv viser" eller "bildet viser".
 
-- Bruk naturlige åpninger som "Jeg har malt...", "Her har jeg arbeidet med..." eller "I dette motivet har jeg ønsket å...".
+- Bruk heller formuleringer som "Jeg har malt...", "Her har jeg arbeidet med..." eller "I dette motivet har jeg ønsket å...".
 
-- Beskriv konkrete farger, former, stemning eller motivdetaljer.
+- Behold hovedideen fra eksisterende tekst.
 
-- Nevn gjerne hvor bildet passer: stue, gang, soverom eller hjem.
+- Beskriv farger, stemning, motiv og hvor bildet kan passe.
 
-- Ikke skriv aggressiv salgstekst.
+- Ikke aggressivt salgsspråk.
 
-- Start setninger med stor bokstav.
-
-Tittel-regel:
+Tittel:
 
 - Behold originaltittelen først.
 
-- Utvid tittelen naturlig med relevante søkeord.
-
-- Bruk ord som kunstprint, veggkunst, moderne kunst, abstrakt kunst eller figurativ kunst bare når det passer.
-
-- Eksempel: "Samtalen" → "Samtalen – figurativt kunstprint med menneskelig nærvær".
+- Utvid naturlig med søkeord som kunstprint, veggkunst, moderne kunst, abstrakt kunst eller figurativ kunst når det passer.
 
 Returner KUN gyldig JSON med disse feltene:
 
@@ -172,69 +164,43 @@ Krav:
 
 - Ingen forklaring
 
-`;    let data = null;
+`;
 
-    let lastError = null;
+    const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
 
-    for (let attempt = 1; attempt <= 2; attempt++) {
+      method: 'POST',
 
-      try {
+      headers: {
 
-        const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
+        'Content-Type': 'application/json',
 
-          method: 'POST',
+        'x-api-key': apiKey,
 
-          headers: {
+        'anthropic-version': '2023-06-01'
 
-            'Content-Type': 'application/json',
+      },
 
-            'x-api-key': apiKey,
+      body: JSON.stringify({
 
-            'anthropic-version': '2023-06-01'
+        model: 'claude-sonnet-4-20250514',
 
-          },
+        max_tokens: 2500,
 
-          body: JSON.stringify({
+        messages: [{ role: 'user', content: prompt }]
 
-            model: 'claude-sonnet-4-20250514',
+      })
 
-            max_tokens: 2500,
+    });
 
-            messages: [{ role: 'user', content: prompt }]
+    if (!claudeRes.ok) {
 
-          })
+      const errText = await claudeRes.text();
 
-        });
-
-        if (!claudeRes.ok) {
-
-          lastError = await claudeRes.text();
-
-          await new Promise(r => setTimeout(r, 1500));
-
-          continue;
-
-        }
-
-        data = await claudeRes.json();
-
-        break;
-
-      } catch (err) {
-
-        lastError = err.message;
-
-        await new Promise(r => setTimeout(r, 1500));
-
-      }
+      return res.status(200).json({ error: errText });
 
     }
 
-    if (!data) {
-
-      return res.status(200).json({ error: lastError || 'Claude failed' });
-
-    }
+    const data = await claudeRes.json();
 
     const text = data.content?.map(p => p.text || '').join('').trim() || '';
 
@@ -248,85 +214,18 @@ Krav:
 
     }
 
- let parsed;
+    let parsed;
 
-try {
+    try {
 
-  parsed = JSON.parse(text.slice(start, end + 1));
+      parsed = JSON.parse(text.slice(start, end + 1));
 
-} catch (e) {
+    } catch (e) {
 
-  return res.status(200).json({
+      return res.status(200).json({ error: 'JSON parse error', raw: text });
 
-    error: 'JSON parse error',
+    }
 
-    raw: text
-
-  });
-
-}
-// parsed.no_body_html = makePersonal(parsed.no_body_html);
-
-  let v = String(value || '');
-
-  // Riktig setningsstruktur først
-
-  v = v
-
-    .replace(/Dette (.*?) fra Svein Hareide viser/gi, 'I dette $1 har jeg ønsket å vise')
-
-    .replace(/Dette (.*?) av Svein Hareide viser/gi, 'I dette $1 har jeg ønsket å vise')
-
-    .replace(/Motivet fra Svein Hareide viser/gi, 'I dette motivet har jeg ønsket å vise');
-
-  // Generelle tilfeller
-
-  v = v
-
-    .replace(/fra Svein Hareide/gi, 'av meg')
-
-    .replace(/av Svein Hareide/gi, 'av meg')
-
-    .replace(/Svein Hareides/gi, 'min')
-
-    .replace(/Hareides/gi, 'min');
-
-  return v;
-
-}
-if (!isEN && parsed && typeof parsed === 'object') {
-
-  if (typeof parsed.no_body_html === 'string') {
-
-    parsed.no_body_html = makePersonal(parsed.no_body_html);
-
-  }
-
-  if (typeof parsed.no_seo_description === 'string') {
-
-    parsed.no_seo_description = makePersonal(parsed.no_seo_description);
-
-  }
-
-  if (typeof parsed.no_alt_text === 'string') {
-
-    parsed.no_alt_text = makePersonal(parsed.no_alt_text);
-
-  }
-
-  if (typeof parsed.no_seo_title === 'string') {
-
-    parsed.no_seo_title = makePersonal(parsed.no_seo_title);
-
-  }
-
-  if (typeof parsed.no_tags === 'string') {
-
-    parsed.no_tags = makePersonal(parsed.no_tags);
-
-  }
-
-}
     if (!isEN && fixVendor) {
 
       parsed.vendor = 'HareideART';
