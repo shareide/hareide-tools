@@ -1289,8 +1289,8 @@ async function startEnglishVersion() {
 
 }
 
-function triggerDownload(rows, filename) {
 // ── EXPORT CSV ─────────────────────────────────────────────
+
 function triggerDownload(rows, filename) {
   const content = rows.map(r =>
     r.map(c => `"${String(c || '').replace(/"/g,'""')}"`).join(',')
