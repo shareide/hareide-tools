@@ -776,21 +776,15 @@ let apiKey = '';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  apiKey = localStorage.getItem('claude_api_key') || '';
+  apiKey = 'server';
 
-  if (apiKey) {
+  localStorage.setItem('claude_api_key', 'server');
 
-    const input = document.getElementById('apiKeyInput');
+  document.getElementById('apiBadge').textContent = 'API: Serverkoblet ✓';
 
-    if (input) input.value = apiKey;
+  document.getElementById('apiBadge').className = 'api-badge ok';
 
-    document.getElementById('apiBadge').textContent = 'API: Tilkoblet ✓';
-
-    document.getElementById('apiBadge').className = 'api-badge ok';
-
-    goToPanel(2);
-
-  }
+  goToPanel(2);
 
 });
 let rawProducts = [];      // parsed from CSV
