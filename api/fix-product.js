@@ -128,7 +128,17 @@ Regler:
 
 - Ikke bruk "kunstneren", "han" eller "Hareide".
 
-- Ikke skriv "fra meg viser", "mitt motiv viser" eller "bildet viser".
+- Ikke skriv "fra meg viser", "fra jeg viser", "mitt motiv viser" eller "bildet viser".
+
+- Ikke start setninger med "Dette motivet viser" eller "Dette bildet viser".
+
+- Skriv aldri direkte omskriving av originalsetninger.
+
+- Skriv nye, naturlige norske setninger fra bunnen.
+
+- Start heller med formuleringer som "Jeg har malt...", "Her har jeg arbeidet med...", "I dette motivet utforsker jeg..." eller "Jeg lar fargene...".
+
+- Hvis en setning høres kunstig ut, skriv den helt på nytt.
 
 - Bruk heller formuleringer som "Jeg har malt...", "Her har jeg arbeidet med..." eller "I dette motivet har jeg ønsket å...".
 
