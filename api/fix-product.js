@@ -126,6 +126,24 @@ Instruksjoner:
 - Unngå gjentakelser
 Forbedre eksisterende tekst, men gjør den tydelig mer personlig, varm og levende. Behold hovedideen, men skriv om formuleringer som virker generiske, flate eller skrevet i tredjeperson.
 
+Tittel-regel:
+
+- Behold den kunstneriske originaltittelen først.
+
+- Utvid tittelen med relevante søkeord.
+
+- Tittelen skal være naturlig, ikke spammete.
+
+- Bruk ord som kunstprint, veggkunst, moderne kunst, abstrakt kunst eller figurativ kunst bare når det passer.
+
+- Ikke bruk "Svein Hareide" i tittelen.
+
+- Eksempel:
+
+  "Samtalen" kan bli "Samtalen – figurativt kunstprint med menneskelig nærvær"
+
+  "Gul stol" kan bli "Gul stol – moderne kunstprint i varme toner"
+
 Returner KUN gyldig JSON med disse feltene:
 
 ${fieldsNeeded.join(', ')}
