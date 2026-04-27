@@ -210,7 +210,25 @@ Krav:
 
     }
 
-    const data = await claudeRes.json();
+    let data;
+
+try {
+
+  data = await claudeRes.json();
+
+} catch (e) {
+
+  const raw = await claudeRes.text();
+
+  return res.status(200).json({
+
+    error: "Claude JSON parse failed",
+
+    raw: raw
+
+  });
+
+}
 
     const text = data.content?.map(p => p.text || '').join('').trim() || '';
 
