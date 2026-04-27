@@ -1285,7 +1285,25 @@ async function startEnglishVersion() {
 
 // ── EXPORT CSV ─────────────────────────────────────────────
 function buildFixedRows(language = 'no') {
+function cleanNorwegianText(value) {
 
+  return String(value || '')
+
+    .replace(/av Svein Hareide/gi, 'av meg')
+
+    .replace(/fra Svein Hareide/gi, 'fra meg')
+
+    .replace(/Svein Hareides/gi, 'min')
+
+    .replace(/Svein Hareide/gi, 'jeg')
+
+    .replace(/Hareides/gi, 'min')
+
+    .replace(/Hareide sitt/gi, 'mitt')
+
+    .replace(/jegs/gi, 'min');
+
+}
   const rows = [originalRows[0]];
 
   const fixedMap = {};
@@ -1320,7 +1338,7 @@ function buildFixedRows(language = 'no') {
 
           if (h === 'seo_description' && g.no_seo_description) newRow[i] = g.no_seo_description;
 
-          if ((h === 'body_html' || h === 'body') && g.no_body_html) newRow[i] = g.no_body_html;
+          if ((h === 'body_html' || h === 'body') && g.no_body_html) newRow[i] = cleanNorwegianText(g.no_body_html);
 
           if (h === 'image_alt_text' && g.no_alt_text) newRow[i] = g.no_alt_text;
 
@@ -1334,7 +1352,7 @@ function buildFixedRows(language = 'no') {
 
           if (h === 'seo_title' && g.en_seo_title) newRow[i] = g.en_seo_title;
 
-          if (h === 'seo_description' && g.en_seo_description) newRow[i] = g.en_seo_description;
+          if (h === 'seo_description' && g.no_seo_description) newRow[i] = cleanNorwegianText(g.no_seo_description);
 
           if ((h === 'body_html' || h === 'body') && g.en_body_html) newRow[i] = g.en_body_html;
 
