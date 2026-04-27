@@ -230,6 +230,42 @@ Krav:
 
       parsed = JSON.parse(text.slice(start, end + 1));
 
+      function cleanNorwegian(text) {
+
+  return String(text || '')
+
+    // fikser de klassiske feilene
+
+    .replace(/fra jeg viser/gi, 'jeg har malt')
+
+    .replace(/fra meg viser/gi, 'jeg har malt')
+
+    .replace(/mitt motiv viser/gi, 'jeg har malt')
+
+    .replace(/bildet viser/gi, 'jeg har malt')
+
+    // stor bokstav etter <p>
+
+    .replace(/<p>\s*([a-zæøå])/g, (m, c) => '<p>' + c.toUpperCase())
+
+    // rydder små grammatikkglipp
+
+    .replace(/\s+/g, ' ')
+
+    .trim();
+
+}
+
+if (!isEN) {
+
+  if (parsed.no_body_html) parsed.no_body_html = cleanNorwegian(parsed.no_body_html);
+
+  if (parsed.no_seo_description) parsed.no_seo_description = cleanNorwegian(parsed.no_seo_description);
+
+  if (parsed.no_alt_text) parsed.no_alt_text = cleanNorwegian(parsed.no_alt_text);
+
+}
+      
     } catch (e) {
 
       return res.status(200).json({ error: 'JSON parse error', raw: text });
