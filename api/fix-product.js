@@ -70,15 +70,21 @@ export default async function handler(req, res) {
 
     const prompt = isEN ? `
 
-Write ONLY English JSON.
+Write ONLY valid English JSON.
 
-Original title: ${title}
+Original title:
 
-Existing text: ${existingBody.slice(0, 800)}
+${title}
 
-Existing tags: ${existingTags}
+Existing text:
 
-Return ONLY valid JSON with these fields:
+${existingBody.slice(0, 800)}
+
+Existing tags:
+
+${existingTags}
+
+Return ONLY these JSON fields:
 
 ${fieldsNeeded.join(', ')}
 
@@ -100,7 +106,7 @@ Rules:
 
 ` : `
 
-Skriv KUN norsk bokmål.
+Skriv KUN gyldig JSON på norsk bokmål.
 
 Original tittel:
 
@@ -116,9 +122,11 @@ ${existingTags}
 
 Oppgave:
 
-Skriv en forbedret produkttekst i varm, personlig og naturlig stil inspirert av Fanny Blake.
+Skriv en ny og forbedret produkttekst basert på eksisterende tekst.
 
-Regler:
+Teksten skal være varm, personlig, naturlig og inspirert av Fanny Blake.
+
+Viktige regler:
 
 - Skriv som om jeg selv skriver som kunstner.
 
@@ -128,25 +136,17 @@ Regler:
 
 - Ikke bruk "kunstneren", "han" eller "Hareide".
 
-- Ikke skriv "fra meg viser", "fra jeg viser", "mitt motiv viser" eller "bildet viser".
+- Ikke skriv "fra jeg viser", "fra meg viser", "bildet viser" eller "mitt motiv viser".
 
-- Ikke start setninger med "Dette motivet viser" eller "Dette bildet viser".
-
-- Skriv aldri direkte omskriving av originalsetninger.
+- Ikke start med "Dette motivet viser" eller "Dette bildet viser".
 
 - Skriv nye, naturlige norske setninger fra bunnen.
 
-- Start heller med formuleringer som "Jeg har malt...", "Her har jeg arbeidet med...", "I dette motivet utforsker jeg..." eller "Jeg lar fargene...".
-
-- Hvis en setning høres kunstig ut, skriv den helt på nytt.
-
 - Bruk heller formuleringer som "Jeg har malt...", "Her har jeg arbeidet med..." eller "I dette motivet har jeg ønsket å...".
 
-- Behold hovedideen fra eksisterende tekst.
+- Beskriv konkrete farger, former, stemning og hvor bildet passer.
 
-- Beskriv farger, stemning, motiv og hvor bildet kan passe.
-
-- Ikke aggressivt salgsspråk.
+- Ikke bruk aggressivt salgsspråk.
 
 Tittel:
 
@@ -154,7 +154,7 @@ Tittel:
 
 - Utvid naturlig med søkeord som kunstprint, veggkunst, moderne kunst, abstrakt kunst eller figurativ kunst når det passer.
 
-Returner KUN gyldig JSON med disse feltene:
+Returner KUN disse JSON-feltene:
 
 ${fieldsNeeded.join(', ')}
 
@@ -210,27 +210,9 @@ Krav:
 
     }
 
-    let data;
+    const data = await claudeRes.json();
 
-try {
-
-  data = await claudeRes.json();
-
-} catch (e) {
-
-  const raw = await claudeRes.text();
-
-  return res.status(200).json({
-
-    error: "Claude JSON parse failed",
-
-    raw: raw
-
-  });
-
-}
-
-    const text = data.content?.map(p => p.text || '').join('').trim() || '';
+    const text = data.content?.map(part => part.text || '').join('').trim() || '';
 
     const start = text.indexOf('{');
 
@@ -238,7 +220,13 @@ try {
 
     if (start === -1 || end === -1) {
 
-      return res.status(200).json({ error: 'Claude returned no JSON', raw: text });
+      return res.status(200).json({
+
+        error: 'Claude returned no JSON',
+
+        raw: text
+
+      });
 
     }
 
@@ -248,45 +236,83 @@ try {
 
       parsed = JSON.parse(text.slice(start, end + 1));
 
-      function cleanNorwegian(text) {
-
-  return String(text || '')
-
-    // fikser de klassiske feilene
-
-    .replace(/fra jeg viser/gi, 'jeg har malt')
-
-    .replace(/fra meg viser/gi, 'jeg har malt')
-
-    .replace(/mitt motiv viser/gi, 'jeg har malt')
-
-    .replace(/bildet viser/gi, 'jeg har malt')
-
-    // stor bokstav etter <p>
-
-    .replace(/<p>\s*([a-zæøå])/g, (m, c) => '<p>' + c.toUpperCase())
-
-    // rydder små grammatikkglipp
-
-    .replace(/\s+/g, ' ')
-
-    .trim();
-
-}
-
-if (!isEN) {
-
-  if (parsed.no_body_html) parsed.no_body_html = cleanNorwegian(parsed.no_body_html);
-
-  if (parsed.no_seo_description) parsed.no_seo_description = cleanNorwegian(parsed.no_seo_description);
-
-  if (parsed.no_alt_text) parsed.no_alt_text = cleanNorwegian(parsed.no_alt_text);
-
-}
-      
     } catch (e) {
 
-      return res.status(200).json({ error: 'JSON parse error', raw: text });
+      return res.status(200).json({
+
+        error: 'JSON parse error',
+
+        raw: text
+
+      });
+
+    }
+
+    function cleanNorwegian(value) {
+
+      return String(value || '')
+
+        .replace(/Dette ([^.]+?) fra jeg viser/gi, 'Jeg har malt $1 som viser')
+
+        .replace(/Dette ([^.]+?) fra meg viser/gi, 'Jeg har malt $1 som viser')
+
+        .replace(/fra jeg viser/gi, 'har jeg ønsket å vise')
+
+        .replace(/fra meg viser/gi, 'har jeg ønsket å vise')
+
+        .replace(/mitt motiv viser/gi, 'i motivet arbeider jeg med')
+
+        .replace(/bildet viser/gi, 'her har jeg arbeidet med')
+
+        .replace(/Svein Hareides/gi, 'min')
+
+        .replace(/Svein Hareide/gi, 'meg')
+
+        .replace(/Hareides/gi, 'min')
+
+        .replace(/av jeg/gi, 'av meg')
+
+        .replace(/fra jeg/gi, 'fra meg')
+
+        .replace(/<p>\s*([a-zæøå])/g, (m, c) => '<p>' + c.toUpperCase())
+
+        .replace(/\s+/g, ' ')
+
+        .trim();
+
+    }
+
+    if (!isEN) {
+
+      if (typeof parsed.no_body_html === 'string') {
+
+        parsed.no_body_html = cleanNorwegian(parsed.no_body_html);
+
+      }
+
+      if (typeof parsed.no_seo_description === 'string') {
+
+        parsed.no_seo_description = cleanNorwegian(parsed.no_seo_description);
+
+      }
+
+      if (typeof parsed.no_alt_text === 'string') {
+
+        parsed.no_alt_text = cleanNorwegian(parsed.no_alt_text);
+
+      }
+
+      if (typeof parsed.no_seo_title === 'string') {
+
+        parsed.no_seo_title = cleanNorwegian(parsed.no_seo_title);
+
+      }
+
+      if (typeof parsed.no_tags === 'string') {
+
+        parsed.no_tags = cleanNorwegian(parsed.no_tags);
+
+      }
 
     }
 
@@ -296,13 +322,7 @@ if (!isEN) {
 
     }
 
-    return res.status(200).json({
-
-  ...parsed,
-
-  test_flag: "CLEANUP_V1"
-
-});
+    return res.status(200).json(parsed);
 
   } catch (err) {
 
