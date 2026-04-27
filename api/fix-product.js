@@ -137,6 +137,13 @@ Krav:
 - no_seo_description 130-155 tegn
 
 - no_body_html 120-180 ord, kun <p>-tagger
+- Teksten må føles personlig og ekte – hvis den virker generisk, skriv den om
+
+- Unngå setninger som kunne passet til hvilket som helst bilde
+
+- Beskriv noe konkret i motivet (farge, form, stemning)
+
+- Avslutt med en rolig setning som gir en følelse av hvor bildet hører hjemme
 
 - no_alt_text 10-18 ord
 
