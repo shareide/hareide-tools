@@ -106,7 +106,7 @@ Rules:
 
 Skriv KUN på norsk bokmål. Teksten skal alltid skrives i førsteperson, som om jeg som kunstner skriver direkte. Bruk "jeg", "meg", "min" og "mitt" naturlig. Ikke bruk navnet "Svein Hareide". Ikke bruk tredjeperson som "kunstneren", "han" eller "Hareide". Hvis originalteksten inneholder "Svein Hareide", skal navnet fjernes og teksten skrives personlig i stedet.
 
-Produkt: ${title}
+Original tittel: ${title}
 
 Eksisterende tekst: ${existingBody.slice(0, 800)}
 
