@@ -74,11 +74,11 @@ export default async function handler(req, res) {
 
     if (fixTags) fieldsNeeded.push(isEN ? '"tags"' : '"no_tags"');
 
-    const prompt = isEN ? `
+const prompt = isEN ? `
 
 Write ONLY in English. Use a personal first-person artist voice.
 
-Product: ${title}
+Original title: ${title}
 
 Existing text: ${existingBody.slice(0, 800)}
 
@@ -104,65 +104,53 @@ Rules:
 
 ` : `
 
-Skriv KUN på norsk bokmål. Teksten skal alltid skrives i førsteperson, som om jeg som kunstner skriver direkte. Bruk "jeg", "meg", "min" og "mitt" naturlig. Ikke bruk navnet "Svein Hareide". Ikke bruk tredjeperson som "kunstneren", "han" eller "Hareide". Hvis originalteksten inneholder "Svein Hareide", skal navnet fjernes og teksten skrives personlig i stedet.
+Skriv KUN på norsk bokmål.
 
-Original tittel: ${title}
+Original tittel:
 
-Eksisterende tekst: ${existingBody.slice(0, 800)}
+${title}
 
-Eksisterende tags: ${existingTags}
-Instruksjoner:
+Eksisterende tekst:
 
-- Skriv som om jeg som kunstner snakker direkte til kunden
+${existingBody.slice(0, 800)}
 
-- Beskriv motivet visuelt (farger, stemning, uttrykk)
+Eksisterende tags:
 
-- Nevn hvor bildet passer (stue, gang, soverom)
+${existingTags}
 
-- Skap en rolig, trygg følelse – ikke aggressivt salg
+Oppgave:
 
-- Unngå generiske formuleringer
+Skriv en forbedret norsk produkttekst basert på eksisterende tekst. Behold hovedideen, men skriv naturlig, personlig og flytende i en varm Fanny Blake-inspirert stil.
 
-- Unngå gjentakelser
-Skriv teksten på nytt basert på innholdet under, men behold hovedideen.
+Viktige regler:
 
-Ikke gjør direkte omskriving ord-for-ord. Skriv naturlige, flytende setninger fra starten.
+- Skriv i førsteperson som kunstner: bruk "jeg", "min", "mitt" der det passer.
 
-Unngå formuleringer som:
+- Ikke bruk navnet "Svein Hareide".
 
-- "fra meg viser"
+- Ikke bruk tredjeperson som "kunstneren", "han" eller "Hareide".
 
-- "mitt motiv viser"
+- Ikke skriv mekaniske formuleringer som "fra meg viser", "mitt motiv viser" eller "bildet viser".
 
-- "bildet viser"
+- Bruk naturlige åpninger som "Jeg har malt...", "Her har jeg arbeidet med..." eller "I dette motivet har jeg ønsket å...".
 
-Bruk i stedet naturlige formuleringer som:
+- Beskriv konkrete farger, former, stemning eller motivdetaljer.
 
-- "Jeg har malt..."
+- Nevn gjerne hvor bildet passer: stue, gang, soverom eller hjem.
 
-- "Her arbeider jeg med..."
+- Ikke skriv aggressiv salgstekst.
 
-- "I dette motivet utforsker jeg..."
-
-Teksten skal leses som en ekte norsk tekst skrevet av et menneske – ikke som en omskrevet versjon av originalen.
+- Start setninger med stor bokstav.
 
 Tittel-regel:
 
-- Behold den kunstneriske originaltittelen først.
+- Behold originaltittelen først.
 
-- Utvid tittelen med relevante søkeord.
-
-- Tittelen skal være naturlig, ikke spammete.
+- Utvid tittelen naturlig med relevante søkeord.
 
 - Bruk ord som kunstprint, veggkunst, moderne kunst, abstrakt kunst eller figurativ kunst bare når det passer.
 
-- Ikke bruk "Svein Hareide" i tittelen.
-
-- Eksempel:
-
-  "Samtalen" kan bli "Samtalen – figurativt kunstprint med menneskelig nærvær"
-
-  "Gul stol" kan bli "Gul stol – moderne kunstprint i varme toner"
+- Eksempel: "Samtalen" → "Samtalen – figurativt kunstprint med menneskelig nærvær".
 
 Returner KUN gyldig JSON med disse feltene:
 
@@ -175,23 +163,16 @@ Krav:
 - no_seo_description 130-155 tegn
 
 - no_body_html 120-180 ord, kun <p>-tagger
-- Teksten må føles personlig og ekte – hvis den virker generisk, skriv den om
-
-- Unngå setninger som kunne passet til hvilket som helst bilde
-
-- Beskriv noe konkret i motivet (farge, form, stemning)
-
-- Avslutt med en rolig setning som gir en følelse av hvor bildet hører hjemme
 
 - no_alt_text 10-18 ord
 
 - no_tags kommaseparert
 
-- Ingen markdown, ingen forklaring
+- Ingen markdown
 
-`;
+- Ingen forklaring
 
-    let data = null;
+`;    let data = null;
 
     let lastError = null;
 
