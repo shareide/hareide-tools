@@ -1184,9 +1184,18 @@ function renderResultsTable() {
       <td style="max-width:180px">
         ${g.no_tags || g.en_tags
           ? `${langFlag('🇳🇴', g.no_tags, false)}${langFlag('🇬🇧', g.en_tags, false)}`
-          : `<div class="field-unchanged" style="font-size:0.7rem">${esc(tagsOld) || '—'}</div>`}
+          : `<div class="field-unchanged" style="font-size:0.7rem">${esc(tagsOld) || '—'}</div>`      </td>
+
+      <td>
+
+        ${g.no_body_html
+
+          ? `<span class="badge badge-fixed">✓ Oppdatert</span><br><div style="font-size:0.72rem;max-width:260px">${esc(g.no_body_html.replace(/<[^>]+>/g,' ').slice(0,180))}...</div>`
+
+          : `<span class="badge" style="background:#f0ede8;color:var(--muted);border:1px solid var(--border)">Uendret</span>`}
+
       </td>
- g.no_body_html
+
     </tr>`;
   }).join('');
 
