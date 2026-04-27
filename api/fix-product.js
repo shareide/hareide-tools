@@ -250,20 +250,33 @@ Krav:
     const parsed = JSON.parse(text.slice(start, end + 1));
 function makePersonal(value) {
 
-  return String(value || '')
+  let v = String(value || '');
 
-    .replace(/Svein Hareides/gi, 'mitt')
+  // Riktig setningsstruktur først
 
-    .replace(/Svein Hareide/gi, 'jeg')
+  v = v
 
-    .replace(/Hareides/gi, 'mitt')
+    .replace(/Dette (.*?) fra Svein Hareide viser/gi, 'I dette $1 har jeg ønsket å vise')
 
-    .replace(/av jeg/gi, 'av meg')
+    .replace(/Dette (.*?) av Svein Hareide viser/gi, 'I dette $1 har jeg ønsket å vise')
 
-    .replace(/fra jeg/gi, 'fra meg');
+    .replace(/Motivet fra Svein Hareide viser/gi, 'I dette motivet har jeg ønsket å vise');
+
+  // Generelle tilfeller
+
+  v = v
+
+    .replace(/fra Svein Hareide/gi, 'av meg')
+
+    .replace(/av Svein Hareide/gi, 'av meg')
+
+    .replace(/Svein Hareides/gi, 'min')
+
+    .replace(/Hareides/gi, 'min');
+
+  return v;
 
 }
-
 if (!isEN) {
 
   if (parsed.no_body_html) parsed.no_body_html = makePersonal(parsed.no_body_html);
