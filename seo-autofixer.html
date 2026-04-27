@@ -1497,17 +1497,19 @@ dz.addEventListener('drop', e => {
 // Update estimate when scope changes
 document.getElementById('fixScope').addEventListener('change', updateEstimate);
 document.getElementById('maxProducts').addEventListener('change', updateEstimate);
-async function validateApiKey() {
+function validateApiKey() {
 
-  const key = document.getElementById('apiKeyInput').value.trim();
+  apiKey = 'server';
 
-  if (!key.startsWith('sk-ant-')) {
+  localStorage.setItem('claude_api_key', 'server');
 
-    alert('Nøkkelen ser ikke riktig ut');
+  document.getElementById('apiBadge').textContent = 'API: Serverkoblet ✓';
 
-    return;
+  document.getElementById('apiBadge').className = 'api-badge ok';
 
-  }
+  goToPanel(2);
+
+}
 
   const btn = document.querySelector('.btn-primary');
 
