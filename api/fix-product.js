@@ -190,15 +190,21 @@ Krav:
 
       },
 
-      body: JSON.stringify({
+     body: JSON.stringify({
 
-        model: 'claude-sonnet-4-6',
+  model: 'claude-sonnet-4-6',
 
-        max_tokens: 2500,
+  max_tokens: 2500,
 
-        messages: [{ role: 'user', content: prompt }]
+  system: isEN
 
-      })
+    ? 'You are a professional English copywriter. Return only valid JSON.'
+
+    : 'Du er en profesjonell norsk tekstforfatter. Du skriver naturlig bokmål i varm, personlig jeg-form. Du bruker aldri formuleringer som "fra jeg viser", "fra meg viser", "bildet viser" eller "motivet viser". Returner kun gyldig JSON.',
+
+  messages: [{ role: 'user', content: prompt }]
+
+})
 
     });
 
