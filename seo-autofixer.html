@@ -1290,7 +1290,93 @@ async function startEnglishVersion() {
 }
 
 // ── EXPORT CSV ─────────────────────────────────────────────
+function buildFixedRows(language = 'no') {
 
+  const rows = [originalRows[0]];
+
+  const fixedMap = {};
+
+  fixedProducts.filter(p => p._fixed).forEach(p => {
+
+    fixedMap[p.handle] = p;
+
+  });
+
+  originalRows.slice(1).forEach(row => {
+
+    const obj = {};
+
+    csvHeaders.forEach((h, i) => obj[h] = (row[i] || '').trim());
+
+    const handle = obj.handle || obj.title;
+
+    const fixed = fixedMap[handle];
+
+    const newRow = [...row];
+
+    if (fixed && fixed._generated) {
+
+      const g = fixed._generated;
+
+      csvHeaders.forEach((h, i) => {
+
+        if (language === 'no') {
+
+          if (h === 'seo_title' && g.no_seo_title) newRow[i] = g.no_seo_title;
+
+          if (h === 'seo_description' && g.no_seo_description) newRow[i] = g.no_seo_description;
+
+          if ((h === 'body_html' || h === 'body') && g.no_body_html) newRow[i] = g.no_body_html;
+
+          if (h === 'image_alt_text' && g.no_alt_text) newRow[i] = g.no_alt_text;
+
+          if (h === 'tags' && g.no_tags) newRow[i] = g.no_tags;
+
+          if (h === 'vendor' && g.vendor) newRow[i] = g.vendor;
+
+        }
+
+        if (language === 'en') {
+
+          if (h === 'seo_title' && g.en_seo_title) newRow[i] = g.en_seo_title;
+
+          if (h === 'seo_description' && g.en_seo_description) newRow[i] = g.en_seo_description;
+
+          if ((h === 'body_html' || h === 'body') && g.en_body_html) newRow[i] = g.en_body_html;
+
+          if (h === 'image_alt_text' && g.en_alt_text) newRow[i] = g.en_alt_text;
+
+          if (h === 'tags' && g.en_tags) newRow[i] = g.en_tags;
+
+        }
+
+      });
+
+    }
+
+    rows.push(newRow);
+
+  });
+
+  return rows;
+
+}
+
+function downloadNO() {
+
+  const rows = buildFixedRows('no');
+
+  triggerDownload(rows, `hareide-shopify-NO-${new Date().toISOString().slice(0,10)}.csv`);
+
+}
+
+function downloadEN() {
+
+  const rows = buildFixedRows('en');
+
+  triggerDownload(rows, `hareide-shopify-EN-referanse-${new Date().toISOString().slice(0,10)}.csv`);
+
+}
 function triggerDownload(rows, filename) {
   const content = rows.map(r =>
     r.map(c => `"${String(c || '').replace(/"/g,'""')}"`).join(',')
