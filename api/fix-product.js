@@ -111,7 +111,19 @@ Produkt: ${title}
 Eksisterende tekst: ${existingBody.slice(0, 800)}
 
 Eksisterende tags: ${existingTags}
+Instruksjoner:
 
+- Skriv som om jeg som kunstner snakker direkte til kunden
+
+- Beskriv motivet visuelt (farger, stemning, uttrykk)
+
+- Nevn hvor bildet passer (stue, gang, soverom)
+
+- Skap en rolig, trygg følelse – ikke aggressivt salg
+
+- Unngå generiske formuleringer
+
+- Unngå gjentakelser
 Forbedre eksisterende tekst, men gjør den tydelig mer personlig, varm og levende. Behold hovedideen, men skriv om formuleringer som virker generiske, flate eller skrevet i tredjeperson.
 
 Returner KUN gyldig JSON med disse feltene:
