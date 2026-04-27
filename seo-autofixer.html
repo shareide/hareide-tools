@@ -1390,16 +1390,53 @@ function downloadEN() {
 
 }
 function triggerDownload(rows, filename) {
+
+  const isNO = filename.includes('NO');
+
+  function cleanCell(value) {
+
+    if (!isNO) return value;
+
+    return String(value || '')
+
+      .replace(/fra Svein Hareide/gi, 'fra meg')
+
+      .replace(/av Svein Hareide/gi, 'av meg')
+
+      .replace(/Svein Hareides/gi, 'min')
+
+      .replace(/Svein Hareide/gi, 'jeg')
+
+      .replace(/Hareides maleri/gi, 'mitt maleri')
+
+      .replace(/Hareides/gi, 'min')
+
+      .replace(/fra jeg/gi, 'fra meg')
+
+      .replace(/av jeg/gi, 'av meg');
+
+  }
+
   const content = rows.map(r =>
-    r.map(c => `"${String(c || '').replace(/"/g,'""')}"`).join(',')
+
+    r.map(c => `"${cleanCell(c).replace(/"/g,'""')}"`).join(',')
+
   ).join('\n');
+
   const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
+
   const url = URL.createObjectURL(blob);
+
   const a = document.createElement('a');
+
   a.href = url;
+
   a.download = filename;
+
   a.click();
+
   URL.revokeObjectURL(url);
+
 }
 
 function esc(str) {
