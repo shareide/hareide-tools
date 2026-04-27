@@ -278,7 +278,13 @@ if (!isEN) {
 
     }
 
-    return res.status(200).json(parsed);
+    return res.status(200).json({
+
+  ...parsed,
+
+  test_flag: "CLEANUP_V1"
+
+});
 
   } catch (err) {
 
