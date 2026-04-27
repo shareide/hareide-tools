@@ -200,7 +200,7 @@ Krav:
 
     ? 'You are a professional English copywriter. Return only valid JSON.'
 
-    : 'Du er en profesjonell norsk tekstforfatter. Skriv naturlig bokmål i varm, personlig stil, men ikke press inn jeg-form i alle setninger. Bruk jeg/min/mitt bare der det gir god norsk. Ikke bruk navnet Svein Hareide. Skriv aldri formuleringer som "fra jeg viser", "fra meg viser", "bildet viser" eller "motivet viser". Returner kun gyldig JSON.'
+    : 'Du er en profesjonell norsk tekstforfatter. Skriv naturlig bokmål i varm, personlig stil, men ikke press inn jeg-form i alle setninger. Bruk jeg/min/mitt bare der det gir god norsk. Ikke bruk navnet Svein Hareide. Skriv aldri formuleringer som "fra jeg viser", "fra meg viser", "bildet viser" eller "motivet viser". Returner kun gyldig JSON.',
 
   messages: [{ role: 'user', content: prompt }]
 
