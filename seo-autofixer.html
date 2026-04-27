@@ -1495,6 +1495,81 @@ dz.addEventListener('drop', e => {
 // Update estimate when scope changes
 document.getElementById('fixScope').addEventListener('change', updateEstimate);
 document.getElementById('maxProducts').addEventListener('change', updateEstimate);
+async function validateApiKey() {
+
+  const key = document.getElementById('apiKeyInput').value.trim();
+
+  if (!key.startsWith('sk-ant-')) {
+
+    alert('Nøkkelen ser ikke riktig ut');
+
+    return;
+
+  }
+
+  const btn = document.querySelector('.btn-primary');
+
+  btn.disabled = true;
+
+  btn.textContent = 'Tester...';
+
+  try {
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+
+      method: 'POST',
+
+      headers: {
+
+        'Content-Type': 'application/json',
+
+        'x-api-key': key,
+
+        'anthropic-version': '2023-06-01',
+
+        'anthropic-dangerous-direct-browser-access': 'true'
+
+      },
+
+      body: JSON.stringify({
+
+        model: 'claude-sonnet-4-6',
+
+        max_tokens: 10,
+
+        messages: [{ role: 'user', content: 'Hi' }]
+
+      })
+
+    });
+
+    if (res.ok) {
+
+      localStorage.setItem('claude_api_key', key);
+
+      document.getElementById('apiBadge').textContent = 'API: Tilkoblet ✓';
+
+      document.getElementById('apiBadge').className = 'api-badge ok';
+
+      goToPanel(2);
+
+    } else {
+
+      alert('API-feil');
+
+    }
+
+  } catch (err) {
+
+    alert('Nettverksfeil: ' + err.message);
+
+  }
+
+  btn.disabled = false;
+
+  btn.textContent = 'Bekreft nøkkel →';
+
+}
 </script>
 
 </body>
