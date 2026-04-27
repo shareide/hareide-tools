@@ -230,7 +230,35 @@ Krav:
     }
 
     const parsed = JSON.parse(text.slice(start, end + 1));
+function makePersonal(value) {
 
+  return String(value || '')
+
+    .replace(/Svein Hareides/gi, 'mitt')
+
+    .replace(/Svein Hareide/gi, 'jeg')
+
+    .replace(/Hareides/gi, 'mitt')
+
+    .replace(/av jeg/gi, 'av meg')
+
+    .replace(/fra jeg/gi, 'fra meg');
+
+}
+
+if (!isEN) {
+
+  if (parsed.no_body_html) parsed.no_body_html = makePersonal(parsed.no_body_html);
+
+  if (parsed.no_seo_description) parsed.no_seo_description = makePersonal(parsed.no_seo_description);
+
+  if (parsed.no_alt_text) parsed.no_alt_text = makePersonal(parsed.no_alt_text);
+
+  if (parsed.no_seo_title) parsed.no_seo_title = makePersonal(parsed.no_seo_title);
+
+  if (parsed.no_tags) parsed.no_tags = makePersonal(parsed.no_tags);
+
+}
     if (!isEN && fixVendor) {
 
       parsed.vendor = 'HareideART';
