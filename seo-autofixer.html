@@ -963,6 +963,25 @@ function renderAuditSummary() {
 function updateEstimate() {
   const scope = document.getElementById('fixScope').value;
   const max = parseInt(document.getElementById('maxProducts').value);
+  const apiKeyInput = document.getElementById('apiKeyInput');
+
+const confirmBtn = document.querySelector('.btn-primary');
+
+confirmBtn.disabled = true;
+
+['input','change','keyup','paste'].forEach(evt => {
+
+  apiKeyInput.addEventListener(evt, () => {
+
+    setTimeout(() => {
+
+      confirmBtn.disabled = apiKeyInput.value.trim().length < 10;
+
+    }, 100);
+
+  });
+
+});
   let count = auditedProducts.filter(p => {
     if (scope === 'red') return p._status === 'red';
     if (scope === 'redyellow') return p._status === 'red' || p._status === 'yellow';
