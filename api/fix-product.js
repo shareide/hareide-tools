@@ -124,7 +124,27 @@ Instruksjoner:
 - Unngå generiske formuleringer
 
 - Unngå gjentakelser
-Forbedre eksisterende tekst, men gjør den tydelig mer personlig, varm og levende. Behold hovedideen, men skriv om formuleringer som virker generiske, flate eller skrevet i tredjeperson.
+Skriv teksten på nytt basert på innholdet under, men behold hovedideen.
+
+Ikke gjør direkte omskriving ord-for-ord. Skriv naturlige, flytende setninger fra starten.
+
+Unngå formuleringer som:
+
+- "fra meg viser"
+
+- "mitt motiv viser"
+
+- "bildet viser"
+
+Bruk i stedet naturlige formuleringer som:
+
+- "Jeg har malt..."
+
+- "Her arbeider jeg med..."
+
+- "I dette motivet utforsker jeg..."
+
+Teksten skal leses som en ekte norsk tekst skrevet av et menneske – ikke som en omskrevet versjon av originalen.
 
 Tittel-regel:
 
@@ -248,7 +268,7 @@ Krav:
     }
 
     const parsed = JSON.parse(text.slice(start, end + 1));
-function makePersonal(value) {
+// parsed.no_body_html = makePersonal(parsed.no_body_html);
 
   let v = String(value || '');
 
