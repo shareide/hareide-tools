@@ -1186,13 +1186,7 @@ function renderResultsTable() {
           ? `${langFlag('🇳🇴', g.no_tags, false)}${langFlag('🇬🇧', g.en_tags, false)}`
           : `<div class="field-unchanged" style="font-size:0.7rem">${esc(tagsOld) || '—'}</div>`}
       </td>
-      <td>
-        ${g.no_body_html && g.en_body_html
-          ? `<span class="badge badge-fixed">✓ 🇳🇴 + 🇬🇧</span>`
-          : g.no_body_html || g.en_body_html
-          ? `<span class="badge badge-yellow">✓ Delvis</span>`
-          : `<span class="badge" style="background:#f0ede8;color:var(--muted);border:1px solid var(--border)">Uendret</span>`}
-      </td>
+ g.no_body_html
     </tr>`;
   }).join('');
 
