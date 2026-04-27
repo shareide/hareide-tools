@@ -248,7 +248,23 @@ Krav:
 
     }
 
-    const parsed = JSON.parse(text.slice(start, end + 1));
+ let parsed;
+
+try {
+
+  parsed = JSON.parse(text.slice(start, end + 1));
+
+} catch (e) {
+
+  return res.status(200).json({
+
+    error: 'JSON parse error',
+
+    raw: text
+
+  });
+
+}
 // parsed.no_body_html = makePersonal(parsed.no_body_html);
 
   let v = String(value || '');
