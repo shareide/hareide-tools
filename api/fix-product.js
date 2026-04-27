@@ -104,7 +104,7 @@ Rules:
 
 ` : `
 
-Skriv KUN på norsk bokmål. Bruk personlig kunstnerstemme med "jeg", "min" og "mitt" der det passer. Ikke skriv "Svein Hareide".
+Skriv KUN på norsk bokmål. Teksten skal alltid skrives i førsteperson, som om jeg som kunstner skriver direkte. Bruk "jeg", "meg", "min" og "mitt" naturlig. Ikke bruk navnet "Svein Hareide". Ikke bruk tredjeperson som "kunstneren", "han" eller "Hareide". Hvis originalteksten inneholder "Svein Hareide", skal navnet fjernes og teksten skrives personlig i stedet.
 
 Produkt: ${title}
 
@@ -112,7 +112,7 @@ Eksisterende tekst: ${existingBody.slice(0, 800)}
 
 Eksisterende tags: ${existingTags}
 
-Forbedre eksisterende tekst. Hvis teksten er god, behold mye av den. Hvis den er svak, skriv mer nytt.
+Forbedre eksisterende tekst, men gjør den tydelig mer personlig, varm og levende. Behold hovedideen, men skriv om formuleringer som virker generiske, flate eller skrevet i tredjeperson.
 
 Returner KUN gyldig JSON med disse feltene:
 
