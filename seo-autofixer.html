@@ -823,32 +823,19 @@ function goToPanel(n) {
 }
 
 // ── API KEY ────────────────────────────────────────────────
-async function validateApiKey() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  if (!key.startsWith('sk-ant-')) {
-    alert('Nøkkelen ser ikke riktig ut — skal starte med sk-ant-');
-    return;
-  }
+function validateApiKey() {
 
-  const btn = event.target;
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spin"></span>Tester...';
+  apiKey = 'server';
 
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 10,
-        messages: [{ role: 'user', content: 'Hi' }]
-      })
-    });
+  localStorage.setItem('claude_api_key', 'server');
+
+  document.getElementById('apiBadge').textContent = 'API: Serverkoblet ✓';
+
+  document.getElementById('apiBadge').className = 'api-badge ok';
+
+  goToPanel(2);
+
+}
  
   if (res.ok) {
 
