@@ -1392,30 +1392,45 @@ function downloadEN() {
 function triggerDownload(rows, filename) {
 
   const isNO = filename.includes('NO');
+function cleanCell(value) {
 
-  function cleanCell(value) {
+  let v = String(value || '');
 
-    if (!isNO) return value;
+  if (!isNO) return v;
 
-    return String(value || '')
+  // Riktig grammatikk
 
-      .replace(/fra Svein Hareide/gi, 'fra meg')
+  v = v
 
-      .replace(/av Svein Hareide/gi, 'av meg')
+    .replace(/fra meg viser/gi, 'av meg viser')
 
-      .replace(/Svein Hareides/gi, 'min')
+    .replace(/fra meg/gi, 'av meg')
 
-      .replace(/Svein Hareide/gi, 'jeg')
+    .replace(/av jeg/gi, 'av meg')
 
-      .replace(/Hareides maleri/gi, 'mitt maleri')
+    .replace(/fra jeg/gi, 'fra meg');
 
-      .replace(/Hareides/gi, 'min')
+  // Førsteperson
 
-      .replace(/fra jeg/gi, 'fra meg')
+  v = v
 
-      .replace(/av jeg/gi, 'av meg');
+    .replace(/Svein Hareides/gi, 'min')
 
-  }
+    .replace(/Svein Hareide/gi, 'jeg')
+
+    .replace(/Hareides/gi, 'min');
+
+  // Stor bokstav etter <p>
+
+  v = v.replace(/<p>\s*([a-zæøå])/g, (match, letter) => {
+
+    return '<p>' + letter.toUpperCase();
+
+  });
+
+  return v;
+
+}
 
   const content = rows.map(r =>
 
