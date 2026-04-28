@@ -596,19 +596,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 function processFile(file) {
-
   const reader = new FileReader();
-
   reader.onload = function(e) {
-
-    const text = e.target.result;
-
-    const lines = text.split(/\r?\n/).filter(Boolean);
-
-    alert('CSV lest inn: ' + lines.length + ' linjer');
-
     goToPanel(3);
-
   };
 
   reader.readAsText(file, 'UTF-8');
