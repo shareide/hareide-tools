@@ -780,7 +780,15 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('apiBadge').className = 'api-badge ok';
 
   goToPanel(2);
+const fi = document.getElementById('fileInput');
 
+fi.addEventListener('change', e => {
+
+  if (e.target.files[0]) {
+
+    alert('CSV valgt: ' + e.target.files[0].name);
+
+  }
 });
 
 function goToPanel(n) {
