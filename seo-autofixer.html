@@ -566,6 +566,20 @@ function goToPanel(n) {
 
 }
 
+function processFile(file) {
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+
+    goToPanel(3);
+
+  };
+
+  reader.readAsText(file, 'UTF-8');
+
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('apiBadge').textContent =
@@ -582,11 +596,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (fi) {
 
-    fi.addEventListener('change', function () {
+    fi.addEventListener('change', e => {
 
-      if (this.files.length > 0) {
+      if (e.target.files[0]) {
 
-        processFile(this.files[0]);
+        processFile(e.target.files[0]);
 
       }
 
@@ -595,20 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
-function processFile(file) {
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    goToPanel(3);
-  };
 
-  reader.readAsText(file, 'UTF-8');
-
-}
-
-  reader.readAsText(file, 'UTF-8');
-
-}
- document.getElementById('startFixBtn').disabled = false;
 </script>
 <header>
   <div class="header-left">
@@ -655,19 +656,17 @@ function processFile(file) {
       <p>Eksporter produktlisten din fra Shopify Admin → Products → Export → All products → CSV for Excel/Numbers.<br>Filen heter vanligvis <code style="font-family:'IBM Plex Mono',monospace;font-size:0.8em">products_export.csv</code></p>
      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
 
-  <input
+<input
 
-    type="file"
+  type="file"
 
-    id="fileInput"
+  id="fileInput"
 
-    accept=".csv"
+  accept=".csv"
 
-    style="display:none"
+  style="display:none"
 
-    onchange="alert('CSV valgt: ' + this.files[0].name)"
-
-  >
+>
 
   <span class="dz-icon">📂</span>
 
@@ -848,42 +847,6 @@ function processFile(file) {
 </div>
 
 <footer>HareideART SEO Auto-Fixer · Powered by Claude · HareideART.com · 2026</footer>
-
-<script>
-
-let apiKey = 'server';
-
-document.addEventListener('DOMContentLoaded', () => {
-
-  document.getElementById('apiBadge').textContent = 'API: Serverkoblet ✓';
-
-  document.getElementById('apiBadge').className = 'api-badge ok';
-
-  goToPanel(2);
-
-  const fi = document.getElementById('fileInput');
-
-  fi.addEventListener('change', e => {
-
-    if (e.target.files[0]) {
-
-      alert('CSV valgt: ' + e.target.files[0].name);
-
-    }
-
-  });
-
-});
-
-function goToPanel(n) {
-
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('visible'));
-
-  document.getElementById('panel' + n).classList.add('visible');
-
-}
-
-</script>
 
 </body>
 </html>
