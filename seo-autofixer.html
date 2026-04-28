@@ -548,7 +548,53 @@ margin-top: 3rem;
 <body>
 <script>
 
-alert('JS TEST');
+function goToPanel(n) {
+
+  document.querySelectorAll('.panel').forEach(p => {
+
+    p.classList.remove('visible');
+
+  });
+
+  const panel = document.getElementById('panel' + n);
+
+  if (panel) {
+
+    panel.classList.add('visible');
+
+  }
+
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  document.getElementById('apiBadge').textContent =
+
+    'API: Serverkoblet ✓';
+
+  document.getElementById('apiBadge').className =
+
+    'api-badge ok';
+
+  goToPanel(2);
+
+  const fi = document.getElementById('fileInput');
+
+  if (fi) {
+
+    fi.addEventListener('change', function () {
+
+      if (this.files.length > 0) {
+
+        alert('CSV valgt: ' + this.files[0].name);
+
+      }
+
+    });
+
+  }
+
+});
 
 </script>
 <header>
