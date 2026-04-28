@@ -771,6 +771,7 @@ margin-top: 3rem;
 <footer>HareideART SEO Auto-Fixer · Powered by Claude · HareideART.com · 2026</footer>
 
 <script>
+
 let apiKey = 'server';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -780,15 +781,19 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('apiBadge').className = 'api-badge ok';
 
   goToPanel(2);
-const fi = document.getElementById('fileInput');
 
-fi.addEventListener('change', e => {
+  const fi = document.getElementById('fileInput');
 
-  if (e.target.files[0]) {
+  fi.addEventListener('change', e => {
 
-    alert('CSV valgt: ' + e.target.files[0].name);
+    if (e.target.files[0]) {
 
-  }
+      alert('CSV valgt: ' + e.target.files[0].name);
+
+    }
+
+  });
+
 });
 
 function goToPanel(n) {
@@ -798,6 +803,7 @@ function goToPanel(n) {
   document.getElementById('panel' + n).classList.add('visible');
 
 }
+
 </script>
 
 </body>
