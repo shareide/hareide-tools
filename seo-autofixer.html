@@ -590,12 +590,29 @@ margin-top: 3rem;
     <div class="panel-card">
       <h2>Last opp Shopify CSV</h2>
       <p>Eksporter produktlisten din fra Shopify Admin → Products → Export → All products → CSV for Excel/Numbers.<br>Filen heter vanligvis <code style="font-family:'IBM Plex Mono',monospace;font-size:0.8em">products_export.csv</code></p>
-      <div class="drop-zone" id="dropZone">
-<input type="file" id="fileInput" accept=".csv" onchange="alert('CSV valgt: ' + this.files[0].name)" style="position:absolute;inset:0;opacity:0.01;width:100%;height:100%;cursor:pointer;">
-        <span class="dz-icon">📂</span>
-        <p>Dra CSV-filen hit, eller klikk for å velge</p>
-        <small>Shopify products_export.csv</small>
-      </div>
+     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+
+  <input
+
+    type="file"
+
+    id="fileInput"
+
+    accept=".csv"
+
+    style="display:none"
+
+    onchange="alert('CSV valgt: ' + this.files[0].name)"
+
+  >
+
+  <span class="dz-icon">📂</span>
+
+  <p>Klikk her for å velge CSV-fil</p>
+
+  <small>Shopify products_export.csv</small>
+
+</div>
     </div>
   </div>
 
