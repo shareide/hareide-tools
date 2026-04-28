@@ -601,11 +601,19 @@ function processFile(file) {
 
   reader.onload = function(e) {
 
-    alert('CSV lest inn: ' + file.name);
+    const text = e.target.result;
+
+    const lines = text.split(/\r?\n/).filter(Boolean);
+
+    alert('CSV lest inn: ' + lines.length + ' linjer');
 
     goToPanel(3);
 
   };
+
+  reader.readAsText(file, 'UTF-8');
+
+}
 
   reader.readAsText(file, 'UTF-8');
 
