@@ -595,7 +595,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+function processFile(file) {
 
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+
+    alert('CSV lest inn: ' + file.name);
+
+    goToPanel(3);
+
+  };
+
+  reader.readAsText(file, 'UTF-8');
+
+}
 </script>
 <header>
   <div class="header-left">
