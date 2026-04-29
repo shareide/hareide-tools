@@ -584,7 +584,25 @@ function startFix() {
   document.getElementById('progressSection').style.display = 'block';
 
   document.getElementById('resultsSection').style.display = 'block';
+document.getElementById('resultsBody').innerHTML = `
 
+<tr>
+
+<td>Test-produkt</td>
+
+<td><span class="badge badge-fixed">Fikset</span></td>
+
+<td>SEO test</td>
+
+<td>Meta test</td>
+
+<td>kunst</td>
+
+<td>Beskrivelse test</td>
+
+</tr>
+
+`;
   document.getElementById('progressCounter').textContent = '1 / 1';
 
   document.getElementById('currentProduct').textContent =
@@ -679,21 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="btn-row">
        <button class="btn btn-primary" id="startFixBtn" onclick="startFix()">▶ Start Auto-Fiks</button>
 
-document.getElementById('progressSection').style.display='block';
 
-document.getElementById('resultsSection').style.display='block';
-
-document.getElementById('progressCounter').textContent='1 / 10';
-
-document.getElementById('currentProduct').textContent='Tester SEO-generator...';
-
-document.getElementById('progressBar').style.width='100%';
-
-">▶ Start Auto-Fiks</button>
-      </div>
-    </div>
-  </div>
- 
   <!-- PANEL 2: UPLOAD -->
 
   <div class="panel visible" id="panel2">
