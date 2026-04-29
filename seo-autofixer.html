@@ -579,7 +579,41 @@ function processFile(file) {
   reader.readAsText(file, 'UTF-8');
 
 }
+function startFix() {
 
+  document.getElementById('progressSection').style.display = 'block';
+
+  document.getElementById('resultsSection').style.display = 'block';
+
+  document.getElementById('progressCounter').textContent = '1 / 1';
+
+  document.getElementById('currentProduct').textContent =
+
+    'SEO-test kjører...';
+
+  document.getElementById('progressBar').style.width = '100%';
+
+  document.getElementById('resultsBody').innerHTML = `
+
+    <tr>
+
+      <td>Test-produkt</td>
+
+      <td><span class="badge badge-fixed">Fikset</span></td>
+
+      <td>Ny SEO-tittel</td>
+
+      <td>Ny meta-beskrivelse</td>
+
+      <td>kunst, abstrakt</td>
+
+      <td>Oppdatert tekst</td>
+
+    </tr>
+
+  `;
+
+}
 document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('apiBadge').textContent =
@@ -643,7 +677,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Dette verktøyet kjører lokalt i nettleseren og kaller Anthropic API direkte. Del aldri HTML-filen med nøkkelen innbakt. Hvis du er usikker på om din nøkkel er eksponert — generer en ny på console.anthropic.com.
       </div>
       <div class="btn-row">
-       <button class="btn btn-primary" id="startFixBtn" onclick="
+       <button class="btn btn-primary" id="startFixBtn" onclick="startFix()">▶ Start Auto-Fiks</button>
 
 document.getElementById('progressSection').style.display='block';
 
