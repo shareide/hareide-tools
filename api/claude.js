@@ -1,53 +1,36 @@
-const https = require(‘https’);
+export const config = { runtime: 'edge' };
 
-module.exports = async function handler(req, res) {
-if (req.method !== ‘POST’) {
-return res.status(405).json({ error: ‘Method not allowed’ });
-}
+export default async function handler(req) {
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 
-const apiKey = req.headers[‘x-api-key’];
-if (!apiKey || !apiKey.startsWith(‘sk-ant-’)) {
-return res.status(401).json({ error: ‘Missing or invalid API key’ });
-}
+  const apiKey = req.headers.get('x-api-key');
+  if (!apiKey || !apiKey.startsWith('sk-ant-')) {
+    return new Response(JSON.stringify({ error: 'Missing API key' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 
-const body = JSON.stringify(req.body);
+  const body = await req.text();
 
-return new Promise((resolve) => {
-const options = {
-hostname: ‘api.anthropic.com’,
-path: ‘/v1/messages’,
-method: ‘POST’,
-headers: {
-‘Content-Type’: ‘application/json’,
-‘Content-Length’: Buffer.byteLength(body),
-‘x-api-key’: apiKey,
-‘anthropic-version’: ‘2023-06-01’
-}
-};
-
-```
-const request = https.request(options, (response) => {
-  let data = '';
-  response.on('data', chunk => { data += chunk; });
-  response.on('end', () => {
-    try {
-      const parsed = JSON.parse(data);
-      res.status(response.statusCode).json(parsed);
-    } catch(e) {
-      res.status(500).json({ error: 'Parse error: ' + e.message, raw: data.substring(0, 200) });
-    }
-    resolve();
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01'
+    },
+    body: body
   });
-});
 
-request.on('error', (err) => {
-  res.status(500).json({ error: err.message });
-  resolve();
-});
-
-request.write(body);
-request.end();
-```
-
-});
-};
+  const data = await response.text();
+  return new Response(data, {
+    status: response.status,
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
