@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
   </div>
-
+ 
   <!-- PANEL 2: UPLOAD -->
 
   <div class="panel visible" id="panel2">
@@ -847,6 +847,62 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
 <footer>HareideART SEO Auto-Fixer · Powered by Claude · HareideART.com · 2026</footer>
+<script>
 
+function startFix() {
+
+  document.getElementById('progressSection').style.display = 'block';
+
+  document.getElementById('resultsSection').style.display = 'block';
+
+  document.getElementById('progressCounter').textContent = '1 / 10';
+
+  document.getElementById('currentProduct').textContent =
+
+    'Tester SEO-generator...';
+
+  document.getElementById('progressBar').style.width = '25%';
+
+  setTimeout(() => {
+
+    document.getElementById('progressBar').style.width = '100%';
+
+    document.getElementById('progressBar').classList.add('done');
+
+    document.getElementById('currentProduct').textContent =
+
+      'Test fullført';
+
+    document.getElementById('resultsBody').innerHTML = `
+
+      <tr>
+
+        <td>
+
+          <div class="product-name">Test-produkt</div>
+
+          <div class="product-handle">test-produkt</div>
+
+        </td>
+
+        <td><span class="badge badge-fixed">Fikset</span></td>
+
+        <td>Ny SEO-tittel</td>
+
+        <td>Ny meta-beskrivelse</td>
+
+        <td>kunst, abstrakt, modern</td>
+
+        <td>Oppdatert beskrivelse</td>
+
+      </tr>
+
+    `;
+
+  }, 1000);
+
+}
+
+</script>
 </body>
 </html>
