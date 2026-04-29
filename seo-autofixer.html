@@ -731,8 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 
-  <div class="btn-row">
-   <button class="btn btn-primary" id="startFixBtn" onclick="alert('StartFix virker')">▶ Start Auto-Fiks</button>
+  <div class="btn-row"><button class="btn btn-primary" id="startFixBtn" onclick="document.getElementById('progressSection').style.display='block';document.getElementById('currentProduct').textContent='Test startet';">▶ Start Auto-Fiks</button>
     <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--muted)" id="estimateText"></span>
   </div>
 </div>
