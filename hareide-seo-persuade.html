@@ -209,8 +209,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function buildPrompt(title, body, seoT, seoD, alt) {
-    return 'You are writing product copy for HareideART, a fine art print shop.\n\n'
-      + 'STYLE: Hemingway. Short declarative sentences. Concrete and visual. No clichés.\n\n'
+    return 'Du skriver produkttekster for HareideART, en nettbutikk som selger norskproduserte kunsttrykk.\n\n'
+      + 'VIKTIG: Skriv ALT på norsk bokmål. Tittel, beskrivelse, SEO-felt og alt-tekst skal alle være på norsk.\n\n'
+      + 'STIL: Hemingway. Korte, direkte setninger. Konkret og visuelt. Ingen klisjeer.\n\n'
       + 'SALES MODE: Art Seller — 9-step Cialdini sequence:\n'
       + '1.Liking 2.Authority 3.Visual 4.Social Proof 5.Scarcity 6.Reciprocity 7.Consistency 8.Facts 9.CTA\n\n'
       + 'PRODUCT:\nTitle: ' + title + '\nDescription: ' + body + '\nSEO Title: ' + seoT + '\nSEO Desc: ' + seoD + '\nAlt: ' + alt + '\n\n'
@@ -290,7 +291,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var handles = [];
     productMap.forEach(function(idxs, h) {
-      if (parsedRows[idxs[0]][iTitle]) handles.push(h);
+      var r = parsedRows[idxs[0]];
+      if (r[iTitle] && r[iTitle].trim() !== '' && r[iBody] && r[iBody].trim() !== '') handles.push(h);
     });
     handles = handles.slice(0, 50);
 
