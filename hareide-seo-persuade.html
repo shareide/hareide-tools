@@ -6,528 +6,220 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HareideART · SEO + PersuadeKit</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #f5f0e8; color: #1a1410; min-height: 100vh; }
+header { border-bottom: 3px double #1a1410; padding: 1.5rem 2rem; }
+header h1 { font-size: 2rem; letter-spacing: 0.04em; }
+header p { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: #6b5f4e; margin-top: 0.3rem; }
+.wrap { max-width: 800px; margin: 0 auto; padding: 2rem; }
+.section { margin-bottom: 2rem; }
+.section h2 { font-size: 1rem; font-weight: bold; margin-bottom: 0.8rem; border-bottom: 1px solid #c8bda8; padding-bottom: 0.4rem; }
+label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #6b5f4e; margin-bottom: 0.3rem; }
+input[type=password], input[type=text] {
+  width: 100%; padding: 0.6rem 0.8rem; font-family: monospace; font-size: 0.9rem;
+  background: #e8e0cc; border: 1px solid #c8bda8; border-bottom: 2px solid #1a1410; outline: none;
+}
+button {
+  background: #1a1410; color: #f5f0e8; border: none; padding: 0.7rem 1.5rem;
+  font-family: Georgia, serif; font-size: 0.9rem; cursor: pointer; margin-top: 0.5rem;
+}
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+button.gold { background: #b8922a; color: #1a1410; }
+.upload-area {
+  border: 2px dashed #c8bda8; padding: 2rem; text-align: center;
+  background: #e8e0cc; cursor: pointer; position: relative;
+}
+.upload-area input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.upload-area p { color: #6b5f4e; font-style: italic; }
+.info { margin-top: 0.8rem; padding: 0.6rem 0.8rem; background: #1a1410; color: #f5f0e8; font-size: 0.8rem; display: none; }
+.info.show { display: block; }
+.status { margin-top: 0.5rem; padding: 0.5rem 0.8rem; font-size: 0.8rem; border-left: 3px solid #c8bda8; display: none; }
+.status.show { display: block; }
+.status.ok { color: #2d5a27; border-color: #2d5a27; }
+.status.err { color: #8b2222; border-color: #8b2222; }
+.progress { display: none; margin-top: 1.5rem; }
+.progress.show { display: block; }
+.prog-bar { height: 8px; background: #e8e0cc; border: 1px solid #c8bda8; margin: 0.5rem 0; }
+.prog-fill { height: 100%; background: #1a1410; width: 0%; transition: width 0.3s; }
+.log { max-height: 180px; overflow-y: auto; border: 1px solid #c8bda8; padding: 0.6rem; background: #e8e0cc; font-size: 0.75rem; font-family: monospace; margin-top: 0.5rem; }
+.log .ok { color: #2d5a27; }
+.log .err { color: #8b2222; }
+.log .working { color: #8b3a2a; font-style: italic; }
+.download { display: none; margin-top: 1.5rem; padding: 1.2rem; background: #1a1410; color: #f5f0e8; }
+.download.show { display: block; }
+.download p { font-size: 0.8rem; color: #c8bda8; margin-bottom: 0.8rem; }
+hr { border: none; border-top: 1px solid #c8bda8; margin: 1.5rem 0; }
 </style>
-<style>
-  :root {
-    --ink: #1a1410;
-    --paper: #f5f0e8;
-    --aged: #e8e0cc;
-    --rust: #8b3a2a;
-    --gold: #b8922a;
-    --muted: #6b5f4e;
-    --rule: #c8bda8;
-    --success: #2d5a27;
-    --error: #8b2222;
-  }
-
-- { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-background: var(–paper);
-color: var(–ink);
-font-family: ‘Courier Prime’, monospace;
-min-height: 100vh;
-padding: 0;
-}
-
-/* Masthead */
-.masthead {
-border-bottom: 3px double var(–ink);
-padding: 2rem 3rem 1.5rem;
-background: var(–paper);
-position: relative;
-}
-.masthead::before {
-content: ‘’;
-display: block;
-border-top: 1px solid var(–ink);
-margin-bottom: 1.2rem;
-}
-.masthead-title {
-font-family: ‘Playfair Display’, serif;
-font-size: 2.4rem;
-font-weight: 700;
-letter-spacing: 0.04em;
-line-height: 1;
-}
-.masthead-sub {
-font-size: 0.75rem;
-letter-spacing: 0.18em;
-text-transform: uppercase;
-color: var(–muted);
-margin-top: 0.4rem;
-}
-.masthead-rule {
-font-size: 0.7rem;
-color: var(–muted);
-margin-top: 0.8rem;
-letter-spacing: 0.08em;
-}
-
-/* Layout */
-.container {
-max-width: 900px;
-margin: 0 auto;
-padding: 2.5rem 3rem 4rem;
-}
-
-/* Section headers */
-.section-head {
-display: flex;
-align-items: center;
-gap: 1rem;
-margin-bottom: 1.2rem;
-}
-.section-num {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.8rem;
-font-style: italic;
-color: var(–rust);
-line-height: 1;
-min-width: 2rem;
-}
-.section-title {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.1rem;
-font-weight: 700;
-letter-spacing: 0.05em;
-}
-
-/* Divider */
-.divider {
-border: none;
-border-top: 1px solid var(–rule);
-margin: 2.5rem 0;
-}
-
-/* API key field */
-.field-label {
-font-size: 0.7rem;
-letter-spacing: 0.15em;
-text-transform: uppercase;
-color: var(–muted);
-display: block;
-margin-bottom: 0.4rem;
-}
-.field-input {
-width: 100%;
-background: var(–aged);
-border: 1px solid var(–rule);
-border-bottom: 2px solid var(–ink);
-padding: 0.6rem 0.8rem;
-font-family: ‘Courier Prime’, monospace;
-font-size: 0.85rem;
-color: var(–ink);
-outline: none;
-transition: border-color 0.2s;
-}
-.field-input:focus { border-color: var(–rust); }
-
-/* Upload zone */
-.upload-zone {
-border: 2px dashed var(–rule);
-padding: 2.5rem;
-text-align: center;
-cursor: pointer;
-transition: all 0.2s;
-background: var(–aged);
-position: relative;
-}
-.upload-zone:hover, .upload-zone.dragover {
-border-color: var(–rust);
-background: #ede5d0;
-}
-.upload-zone input[type=file] {
-position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-}
-.upload-icon {
-font-size: 2rem;
-margin-bottom: 0.6rem;
-display: block;
-}
-.upload-text {
-font-family: ‘Playfair Display’, serif;
-font-size: 1rem;
-font-style: italic;
-color: var(–muted);
-}
-.upload-hint {
-font-size: 0.72rem;
-color: var(–muted);
-letter-spacing: 0.08em;
-margin-top: 0.4rem;
-}
-
-/* File info */
-.file-info {
-margin-top: 1rem;
-padding: 0.8rem 1rem;
-background: var(–ink);
-color: var(–paper);
-font-size: 0.8rem;
-display: none;
-}
-.file-info.visible { display: block; }
-.file-info strong { color: var(–gold); }
-
-/* Product table preview */
-.preview-wrap {
-overflow-x: auto;
-margin-top: 1.2rem;
-border: 1px solid var(–rule);
-display: none;
-}
-.preview-wrap.visible { display: block; }
-.preview-table {
-width: 100%;
-border-collapse: collapse;
-font-size: 0.75rem;
-}
-.preview-table th {
-background: var(–ink);
-color: var(–gold);
-padding: 0.5rem 0.8rem;
-text-align: left;
-letter-spacing: 0.08em;
-font-weight: 700;
-white-space: nowrap;
-}
-.preview-table td {
-padding: 0.45rem 0.8rem;
-border-bottom: 1px solid var(–rule);
-max-width: 220px;
-overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
-color: var(–muted);
-}
-.preview-table tr:nth-child(even) td { background: var(–aged); }
-
-/* Run button */
-.run-btn {
-background: var(–ink);
-color: var(–paper);
-border: none;
-padding: 1rem 2.5rem;
-font-family: ‘Playfair Display’, serif;
-font-size: 1rem;
-font-weight: 700;
-letter-spacing: 0.1em;
-cursor: pointer;
-transition: background 0.2s;
-display: flex;
-align-items: center;
-gap: 0.8rem;
-margin-top: 1.5rem;
-}
-.run-btn:hover:not(:disabled) { background: var(–rust); }
-.run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-/* Progress */
-.progress-section {
-display: none;
-margin-top: 2rem;
-}
-.progress-section.visible { display: block; }
-.progress-header {
-display: flex;
-justify-content: space-between;
-align-items: baseline;
-margin-bottom: 0.6rem;
-}
-.progress-label {
-font-size: 0.72rem;
-letter-spacing: 0.12em;
-text-transform: uppercase;
-color: var(–muted);
-}
-.progress-count {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.1rem;
-font-style: italic;
-color: var(–rust);
-}
-.progress-bar-wrap {
-height: 6px;
-background: var(–aged);
-border: 1px solid var(–rule);
-overflow: hidden;
-}
-.progress-bar-fill {
-height: 100%;
-background: var(–ink);
-width: 0%;
-transition: width 0.4s ease;
-}
-.progress-log {
-margin-top: 1rem;
-max-height: 200px;
-overflow-y: auto;
-border: 1px solid var(–rule);
-padding: 0.8rem;
-background: var(–aged);
-font-size: 0.75rem;
-line-height: 1.8;
-}
-.log-ok { color: var(–success); }
-.log-err { color: var(–error); }
-.log-working { color: var(–rust); font-style: italic; }
-
-/* Download */
-.download-section {
-display: none;
-margin-top: 2rem;
-padding: 1.5rem;
-background: var(–ink);
-color: var(–paper);
-}
-.download-section.visible { display: block; }
-.download-title {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.1rem;
-font-style: italic;
-margin-bottom: 1rem;
-color: var(–gold);
-}
-.download-stats {
-font-size: 0.78rem;
-color: #c8bda8;
-margin-bottom: 1.2rem;
-line-height: 1.8;
-}
-.download-btn {
-background: var(–gold);
-color: var(–ink);
-border: none;
-padding: 0.8rem 2rem;
-font-family: ‘Playfair Display’, serif;
-font-size: 0.95rem;
-font-weight: 700;
-letter-spacing: 0.08em;
-cursor: pointer;
-transition: opacity 0.2s;
-}
-.download-btn:hover { opacity: 0.85; }
-
-/* Note box */
-.note {
-font-size: 0.75rem;
-color: var(–muted);
-border-left: 3px solid var(–rule);
-padding: 0.6rem 1rem;
-margin-top: 1rem;
-line-height: 1.7;
-}
-.note strong { color: var(–ink); }
-
-/* Spinner */
-@keyframes spin { to { transform: rotate(360deg); } }
-.spinner {
-display: inline-block;
-width: 16px; height: 16px;
-border: 2px solid rgba(245,240,232,0.3);
-border-top-color: var(–paper);
-border-radius: 50%;
-animation: spin 0.8s linear infinite;
-}
-</style>
-
 </head>
 <body>
+<header>
+  <h1>HareideART</h1>
+  <p>SEO · PersuadeKit · Batch Processor &nbsp;·&nbsp; Hemingway + Art Seller Mode</p>
+</header>
 
-<div class="masthead">
-  <div class="masthead-title">HareideART</div>
-  <div class="masthead-sub">SEO · PersuadeKit · Batch Processor</div>
-  <div class="masthead-rule">Hemingway style &nbsp;·&nbsp; Art Seller Mode &nbsp;·&nbsp; Shopify CSV in / CSV out</div>
+<div class="wrap">
+
+  <div class="section">
+    <h2>I. Anthropic API Key</h2>
+    <label for="apiKey">Paste your key — used only in this session, never stored</label>
+    <input type="password" id="apiKey" placeholder="sk-ant-...">
+    <button id="testBtn" disabled>Test connection</button>
+    <div class="status" id="apiStatus"></div>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>II. Upload Shopify CSV Export</h2>
+    <div class="upload-area" id="uploadArea">
+      <input type="file" id="csvFile" accept=".csv">
+      <p>Tap to select your Shopify products CSV</p>
+      <p style="font-size:0.75rem; margin-top:0.3rem;">Max 50 products per batch</p>
+    </div>
+    <div class="info" id="fileInfo"></div>
+  </div>
+
+  <hr>
+
+  <div class="section">
+    <h2>III. Process</h2>
+    <p style="font-size:0.8rem; color:#6b5f4e; margin-bottom:0.8rem;">
+      Rewrites: Title · Body · SEO Title · SEO Description · Image Alt Text<br>
+      Style: Hemingway &nbsp;·&nbsp; Mode: Art Seller 9-step Cialdini
+    </p>
+    <div class="status err" id="runError" style="display:none;"></div>
+    <button id="runBtn" disabled>Run PersuadeKit</button>
+
+```
+<div class="progress" id="progressDiv">
+  <div style="display:flex; justify-content:space-between; font-size:0.8rem;">
+    <span>Processing…</span>
+    <span id="progCount">0 / 0</span>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+  <div class="log" id="logDiv"></div>
 </div>
 
-<div class="container">
+<div class="download" id="downloadDiv">
+  <p id="dlStats"></p>
+  <button class="gold" id="dlBtn">Download CSV for Shopify</button>
+</div>
+```
 
-  <!-- Step 1: API Key -->
-
-  <div class="section-head">
-    <span class="section-num">I.</span>
-    <span class="section-title">Anthropic API Key</span>
-  </div>
-  <label class="field-label" for="apiKey">Your key is used only in this browser session and never stored</label>
-  <input class="field-input" type="password" id="apiKey" placeholder="sk-ant-..." autocomplete="off">
-  <button class="run-btn" id="testBtn" style="margin-top:0.8rem; padding:0.6rem 1.5rem; font-size:0.8rem;" disabled>Test API connection</button>
-  <div id="apiStatus" style="margin-top:0.6rem; font-size:0.78rem; display:none; padding:0.5rem 0.8rem; border-left:3px solid var(--rule);"></div>
-
-  <hr class="divider">
-
-  <!-- Step 2: Upload -->
-
-  <div class="section-head">
-    <span class="section-num">II.</span>
-    <span class="section-title">Upload Shopify CSV Export</span>
-  </div>
-
-  <div class="upload-zone" id="uploadZone">
-    <input type="file" id="csvFile" accept=".csv">
-    <span class="upload-icon">⬆</span>
-    <div class="upload-text">Drop your Shopify products CSV here</div>
-    <div class="upload-hint">or click to browse &nbsp;·&nbsp; max 50 products per batch</div>
-  </div>
-
-  <div class="file-info" id="fileInfo"></div>
-  <div class="preview-wrap" id="previewWrap">
-    <table class="preview-table" id="previewTable"></table>
-  </div>
-
-  <div class="note">
-    <strong>What gets rewritten:</strong> Title · Body (HTML) · SEO Title · SEO Description · Image Alt Text<br>
-    <strong>What stays untouched:</strong> All variant data, pricing, SKUs, metafields, and every other column.
-  </div>
-
-  <hr class="divider">
-
-  <!-- Step 3: Run -->
-
-  <div class="section-head">
-    <span class="section-num">III.</span>
-    <span class="section-title">Process &amp; Generate</span>
-  </div>
-
-  <div class="note" style="margin-top:0; margin-bottom:1rem;">
-    Style: <strong>Hemingway</strong> &nbsp;·&nbsp; Mode: <strong>Art Seller (9-step Cialdini)</strong><br>
-    Each unique product (by Handle) is processed once. Variant rows inherit the same text.
-  </div>
-
-  <div id="runError" style="display:none; margin-bottom:0.8rem; padding:0.7rem 1rem; background:#3a1a1a; color:#f0c0a0; font-size:0.78rem; line-height:1.7; border-left:3px solid var(--rust);"></div>
-  <button class="run-btn" id="runBtn" disabled>
-    <span id="runBtnText">Run PersuadeKit</span>
-  </button>
-
-  <!-- Progress -->
-
-  <div class="progress-section" id="progressSection">
-    <div class="progress-header">
-      <span class="progress-label">Processing products</span>
-      <span class="progress-count" id="progressCount">0 / 0</span>
-    </div>
-    <div class="progress-bar-wrap">
-      <div class="progress-bar-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-log" id="progressLog"></div>
-  </div>
-
-  <!-- Download -->
-
-  <div class="download-section" id="downloadSection">
-    <div class="download-title">Your CSV is ready.</div>
-    <div class="download-stats" id="downloadStats"></div>
-    <button class="download-btn" id="downloadBtn">⬇ &nbsp;Download CSV for Shopify</button>
   </div>
 
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-// ── CSV parser (handles quoted fields with commas/newlines) ──────────────────
-function parseCSV(text) {
-  const rows = [];
-  let i = 0;
-  while (i < text.length) {
-    const row = [];
+
+  var parsedHeaders = [];
+  var parsedRows = [];
+  var outputRows = [];
+
+  var apiKeyEl = document.getElementById('apiKey');
+  var testBtn  = document.getElementById('testBtn');
+  var apiStatus = document.getElementById('apiStatus');
+  var csvFile  = document.getElementById('csvFile');
+  var fileInfo = document.getElementById('fileInfo');
+  var runBtn   = document.getElementById('runBtn');
+  var runError = document.getElementById('runError');
+  var progressDiv = document.getElementById('progressDiv');
+  var progCount = document.getElementById('progCount');
+  var progFill  = document.getElementById('progFill');
+  var logDiv    = document.getElementById('logDiv');
+  var downloadDiv = document.getElementById('downloadDiv');
+  var dlStats  = document.getElementById('dlStats');
+  var dlBtn    = document.getElementById('dlBtn');
+
+  function checkReady() {
+    var key = apiKeyEl.value.trim();
+    testBtn.disabled = !key.startsWith('sk-ant-');
+    runBtn.disabled = !(key.startsWith('sk-ant-') && parsedRows.length > 0);
+  }
+
+  apiKeyEl.addEventListener('input', checkReady);
+
+  csvFile.addEventListener('change', function() {
+    if (csvFile.files[0]) loadFile(csvFile.files[0]);
+  });
+
+  function parseCSV(text) {
+    var rows = [], i = 0;
     while (i < text.length) {
-      if (text[i] === '"') {
-        i++;
-        let field = '';
-        while (i < text.length) {
-          if (text[i] === '"' && text[i+1] === '"') { field += '"'; i += 2; }
-          else if (text[i] === '"') { i++; break; }
-          else { field += text[i++]; }
+      var row = [], done = false;
+      while (!done) {
+        var field = '';
+        if (text[i] === '"') {
+          i++;
+          while (i < text.length) {
+            if (text[i] === '"' && text[i+1] === '"') { field += '"'; i += 2; }
+            else if (text[i] === '"') { i++; break; }
+            else field += text[i++];
+          }
+        } else {
+          while (i < text.length && text[i] !== ',' && text[i] !== '\n' && text[i] !== '\r') field += text[i++];
         }
         row.push(field);
-        if (text[i] === ',') i++;
-        else if (text[i] === '\n' || text[i] === '\r') { if (text[i] === '\r' && text[i+1] === '\n') i++; i++; break; }
-        else if (i >= text.length) break;
-      } else {
-        let field = '';
-        while (i < text.length && text[i] !== ',' && text[i] !== '\n' && text[i] !== '\r') {
-          field += text[i++];
-        }
-        row.push(field);
-        if (text[i] === ',') i++;
-        else if (text[i] === '\n' || text[i] === '\r') { if (text[i] === '\r' && text[i+1] === '\n') i++; i++; break; }
-        else if (i >= text.length) break;
+        if (i >= text.length || text[i] === '\n' || text[i] === '\r') {
+          if (text[i] === '\r' && text[i+1] === '\n') i++;
+          i++; done = true;
+        } else { i++; }
       }
+      if (row.length > 0) rows.push(row);
     }
-    if (row.length > 1 || (row.length === 1 && row[0] !== '')) rows.push(row);
+    return rows;
   }
-  return rows;
-}
 
-function escapeCSVField(val) {
-  if (val === null || val === undefined) return '';
-  const s = String(val);
-  if (s.includes(',') || s.includes('"') || s.includes('\n') || s.includes('\r')) {
-    return '"' + s.replace(/"/g, '""') + '"';
+  function loadFile(file) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var all = parseCSV(e.target.result);
+      if (all.length < 2) { alert('CSV looks empty.'); return; }
+      parsedHeaders = all[0];
+      parsedRows = all.slice(1);
+      var hIdx = parsedHeaders.indexOf('Handle');
+      var handles = new Set();
+      parsedRows.forEach(function(r) { if (r[hIdx]) handles.add(r[hIdx]); });
+      fileInfo.textContent = 'Loaded: ' + file.name + ' — ' + parsedRows.length + ' rows, ' + handles.size + ' products';
+      fileInfo.classList.add('show');
+      checkReady();
+    };
+    reader.readAsText(file, 'UTF-8');
   }
-  return s;
-}
 
-function rowsToCSV(headers, rows) {
-  const lines = [headers.map(escapeCSVField).join(',')];
-  for (const row of rows) {
-    lines.push(row.map(escapeCSVField).join(','));
+  function escapeCSV(v) {
+    var s = v == null ? '' : String(v);
+    if (s.indexOf(',') >= 0 || s.indexOf('"') >= 0 || s.indexOf('\n') >= 0) return '"' + s.replace(/"/g,'""') + '"';
+    return s;
   }
-  return lines.join('\r\n');
-}
 
-// ── State ────────────────────────────────────────────────────────────────────
-let parsedHeaders = [];
-let parsedRows = [];
-let outputRows = [];
+  function toCSV(headers, rows) {
+    return [headers.map(escapeCSV).join(',')]
+      .concat(rows.map(function(r){ return r.map(escapeCSV).join(','); }))
+      .join('\r\n');
+  }
 
-// ── DOM refs ─────────────────────────────────────────────────────────────────
-const apiKeyEl     = document.getElementById('apiKey');
-const csvFileEl    = document.getElementById('csvFile');
-const uploadZone   = document.getElementById('uploadZone');
-const fileInfo     = document.getElementById('fileInfo');
-const previewWrap  = document.getElementById('previewWrap');
-const previewTable = document.getElementById('previewTable');
-const runBtn       = document.getElementById('runBtn');
-const runBtnText   = document.getElementById('runBtnText');
-const progressSection = document.getElementById('progressSection');
-const progressCount   = document.getElementById('progressCount');
-const progressFill    = document.getElementById('progressFill');
-const progressLog     = document.getElementById('progressLog');
-const downloadSection = document.getElementById('downloadSection');
-const downloadStats   = document.getElementById('downloadStats');
-const downloadBtn     = document.getElementById('downloadBtn');
+  function addLog(msg, cls) {
+    var d = document.createElement('div');
+    d.className = cls || '';
+    d.textContent = msg;
+    logDiv.appendChild(d);
+    logDiv.scrollTop = logDiv.scrollHeight;
+  }
 
-// ── Drag/drop styling ────────────────────────────────────────────────────────
-uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
-uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
-uploadZone.addEventListener('drop', e => {
-  e.preventDefault();
-  uploadZone.classList.remove('dragover');
-  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
-});
+  function buildPrompt(title, body, seoT, seoD, alt) {
+    return 'You are writing product copy for HareideART, a fine art print shop.\n\n'
+      + 'STYLE: Hemingway. Short declarative sentences. Concrete and visual. No clichés.\n\n'
+      + 'SALES MODE: Art Seller — 9-step Cialdini sequence:\n'
+      + '1.Liking 2.Authority 3.Visual 4.Social Proof 5.Scarcity 6.Reciprocity 7.Consistency 8.Facts 9.CTA\n\n'
+      + 'PRODUCT:\nTitle: ' + title + '\nDescription: ' + body + '\nSEO Title: ' + seoT + '\nSEO Desc: ' + seoD + '\nAlt: ' + alt + '\n\n'
+      + 'Return ONLY valid JSON, no markdown:\n'
+      + '{"title":"max 70 chars","bodyHTML":"180-260 words HTML with <p> tags only, all 9 steps","seoTitle":"max 60 chars","seoDescription":"max 155 chars","imageAltText":"max 125 chars"}';
+  }
 
-csvFileEl.addEventListener('change', () => {
-  if (csvFileEl.files[0]) handleFile(csvFileEl.files[0]);
-});
-
-const testBtn      = document.getElementById('testBtn');
-const apiStatus    = document.getElementById('apiStatus');
-const runError     = document.getElementById('runError');
-
-function checkReady() {
-  const ok = parsedRows.length > 0 && apiKeyEl.value.trim().startsWith('sk-ant-');
-  runBtn.disabled = !ok;
-  testBtn.disabled = !apiKeyEl.value.trim().startsWith('sk-ant-');
-}
-
-testBtn.addEventListener('click', async () => {
-  apiStatus.style.display = 'block';
-  apiStatus.style.color = 'var(--muted)';
-  apiStatus.textContent = 'Testing connection…';
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+  async function callAPI(prompt) {
+    var res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -537,271 +229,118 @@ testBtn.addEventListener('click', async () => {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 20,
-        messages: [{ role: 'user', content: 'Reply with the word OK only.' }]
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
       })
     });
-    const rawText = await res.text();
-    let parsed = null;
-    try { parsed = JSON.parse(rawText); } catch(_) {}
-
-    if (res.ok && parsed) {
-      apiStatus.style.color = 'var(--success)';
-      apiStatus.textContent = '✓ API connection OK — ready to process.';
-    } else if (!res.ok && parsed?.error) {
-      apiStatus.style.color = 'var(--error)';
-      apiStatus.textContent = `✗ API error (${res.status}): ${parsed.error.message}`;
-    } else {
-      apiStatus.style.color = 'var(--error)';
-      apiStatus.innerHTML = `✗ HTTP ${res.status} — raw response:<br><small style="word-break:break-all">${rawText.slice(0,200)}</small>`;
-    }
-  } catch (e) {
-    apiStatus.style.color = 'var(--error)';
-    // Likely CORS or network block on iOS Safari
-    apiStatus.innerHTML =
-      `✗ ${e.name}: ${e.message}<br>` +
-      `<small>This may be a CORS block in Safari. Try opening this file in Chrome on iPhone, ` +
-      `or use the file from a web server (e.g. upload to your GitHub Pages / Vercel).</small>`;
-  }
-});
-apiKeyEl.addEventListener('input', checkReady);
-
-function handleFile(file) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    const text = e.target.result;
-    const all = parseCSV(text);
-    if (all.length < 2) { alert('CSV appears empty or unreadable.'); return; }
-    parsedHeaders = all[0];
-    parsedRows    = all.slice(1);
-
-    // Count unique products (by Handle)
-    const hIdx = parsedHeaders.indexOf('Handle');
-    const handles = new Set();
-    for (const r of parsedRows) {
-      const h = hIdx >= 0 ? r[hIdx] : null;
-      if (h) handles.add(h);
-    }
-    const productCount = handles.size;
-
-    fileInfo.innerHTML = `Loaded <strong>${file.name}</strong> &nbsp;·&nbsp; ${parsedRows.length} rows &nbsp;·&nbsp; <strong>${productCount} unique products</strong>`;
-    fileInfo.classList.add('visible');
-
-    // Preview first 5 unique products
-    buildPreview(productCount);
-    checkReady();
-  };
-  reader.readAsText(file, 'UTF-8');
-}
-
-function buildPreview(count) {
-  const cols = ['Handle', 'Title', 'SEO Title', 'SEO Description'];
-  const idxs = cols.map(c => parsedHeaders.indexOf(c));
-
-  let html = '<thead><tr>';
-  for (const c of cols) html += `<th>${c}</th>`;
-  html += '</tr></thead><tbody>';
-
-  const seen = new Set();
-  let shown = 0;
-  for (const row of parsedRows) {
-    const handle = row[idxs[0]] || '';
-    if (seen.has(handle)) continue;
-    seen.add(handle);
-    html += '<tr>';
-    for (const idx of idxs) html += `<td title="${(row[idx]||'').replace(/"/g,'&quot;')}">${row[idx] || '<em style="opacity:.4">—</em>'}</td>`;
-    html += '</tr>';
-    if (++shown >= 5) break;
-  }
-  html += '</tbody>';
-  previewTable.innerHTML = html;
-  previewWrap.classList.add('visible');
-}
-
-// ── The Hemingway + Art Seller prompt ────────────────────────────────────────
-function buildPrompt(title, bodyHTML, existingSeoTitle, existingSeoDesc, altText) {
-  return `You are writing product copy for HareideART, a fine art print shop selling original Norwegian-themed artworks — landscapes, historical scenes, abstract pieces, portraits.
-
-WRITING STYLE: Hemingway. Short declarative sentences. No adjective stacking. Concrete and visual. Trust the reader. No sentimentality, no clichés. Strong nouns, active verbs. The art speaks — you simply introduce it.
-
-SALES MODE: Art Seller (9-step Cialdini sequence)
-1. Liking — warm, personal opener that connects artist to viewer
-2. Authority — one concrete credential or provenance detail
-3. Visual — describe what the eye actually sees, physically, precisely
-4. Social Proof — imply desirability subtly (limited, sought-after, collected)
-5. Scarcity — one specific limitation (edition size, original digital painting, etc.)
-6. Reciprocity — offer something extra in spirit (care guide, story behind the work)
-7. Consistency — small agreement before the ask
-8. Facts — dimensions, medium, print quality, fulfillment note
-9. CTA — one sentence, specific, with quiet urgency
-
-PRODUCT DATA:
-Title: ${title}
-Description (HTML): ${bodyHTML}
-Current SEO Title: ${existingSeoTitle}
-Current SEO Description: ${existingSeoDesc}
-Current Image Alt Text: ${altText}
-
-OUTPUT: Return ONLY a valid JSON object, no markdown, no backticks, no preamble:
-{
-  "title": "Improved product title (max 70 chars, keyword-rich, Hemingway)",
-  "bodyHTML": "Full product description as plain HTML using <p> tags only. Apply all 9 Art Seller steps. 180–260 words. No <h1>–<h6>, no <ul>/<li>.",
-  "seoTitle": "SEO title max 60 chars",
-  "seoDescription": "SEO meta description max 155 chars — benefit-led, human, no keyword stuffing",
-  "imageAltText": "Descriptive alt text max 125 chars — describe the image visually for accessibility and SEO"
-}`;
-}
-
-// ── Claude API call ───────────────────────────────────────────────────────────
-async function callClaude(apiKey, prompt) {
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    throw new Error(err?.error?.message || `HTTP ${response.status}`);
-  }
-  const data = await response.json();
-  const text = data.content.map(b => b.text || '').join('');
-  const clean = text.replace(/```json|```/g, '').trim();
-  return JSON.parse(clean);
-}
-
-function log(msg, type = '') {
-  const div = document.createElement('div');
-  div.className = type;
-  div.textContent = msg;
-  progressLog.appendChild(div);
-  progressLog.scrollTop = progressLog.scrollHeight;
-}
-
-// ── Main run ──────────────────────────────────────────────────────────────────
-runBtn.addEventListener('click', async () => {
-  const apiKey = apiKeyEl.value.trim();
-  if (!apiKey) return;
-  runError.style.display = 'none';
-
-  // Pre-flight check
-  if (parsedRows.length === 0) {
-    runError.style.display = 'block';
-    runError.textContent = 'No CSV loaded. Please upload a Shopify products CSV first.';
-    return;
+    var text = await res.text();
+    if (!res.ok) throw new Error('HTTP ' + res.status + ': ' + text.slice(0,100));
+    var data = JSON.parse(text);
+    var content = data.content.map(function(b){ return b.text||''; }).join('');
+    return JSON.parse(content.replace(/```json|```/g,'').trim());
   }
 
-  // Column indices
-  const col = name => parsedHeaders.indexOf(name);
-  const iHandle   = col('Handle');
-  const iTitle    = col('Title');
-  const iBody     = col('Body (HTML)');
-  const iSeoT     = col('SEO Title');
-  const iSeoD     = col('SEO Description');
-  const iAlt      = col('Image Alt Text');
-
-  // Group rows by handle
-  const productMap = new Map(); // handle → [row indices]
-  for (let i = 0; i < parsedRows.length; i++) {
-    const h = parsedRows[i][iHandle] || '';
-    if (!productMap.has(h)) productMap.set(h, []);
-    productMap.get(h).push(i);
-  }
-
-  const handles = [...productMap.keys()].filter(h => {
-    // Only process handles where Title is on first row (main product rows)
-    const firstRow = parsedRows[productMap.get(h)[0]];
-    return firstRow[iTitle] && firstRow[iTitle].trim() !== '';
-  }).slice(0, 50);
-
-  const total = handles.length;
-
-  // Reset UI
-  outputRows = parsedRows.map(r => [...r]); // deep copy
-  progressSection.classList.add('visible');
-  downloadSection.classList.remove('visible');
-  progressLog.innerHTML = '';
-  progressFill.style.width = '0%';
-  progressCount.textContent = `0 / ${total}`;
-  runBtn.disabled = true;
-  runBtnText.innerHTML = '<span class="spinner"></span> &nbsp;Processing…';
-
-  let done = 0, errors = 0;
-
-  for (const handle of handles) {
-    const rowIdxs = productMap.get(handle);
-    const firstIdx = rowIdxs[0];
-    const row = parsedRows[firstIdx];
-
-    const title   = row[iTitle]  || '';
-    const body    = row[iBody]   || '';
-    const seoT    = row[iSeoT]   || '';
-    const seoD    = row[iSeoD]   || '';
-    const altText = row[iAlt]    || '';
-
-    log(`▶ Processing: ${title || handle}`, 'log-working');
-
+  testBtn.addEventListener('click', async function() {
+    apiStatus.className = 'status show';
+    apiStatus.textContent = 'Testing…';
     try {
-      const result = await callClaude(apiKey, buildPrompt(title, body, seoT, seoD, altText));
+      await callAPI('Reply with the word OK only.');
+      apiStatus.className = 'status show ok';
+      apiStatus.textContent = '✓ Connection OK — ready to process.';
+    } catch(e) {
+      apiStatus.className = 'status show err';
+      apiStatus.textContent = '✗ ' + e.message;
+    }
+  });
 
-      // Apply to all rows sharing this handle
-      for (const idx of rowIdxs) {
-        if (iTitle >= 0) outputRows[idx][iTitle] = result.title    || outputRows[idx][iTitle];
-        if (iBody  >= 0) outputRows[idx][iBody]  = result.bodyHTML || outputRows[idx][iBody];
-        if (iSeoT  >= 0) outputRows[idx][iSeoT]  = result.seoTitle || outputRows[idx][iSeoT];
-        if (iSeoD  >= 0) outputRows[idx][iSeoD]  = result.seoDescription || outputRows[idx][iSeoD];
-        if (iAlt   >= 0) outputRows[idx][iAlt]   = result.imageAltText || outputRows[idx][iAlt];
+  runBtn.addEventListener('click', async function() {
+    runError.style.display = 'none';
+    var hIdx = parsedHeaders.indexOf('Handle');
+    var iTitle = parsedHeaders.indexOf('Title');
+    var iBody  = parsedHeaders.indexOf('Body (HTML)');
+    var iSeoT  = parsedHeaders.indexOf('SEO Title');
+    var iSeoD  = parsedHeaders.indexOf('SEO Description');
+    var iAlt   = parsedHeaders.indexOf('Image Alt Text');
+
+    var productMap = new Map();
+    parsedRows.forEach(function(row, i) {
+      var h = row[hIdx] || '';
+      if (!productMap.has(h)) productMap.set(h, []);
+      productMap.get(h).push(i);
+    });
+
+    var handles = [];
+    productMap.forEach(function(idxs, h) {
+      if (parsedRows[idxs[0]][iTitle]) handles.push(h);
+    });
+    handles = handles.slice(0, 50);
+
+    outputRows = parsedRows.map(function(r){ return r.slice(); });
+    progressDiv.className = 'progress show';
+    downloadDiv.className = 'download';
+    logDiv.innerHTML = '';
+    progFill.style.width = '0%';
+    progCount.textContent = '0 / ' + handles.length;
+    runBtn.disabled = true;
+    runBtn.textContent = 'Processing…';
+
+    var done = 0, errors = 0;
+
+    for (var i = 0; i < handles.length; i++) {
+      var handle = handles[i];
+      var idxs = productMap.get(handle);
+      var row = parsedRows[idxs[0]];
+      var title = row[iTitle] || '';
+
+      addLog('▶ ' + (title || handle), 'working');
+
+      try {
+        var result = await callAPI(buildPrompt(
+          title, row[iBody]||'', row[iSeoT]||'', row[iSeoD]||'', row[iAlt]||''
+        ));
+        idxs.forEach(function(idx) {
+          if (iTitle>=0) outputRows[idx][iTitle] = result.title || outputRows[idx][iTitle];
+          if (iBody>=0)  outputRows[idx][iBody]  = result.bodyHTML || outputRows[idx][iBody];
+          if (iSeoT>=0)  outputRows[idx][iSeoT]  = result.seoTitle || outputRows[idx][iSeoT];
+          if (iSeoD>=0)  outputRows[idx][iSeoD]  = result.seoDescription || outputRows[idx][iSeoD];
+          if (iAlt>=0)   outputRows[idx][iAlt]   = result.imageAltText || outputRows[idx][iAlt];
+        });
+        addLog('✓ ' + (result.title || title), 'ok');
+      } catch(e) {
+        errors++;
+        addLog('✗ ' + title + ': ' + e.message, 'err');
+        if (done === 0) {
+          runError.style.display = 'block';
+          runError.textContent = 'API error: ' + e.message;
+        }
       }
 
-      log(`✓ Done: ${result.title || title}`, 'log-ok');
-    } catch (err) {
-      errors++;
-      log(`✗ Error on "${title || handle}": ${err.message}`, 'log-err');
-      if (done === 1) {
-        runError.style.display = 'block';
-        runError.innerHTML = `<strong>API error on first product:</strong> ${err.message}<br>Check your API key and try the Test button above.`;
-      }
+      done++;
+      progCount.textContent = done + ' / ' + handles.length;
+      progFill.style.width = Math.round(done/handles.length*100) + '%';
+      if (i < handles.length - 1) await new Promise(function(r){ setTimeout(r, 400); });
     }
 
-    done++;
-    progressCount.textContent = `${done} / ${total}`;
-    progressFill.style.width = `${Math.round((done / total) * 100)}%`;
+    runBtn.disabled = false;
+    runBtn.textContent = 'Run PersuadeKit';
+    dlStats.textContent = done + ' processed · ' + errors + ' errors · ' + outputRows.length + ' total rows';
+    downloadDiv.className = 'download show';
+    addLog('── Complete ──', 'ok');
+  });
 
-    // Small delay to avoid rate limits
-    if (done < total) await new Promise(r => setTimeout(r, 400));
-  }
+  dlBtn.addEventListener('click', function() {
+    var csv = '\uFEFF' + toCSV(parsedHeaders, outputRows);
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'hareideart_seo_' + new Date().toISOString().slice(0,10) + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
 
-  // Done
-  runBtnText.textContent = 'Run PersuadeKit';
-  runBtn.disabled = false;
-
-  downloadStats.innerHTML =
-    `Processed: <strong>${done}</strong> products &nbsp;·&nbsp; ` +
-    `Errors: <strong style="color:${errors > 0 ? '#d4a574' : '#a8c4a2'}">${errors}</strong> &nbsp;·&nbsp; ` +
-    `Total rows in CSV: <strong>${outputRows.length}</strong>`;
-  downloadSection.classList.add('visible');
-  log('─── Complete ───', 'log-ok');
-});
-
-// ── Download ──────────────────────────────────────────────────────────────────
-downloadBtn.addEventListener('click', () => {
-  const csv = rowsToCSV(parsedHeaders, outputRows);
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `hareideart_seo_${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
-});
 });
 </script>
 
