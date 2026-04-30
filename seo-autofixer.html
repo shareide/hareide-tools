@@ -1,5 +1,5 @@
 <!DOCTYPE html>
- 
+
 <html lang="no">
 <head>
 <meta charset="UTF-8">
@@ -20,15 +20,15 @@
   --border: #c4bdb0;
   --blue: #1a4a7a;
 }
- 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-background: var(–paper);
-color: var(–ink);
-font-family: ‘IBM Plex Sans’, sans-serif;
-font-weight: 300;
-min-height: 100vh;
-}
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+  background: var(–paper);
+  color: var(–ink);
+  font-family: ‘IBM Plex Sans’, sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  }
 
 header {
 background: var(–deep);
@@ -69,9 +69,9 @@ border: 1px solid;
 .api-badge.ok { border-color: #5cb878; color: #5cb878; }
 .api-badge.missing { border-color: var(–accent); color: var(–accent); }
 
-/* STEPS */
 .main { max-width: 1300px; margin: 0 auto; padding: 2.5rem 3rem; }
 
+/* STEPS */
 .steps {
 display: flex;
 gap: 0;
@@ -113,16 +113,12 @@ color: var(–ink);
 }
 
 /* PANELS */
-.panel {
-display: none;
-animation: fadeIn 0.3s ease;
-}
-
+.panel { display: none; animation: fadeIn 0.3s ease; }
 .panel.visible { display: block; }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-/* API KEY PANEL */
+/* CARDS */
 .panel-card {
 background: var(–cream);
 border: 1px solid var(–border);
@@ -216,6 +212,18 @@ cursor: pointer;
 .drop-zone p { font-family: ‘Playfair Display’, serif; font-size: 1rem; margin-bottom: 0.4rem; }
 .drop-zone small { font-family: ‘IBM Plex Mono’, monospace; font-size: 0.65rem; color: var(–muted); letter-spacing: 1px; }
 
+.file-loaded {
+margin-top: 1rem;
+padding: 0.8rem 1rem;
+background: #e5f2e9;
+border: 1px solid #b8d9c2;
+border-radius: 4px;
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.75rem;
+color: var(–green);
+display: none;
+}
+
 /* BUTTONS */
 .btn {
 font-family: ‘IBM Plex Mono’, monospace;
@@ -280,7 +288,7 @@ font-weight: 500;
 .num-green { color: var(–green); }
 .num-blue { color: var(–blue); }
 
-/* PROGRESS SECTION */
+/* PROGRESS */
 .progress-section {
 background: var(–deep);
 color: var(–paper);
@@ -296,10 +304,7 @@ align-items: center;
 margin-bottom: 1rem;
 }
 
-.progress-title {
-font-family: ‘Playfair Display’, serif;
-font-size: 1.1rem;
-}
+.progress-title { font-family: ‘Playfair Display’, serif; font-size: 1.1rem; }
 
 .progress-counter {
 font-family: ‘IBM Plex Mono’, monospace;
@@ -344,7 +349,7 @@ max-height: 80px;
 overflow-y: auto;
 }
 
-/* RESULTS TABLE */
+/* TABLE */
 .table-controls {
 display: flex;
 gap: 0.75rem;
@@ -367,7 +372,7 @@ transition: all 0.15s;
 color: var(–ink);
 }
 
-.filter-btn:hover { border-color: var(–ink); color: var(–ink); }
+.filter-btn:hover { border-color: var(–ink); }
 .filter-btn.active { background: var(–ink); color: var(–paper); border-color: var(–ink); }
 
 .search-box {
@@ -393,7 +398,6 @@ margin-bottom: 1rem;
 }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-
 thead tr { background: var(–ink); color: var(–paper); }
 
 thead th {
@@ -431,57 +435,10 @@ white-space: nowrap;
 .badge-fixed { background: #e5f2e9; color: var(–green); border: 1px solid #b8d9c2; }
 .badge-error { background: #fde8e5; color: var(–accent); border: 1px solid #f0c4bd; }
 
-.field-block { margin-bottom: 0.5rem; }
-
-.field-block .field-name {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 0.58rem;
-letter-spacing: 1.5px;
-text-transform: uppercase;
-color: var(–muted);
-display: block;
-margin-bottom: 0.15rem;
-}
-
-.field-old { color: #7a6a60; text-decoration: line-through; font-size: 0.75rem; }
 .field-new { color: var(–green); font-size: 0.78rem; font-weight: 600; }
-.field-unchanged { color: var(–ink); font-size: 0.75rem; font-style: italic; }
+.char-count { font-family: ‘IBM Plex Mono’, monospace; font-size: 0.6rem; color: var(–muted); margin-left: 0.4rem; }
 
-.char-count {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 0.6rem;
-color: var(–muted);
-margin-left: 0.4rem;
-}
-
-/* PAGINATION */
-.pagination {
-display: flex;
-gap: 0.4rem;
-align-items: center;
-justify-content: center;
-padding: 1rem;
-flex-wrap: wrap;
-}
-
-.pg-btn {
-font-family: ‘IBM Plex Mono’, monospace;
-font-size: 0.65rem;
-padding: 0.35rem 0.7rem;
-border: 1.5px solid var(–border);
-background: transparent;
-cursor: pointer;
-border-radius: 2px;
-color: var(–ink);
-transition: all 0.15s;
-}
-
-.pg-btn:hover:not(:disabled) { border-color: var(–ink); color: var(–ink); background: var(–cream); }
-.pg-btn.active { background: var(–ink); color: var(–paper); border-color: var(–ink); }
-.pg-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-.pg-info { font-family: ‘IBM Plex Mono’, monospace; font-size: 0.6rem; color: var(–ink); }
-
-/* DOWNLOAD SECTION */
+/* DOWNLOAD */
 .download-section {
 background: var(–deep);
 color: var(–paper);
@@ -542,135 +499,26 @@ text-transform: uppercase;
 border-top: 1px solid var(–border);
 margin-top: 3rem;
 }
+
+select {
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 0.75rem;
+padding: 0.4rem 0.8rem;
+border: 1.5px solid var(–border);
+background: var(–cream);
+border-radius: 2px;
+outline: none;
+color: var(–ink);
+}
 </style>
 
 </head>
 <body>
-<script>
 
-function goToPanel(n) {
-
-  document.querySelectorAll('.panel').forEach(p => {
-
-    p.classList.remove('visible');
-
-  });
-
-  const panel = document.getElementById('panel' + n);
-
-  if (panel) {
-
-    panel.classList.add('visible');
-
-  }
-
-}
-
-function processFile(file) {
-
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-
-    goToPanel(3);
-
-  };
-
-  reader.readAsText(file, 'UTF-8');
-
-}
-function startFix() {
-
-  document.getElementById('progressSection').style.display = 'block';
-
-  document.getElementById('resultsSection').style.display = 'block';
-document.getElementById('resultsBody').innerHTML = `
-
-<tr>
-
-<td>Test-produkt</td>
-
-<td><span class="badge badge-fixed">Fikset</span></td>
-
-<td>SEO test</td>
-
-<td>Meta test</td>
-
-<td>kunst</td>
-
-<td>Beskrivelse test</td>
-
-</tr>
-
-`;
-  document.getElementById('progressCounter').textContent = '1 / 1';
-document.getElementById('currentProduct').textContent = 'Test fullført';
-
-document.getElementById('progressBar').style.width = '100%';
-
-}
-  document.getElementById('currentProduct').textContent =
-
-    'SEO-test kjører...';
-
-  document.getElementById('progressBar').style.width = '100%';
-
-  document.getElementById('resultsBody').innerHTML = `
-
-    <tr>
-
-      <td>Test-produkt</td>
-
-      <td><span class="badge badge-fixed">Fikset</span></td>
-
-      <td>Ny SEO-tittel</td>
-
-      <td>Ny meta-beskrivelse</td>
-
-      <td>kunst, abstrakt</td>
-
-      <td>Oppdatert tekst</td>
-
-    </tr>
-
-  `;
-
-}
-document.addEventListener('DOMContentLoaded', () => {
-
-  document.getElementById('apiBadge').textContent =
-
-    'API: Serverkoblet ✓';
-
-  document.getElementById('apiBadge').className =
-
-    'api-badge ok';
-
-  goToPanel(2);
-
-  const fi = document.getElementById('fileInput');
-
-  if (fi) {
-
-    fi.addEventListener('change', e => {
-
-      if (e.target.files[0]) {
-
-        processFile(e.target.files[0]);
-
-      }
-
-    });
-
-  }
-
-});
-
-</script>
 <header>
   <div class="header-left">
     <h1>HareideART</h1>
-    <span class="subtitle">SEO Auto-Fixer TEST 123</span>
+    <span class="subtitle">SEO Auto-Fixer</span>
   </div>
   <span class="api-badge missing" id="apiBadge">API: Ikke tilkoblet</span>
 </header>
@@ -680,7 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <!-- STEP INDICATORS -->
 
   <div class="steps">
-    <div class="step active" id="step1"><span class="step-num">Steg 1</span><span class="step-title">API-nøkkel</span></div>
+    <div class="step" id="step1"><span class="step-num">Steg 1</span><span class="step-title">API-nøkkel</span></div>
     <div class="step" id="step2"><span class="step-num">Steg 2</span><span class="step-title">Last opp CSV</span></div>
     <div class="step" id="step3"><span class="step-num">Steg 3</span><span class="step-title">Velg & fiks</span></div>
     <div class="step" id="step4"><span class="step-num">Steg 4</span><span class="step-title">Last ned</span></div>
@@ -688,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   <!-- PANEL 1: API KEY -->
 
-  <div class="panel visible" id="panel1">
+  <div class="panel" id="panel1">
     <div class="panel-card">
       <h2>Anthropic API-nøkkel</h2>
       <p>Samme nøkkel som du bruker i PersuadeKit og Pin Generator. Nøkkelen lagres kun lokalt i nettleseren din og sendes aldri videre.</p>
@@ -696,38 +544,40 @@ document.addEventListener('DOMContentLoaded', () => {
       <input type="password" class="text-input" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off">
       <div class="warning-box">
         <strong>⚠ Sikkerhet</strong>
-        Dette verktøyet kjører lokalt i nettleseren og kaller Anthropic API direkte. Del aldri HTML-filen med nøkkelen innbakt. Hvis du er usikker på om din nøkkel er eksponert — generer en ny på console.anthropic.com.
+        Dette verktøyet kjører lokalt i nettleseren og kaller Anthropic API direkte. Del aldri HTML-filen med nøkkelen innbakt. Hvis du er usikker — generer en ny nøkkel på console.anthropic.com.
       </div>
       <div class="btn-row">
-       <button class="btn btn-primary" id="startFixBtn" onclick="startFix()">▶ Start Auto-Fiks</button>
-
+        <button class="btn btn-primary" id="saveApiKeyBtn">Lagre nøkkel →</button>
+      </div>
+    </div>
+  </div>
 
   <!-- PANEL 2: UPLOAD -->
 
-  <div class="panel visible" id="panel2">
+  <div class="panel" id="panel2">
     <div class="panel-card">
       <h2>Last opp Shopify CSV</h2>
-      <p>Eksporter produktlisten din fra Shopify Admin → Products → Export → All products → CSV for Excel/Numbers.<br>Filen heter vanligvis <code style="font-family:'IBM Plex Mono',monospace;font-size:0.8em">products_export.csv</code></p>
+      <p>Eksporter produktlisten din fra Shopify Admin → Products → Export → All products → CSV for Excel/Numbers.<br>
+      Filen heter vanligvis <code style="font-family:'IBM Plex Mono',monospace;font-size:0.8em">products_export.csv</code></p>
+
+```
   <div class="drop-zone" id="dropZone">
+    <input type="file" id="fileInput" accept=".csv">
+    <span class="dz-icon">📂</span>
+    <p>Klikk her for å velge CSV-fil</p>
+    <small>Shopify products_export.csv</small>
+  </div>
 
-<input
+  <div class="file-loaded" id="fileLoadedMsg">
+    ✓ Fil lastet inn: <span id="fileNameSpan"></span> — <span id="fileRowCount"></span> rader funnet
+  </div>
 
-  type="file"
-
-  id="fileInput"
-
-  accept=".csv"
-
->
-
-  <span class="dz-icon">📂</span>
-
-  <p>Klikk her for å velge CSV-fil</p>
-
-  <small>Shopify products_export.csv</small>
-
+  <div class="btn-row">
+    <button class="btn btn-primary" id="proceedToFixBtn" disabled>Fortsett til analyse →</button>
+  </div>
 </div>
-    </div>
+```
+
   </div>
 
   <!-- PANEL 3: SELECT & FIX -->
@@ -739,7 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <div class="panel-card" style="margin-bottom:1.5rem">
   <h2>Hva skal fikses?</h2>
-  <p style="margin-bottom:1rem">Claude genererer ny tekst for hvert produkt basert på eksisterende tittel, beskrivelse og tags. Du kan velge hvilke felt som skal oppdateres.</p>
+  <p style="margin-bottom:1rem">Claude genererer ny tekst for hvert produkt basert på eksisterende tittel, beskrivelse og tags. Velg hvilke felt som skal oppdateres.</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-bottom:1.2rem">
     <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
@@ -762,18 +612,18 @@ document.addEventListener('DOMContentLoaded', () => {
     </label>
   </div>
 
-  <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem">
     <div>
       <label class="field-label">Fiks kun</label>
-      <select id="fixScope" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;padding:0.4rem 0.8rem;border:1.5px solid var(--border);background:var(--cream);border-radius:2px;outline:none;color:var(--ink)">
+      <select id="fixScope">
         <option value="red">Kritiske produkter (rød)</option>
         <option value="redyellow">Kritiske + forbedring (rød + gul)</option>
-        <option value="all">Alle produkter</option>
+        <option value="all" selected>Alle produkter</option>
       </select>
     </div>
     <div>
       <label class="field-label">Maks antall</label>
-      <select id="maxProducts" style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;padding:0.4rem 0.8rem;border:1.5px solid var(--border);background:var(--cream);border-radius:2px;outline:none;color:var(--ink)">
+      <select id="maxProducts">
         <option value="10">10 produkter (test)</option>
         <option value="25">25 produkter</option>
         <option value="50">50 produkter</option>
@@ -783,7 +633,8 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 
-  <div class="btn-row"><button class="btn btn-primary" id="startFixBtn" onclick="document.getElementById('progressSection').style.display='block';document.getElementById('currentProduct').textContent='Test startet';">▶ Start Auto-Fiks</button>
+  <div class="btn-row">
+    <button class="btn btn-primary" id="startFixBtn">▶ Start Auto-Fiks</button>
     <span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--muted)" id="estimateText"></span>
   </div>
 </div>
@@ -800,9 +651,15 @@ document.addEventListener('DOMContentLoaded', () => {
   <div class="current-product" id="currentProduct">Starter...</div>
   <div class="error-log" id="errorLog"></div>
   <div class="btn-row" style="margin-top:1rem">
-    <button class="btn btn-secondary" id="pauseBtn" onclick="togglePause()" style="color:var(--paper);border-color:#666">⏸ Pause</button>
-    <button class="btn" onclick="stopFix()" style="color:var(--accent);border-color:var(--accent)">■ Stopp</button>
+    <button class="btn btn-secondary" id="pauseBtn" style="color:var(--paper);border-color:#666">⏸ Pause</button>
+    <button class="btn" id="stopBtn" style="color:var(--accent);border-color:var(--accent)">■ Stopp</button>
   </div>
+</div>
+
+<!-- DIAGNOSTIC BOX -->
+<div id="diagBox" style="display:none;background:#1a1410;color:#f5f0e8;border-radius:4px;padding:1rem 1.5rem;margin-bottom:1rem;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;line-height:1.7;">
+  <div style="color:#c8402a;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.5rem">⚠ API Diagnose</div>
+  <div id="diagMsg"></div>
 </div>
 
 <!-- RESULTS TABLE -->
@@ -811,9 +668,8 @@ document.addEventListener('DOMContentLoaded', () => {
     <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Vis:</span>
     <button class="filter-btn active" onclick="setResFilter('all',this)">Alle</button>
     <button class="filter-btn" onclick="setResFilter('fixed',this)">✓ Fikset</button>
-    <button class="filter-btn" onclick="setResFilter('pending',this)">⏳ Venter</button>
     <button class="filter-btn" onclick="setResFilter('error',this)">✗ Feil</button>
-    <input class="search-box" type="text" placeholder="Søk..." oninput="searchResults(this.value)">
+    <input class="search-box" type="text" placeholder="Søk i resultater..." oninput="searchResults(this.value)">
   </div>
 
   <div class="table-wrap">
@@ -822,18 +678,17 @@ document.addEventListener('DOMContentLoaded', () => {
         <tr>
           <th>Produkt</th>
           <th>Status</th>
-          <th>SEO-tittel 🇳🇴 / 🇬🇧</th>
-          <th>Meta-beskrivelse 🇳🇴 / 🇬🇧</th>
-          <th>Tags 🇳🇴 / 🇬🇧</th>
+          <th>SEO-tittel</th>
+          <th>Meta-beskrivelse</th>
+          <th>Tags</th>
           <th>Beskrivelse</th>
         </tr>
       </thead>
       <tbody id="resultsBody"></tbody>
     </table>
   </div>
-  <div class="pagination" id="resPagination"></div>
 
-  <div class="btn-row" style="justify-content:flex-end">
+  <div class="btn-row" style="justify-content:flex-end;margin-top:1rem">
     <button class="btn btn-secondary" onclick="goToPanel(4)">Last ned CSV →</button>
   </div>
 </div>
@@ -850,40 +705,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ```
   <div class="download-steps">
-    <strong>To filer lastes ned:</strong>
-    <ol>
-      <li><strong>hareide-shopify-NO-[dato].csv</strong> — Last denne opp i Shopify. Inneholder norsk SEO-tekst på alle produkter.</li>
-      <li><strong>hareide-shopify-EN-referanse-[dato].csv</strong> — Oppbevar denne. Inneholder engelsk tekst klar til bruk når du aktiverer Shopify Markets.</li>
-    </ol>
-    <br>
-    <strong>Slik importerer du NO-filen til Shopify:</strong>
+    <strong>Slik importerer du til Shopify:</strong>
     <ol>
       <li>Gå til Shopify Admin → <strong>Products</strong></li>
       <li>Klikk <strong>Import</strong> øverst til høyre</li>
-      <li>Last opp NO-CSV-filen</li>
+      <li>Last opp CSV-filen</li>
       <li>Velg <strong>"Overwrite existing products"</strong></li>
       <li>Klikk Import — Shopify oppdaterer alle produkter automatisk</li>
     </ol>
   </div>
 
   <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-<button class="btn btn-green" onclick="downloadNO(); return false;">
-
-⬇ Last ned NO (Shopify)
-
-</button>
-
-<button class="btn btn-secondary" onclick="startEnglishVersion(); return false;" style="color:var(--paper);border-color:#666">
-
-🌍 Lag engelsk versjon
-
-</button>
-
-<button class="btn btn-secondary" onclick="downloadEN(); return false;" style="color:var(--paper);border-color:#666">
-
-⬇ Last ned EN (referanse)
-
-</button>
+    <button class="btn btn-green" onclick="downloadNO()">⬇ Last ned NO (Shopify)</button>
+    <button class="btn btn-secondary" onclick="startEnglishVersion()" style="color:var(--paper);border-color:#666">🌍 Lag engelsk versjon</button>
+    <button class="btn btn-secondary" onclick="downloadEN()" style="color:var(--paper);border-color:#666">⬇ Last ned EN (referanse)</button>
     <button class="btn btn-secondary" style="color:var(--paper);border-color:#666" onclick="goToPanel(3)">← Tilbake til resultater</button>
   </div>
 
@@ -898,62 +733,588 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
 <footer>HareideART SEO Auto-Fixer · Powered by Claude · HareideART.com · 2026</footer>
+
 <script>
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let csvData = [];
+let csvHeaders = [];
+let processedResults = [];
+let isPaused = false;
+let isStopped = false;
 
-function startFix() {
+// ─── NAVIGATION ───────────────────────────────────────────────────────────────
+function goToPanel(n) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('visible'));
+  const panel = document.getElementById('panel' + n);
+  if (panel) panel.classList.add('visible');
 
-  document.getElementById('progressSection').style.display = 'block';
-
-  document.getElementById('resultsSection').style.display = 'block';
-
-  document.getElementById('progressCounter').textContent = '1 / 10';
-
-  document.getElementById('currentProduct').textContent =
-
-    'Tester SEO-generator...';
-
-  document.getElementById('progressBar').style.width = '25%';
-
-  setTimeout(() => {
-
-    document.getElementById('progressBar').style.width = '100%';
-
-    document.getElementById('progressBar').classList.add('done');
-
-    document.getElementById('currentProduct').textContent =
-
-      'Test fullført';
-
-    document.getElementById('resultsBody').innerHTML = `
-
-      <tr>
-
-        <td>
-
-          <div class="product-name">Test-produkt</div>
-
-          <div class="product-handle">test-produkt</div>
-
-        </td>
-
-        <td><span class="badge badge-fixed">Fikset</span></td>
-
-        <td>Ny SEO-tittel</td>
-
-        <td>Ny meta-beskrivelse</td>
-
-        <td>kunst, abstrakt, modern</td>
-
-        <td>Oppdatert beskrivelse</td>
-
-      </tr>
-
-    `;
-
-  }, 1000);
-
+  document.querySelectorAll('.step').forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    if (i + 1 < n) s.classList.add('done');
+    if (i + 1 === n) s.classList.add('active');
+  });
 }
 
+// ─── CSV PARSER ───────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  // Normalize line endings
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  function splitLine(line) {
+    const cells = [];
+    let cell = '';
+    let inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        if (inQ && line[i + 1] === '"') { cell += '"'; i++; }
+        else inQ = !inQ;
+      } else if (ch === ',' && !inQ) {
+        cells.push(cell); cell = '';
+      } else {
+        cell += ch;
+      }
+    }
+    cells.push(cell);
+    return cells;
+  }
+
+  // Split into lines respecting quoted newlines
+  const lines = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '"') {
+      if (inQuotes && text[i + 1] === '"') { current += '"'; i++; }
+      else inQuotes = !inQuotes;
+      current += ch;
+    } else if (ch === '\n' && !inQuotes) {
+      lines.push(current); current = '';
+    } else {
+      current += ch;
+    }
+  }
+  if (current.trim()) lines.push(current);
+
+  if (lines.length === 0) throw new Error('Tom fil');
+
+  const headers = splitLine(lines[0]);
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const cells = splitLine(lines[i]);
+    const row = {};
+    headers.forEach((h, idx) => { row[h.trim()] = (cells[idx] || '').trim(); });
+    rows.push(row);
+  }
+  return { headers: headers.map(h => h.trim()), rows };
+}
+
+// ─── AUDIT ────────────────────────────────────────────────────────────────────
+function detectEnglish(row) {
+  // Common English words that indicate English content
+  const engWords = /\b(the|and|for|with|from|this|that|fine|art|print|limited|edition|couple|abstract|landscape|nordic|norwegian|signed|only|per|size|pieces|souls|resting|together|cliff|above|still|lake|two|three|four|five|six|seven|eight|nine|ten)\b/i;
+  const title   = String(row['Title'] || '');
+  const seoT    = String(row['SEO Title'] || '');
+  const seoD    = String(row['SEO Description'] || '');
+  const body    = String(row['Body (HTML)'] || '').replace(/<[^>]+>/g, ' ');
+  // Check title and SEO fields for English
+  const combined = title + ' ' + seoT + ' ' + seoD + ' ' + body.substring(0, 200);
+  const matches = combined.match(engWords) || [];
+  return matches.length >= 3; // 3+ English words = likely English
+}
+
+function auditProduct(row) {
+  const t = (s) => String(s || '').trim();
+  const isEnglish = detectEnglish(row);
+  const checks = {
+    englishContent: isEnglish,
+    noMetaTitle:   t(row['SEO Title']).length < 10,
+    noMetaDesc:    t(row['SEO Description']).length < 50,
+    noBody:        t(row['Body (HTML)']).replace(/<[^>]+>/g,'').trim().length < 30,
+    noTags:        t(row['Tags']).length < 5,
+    wrongVendor:   t(row['Vendor']) !== '' && t(row['Vendor']) !== 'HareideART',
+    longMetaTitle: t(row['SEO Title']).length > 65,
+    longMetaDesc:  t(row['SEO Description']).length > 165,
+  };
+  // Red = missing SEO fields OR English content detected
+  const critical = checks.noMetaTitle || checks.noMetaDesc || checks.englishContent;
+  const issues = Object.values(checks).filter(Boolean).length;
+  const severity = critical ? 'red' : issues >= 1 ? 'yellow' : 'green';
+  return { issues, severity, checks, isEnglish };
+}
+
+function buildAuditSummary(rows) {
+  let red = 0, yellow = 0, green = 0;
+  // Only count unique products (first row per handle)
+  const seen = new Set();
+  const unique = rows.filter(r => {
+    const h = r['Handle'] || r['Title'];
+    if (seen.has(h)) return false;
+    seen.add(h); return true;
+  });
+
+  unique.forEach(r => {
+    const { severity } = auditProduct(r);
+    if (severity === 'red') red++;
+    else if (severity === 'yellow') yellow++;
+    else green++;
+  });
+
+  document.getElementById('auditSummary').innerHTML = `
+    <div class="stat-card"><span class="num num-blue">${unique.length}</span><span class="lbl">Produkter totalt</span></div>
+    <div class="stat-card"><span class="num num-red">${red}</span><span class="lbl">Kritiske</span></div>
+    <div class="stat-card"><span class="num num-yellow">${yellow}</span><span class="lbl">Kan forbedres</span></div>
+    <div class="stat-card"><span class="num num-green">${green}</span><span class="lbl">OK</span></div>
+  `;
+
+  const est = Math.max(1, Math.ceil(unique.length * 5 / 60));
+  document.getElementById('estimateText').textContent = `Ca. ${est} min å behandle alle`;
+}
+
+// ─── FILE HANDLING ────────────────────────────────────────────────────────────
+function handleFile(file) {
+  if (!file || !file.name.toLowerCase().endsWith('.csv')) {
+    alert('Velg en .csv-fil eksportert fra Shopify.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const { headers, rows } = parseCSV(e.target.result);
+
+      if (!headers.includes('Title') && !headers.includes('Handle')) {
+        alert('Dette ser ikke ut som en Shopify-CSV. Kolonnen "Title" eller "Handle" mangler.');
+        return;
+      }
+
+      csvHeaders = headers;
+      csvData = rows;
+
+      document.getElementById('fileLoadedMsg').style.display = 'block';
+      document.getElementById('fileNameSpan').textContent = file.name;
+      document.getElementById('fileRowCount').textContent = rows.length + ' rader';
+      document.getElementById('proceedToFixBtn').disabled = false;
+      document.getElementById('dropZone').style.borderColor = 'var(--green)';
+      document.querySelector('#dropZone p').textContent = '✓ ' + file.name;
+
+    } catch (err) {
+      alert('Feil ved lesing av CSV: ' + err.message);
+    }
+  };
+  reader.onerror = () => alert('Kunne ikke lese filen.');
+  reader.readAsText(file, 'UTF-8');
+}
+
+// ─── CLAUDE API ───────────────────────────────────────────────────────────────
+async function claudeFixProduct(apiKey, row, opts) {
+  const statusEl = document.getElementById('currentProduct');
+
+  // Sanitize all input — remove control chars that break JSON
+  function san(s) {
+    return String(s || '')
+      .replace(/<[^>]+>/g, ' ')   // strip HTML tags
+      .replace(/[\u0000-\u001F\u007F]/g, ' ')  // strip control characters
+      .replace(/\s+/g, ' ')
+      .trim()
+      .substring(0, 300);
+  }
+
+  const title       = san(row['Title']);
+  const body        = san(row['Body (HTML)']);
+  const tags        = san(row['Tags']);
+  const productType = san(row['Type']);
+
+  // Build request payload as object first, then stringify safely
+  const requestPayload = {
+    model: 'claude-sonnet-4-6',
+    max_tokens: 800,
+    system: 'Du er en JSON-generator for HareideART. Svar KUN med et gyldig JSON-objekt. Ingen markdown, ingen forklaring. Bare JSON. ALL tekst i JSON-svaret skal være på NORSK bokmål — uansett hvilket språk produkttittelen er på.',
+    messages: [{
+      role: 'user',
+      content: 'Produkttittel: ' + title + '\n' +
+               'Beskrivelse: ' + body + '\n' +
+               'Tags: ' + tags + '\n' +
+               'Type: ' + productType + '\n\n' +
+               'Generer norsk SEO-tekst som JSON med disse nøklene:\n' +
+               'seo_title: norsk tittel, maks 60 tegn, inkluder HareideART\n' +
+               'seo_description: norsk beskrivelse, maks 155 tegn, engasjerende\n' +
+               'body_html: 2-3 norske setninger, varm Fanny Blake-stil\n' +
+               'tags: 8-10 norske og engelske søkeord, kommaseparert\n\n' +
+               'VIKTIG: Skriv ALT på norsk bokmål. Selv om tittelen er på engelsk, skal all generert tekst være norsk.'
+    }]
+  };
+
+  let requestBody;
+  try {
+    requestBody = JSON.stringify(requestPayload);
+  } catch(e) {
+    throw new Error('JSON.stringify feil: ' + e.message);
+  }
+
+  if (statusEl) statusEl.textContent = '📡 Sender: ' + title.substring(0, 40) + '...';
+
+  // Use /api/claude proxy when running on Vercel, direct API when running locally
+  const isLocal = location.protocol === 'file:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  const apiUrl = isLocal
+    ? 'https://api.anthropic.com/v1/messages'
+    : '/api/claude';
+
+  const fetchHeaders = isLocal
+    ? {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      }
+    : {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey
+      };
+
+  let resp;
+  try {
+    resp = await fetch(apiUrl, {
+      method: 'POST',
+      headers: fetchHeaders,
+      body: requestBody
+    });
+  } catch(networkErr) {
+    throw new Error('Nettverksfeil: ' + networkErr.message);
+  }
+
+  if (!resp.ok) {
+    let detail = 'HTTP ' + resp.status;
+    try {
+      const errJson = await resp.json();
+      detail = 'HTTP ' + resp.status + ' — ' + (errJson.error?.message || JSON.stringify(errJson).substring(0, 150));
+    } catch(e) {
+      try { detail = 'HTTP ' + resp.status + ' — ' + (await resp.text()).substring(0, 150); } catch(e2) {}
+    }
+    throw new Error(detail);
+  }
+
+  if (statusEl) statusEl.textContent = '✅ Svar fra API, parser...';
+
+  let data;
+  try {
+    data = await resp.json();
+  } catch(e) {
+    throw new Error('Kunne ikke parse API-svar: ' + e.message);
+  }
+
+  const rawText = (data.content && data.content[0] && data.content[0].text)
+    ? data.content[0].text.trim() : '';
+
+  if (statusEl) statusEl.textContent = '🔍 ' + rawText.substring(0, 80);
+  console.log('Claude raw:', rawText);
+
+  if (!rawText) throw new Error('Tomt svar fra Claude (stop_reason: ' + data.stop_reason + ')');
+
+  const startIdx = rawText.indexOf('{');
+  const endIdx   = rawText.lastIndexOf('}');
+  if (startIdx === -1 || endIdx === -1) {
+    throw new Error('Ingen JSON-objekt i svar: ' + rawText.substring(0, 120));
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(rawText.substring(startIdx, endIdx + 1));
+  } catch(e) {
+    throw new Error('JSON-parse feil: ' + e.message + ' | ' + rawText.substring(startIdx, startIdx + 100));
+  }
+
+  return {
+    seo_title:       parsed.seo_title       || parsed.title       || '',
+    seo_description: parsed.seo_description || parsed.description || '',
+    body_html:       parsed.body_html       || parsed.body        || '',
+    tags:            parsed.tags            || parsed.keywords    || ''
+  };
+}
+
+// ─── MAIN FIX LOOP ────────────────────────────────────────────────────────────
+async function startFix() {
+  const apiKey = document.getElementById('apiKeyInput').value.trim() ||
+                 localStorage.getItem('hareide_api_key');
+
+  if (!apiKey || !apiKey.startsWith('sk-ant-')) {
+    alert('Ingen gyldig API-nøkkel. Gå til steg 1.');
+    goToPanel(1);
+    return;
+  }
+
+  if (csvData.length === 0) {
+    alert('Ingen CSV lastet inn. Gå tilbake til steg 2.');
+    goToPanel(2);
+    return;
+  }
+
+  // Get unique products by handle
+  const seen = new Set();
+  let candidates = csvData.filter(r => {
+    if (!r['Title']) return false;
+    const h = r['Handle'] || r['Title'];
+    if (seen.has(h)) return false;
+    seen.add(h); return true;
+  });
+
+  const scope = document.getElementById('fixScope').value;
+  if (scope === 'red') {
+    candidates = candidates.filter(r => auditProduct(r).severity === 'red');
+  } else if (scope === 'redyellow') {
+    candidates = candidates.filter(r => ['red','yellow'].includes(auditProduct(r).severity));
+  }
+
+  const maxN = parseInt(document.getElementById('maxProducts').value);
+  const toProcess = candidates.slice(0, maxN);
+
+  if (toProcess.length === 0) {
+    alert('Ingen produkter matcher de valgte kriteriene.');
+    return;
+  }
+
+  const opts = {
+    metaTitle: document.getElementById('fixMetaTitle').checked,
+    metaDesc: document.getElementById('fixMetaDesc').checked,
+    body: document.getElementById('fixBody').checked,
+    tags: document.getElementById('fixTags').checked,
+    vendor: document.getElementById('fixVendor').checked,
+  };
+
+  // Reset state
+  isPaused = false;
+  isStopped = false;
+  processedResults = [];
+
+  document.getElementById('progressSection').style.display = 'block';
+  document.getElementById('resultsSection').style.display = 'block';
+  document.getElementById('resultsBody').innerHTML = '';
+  document.getElementById('errorLog').innerHTML = '';
+  document.getElementById('progressBar').style.width = '0%';
+  document.getElementById('progressBar').classList.remove('done');
+  document.getElementById('startFixBtn').disabled = true;
+  // Reset diagBox every run
+  const diagBox = document.getElementById('diagBox');
+  diagBox.style.display = 'none';
+  document.getElementById('diagMsg').innerHTML = '';
+
+  for (let i = 0; i < toProcess.length; i++) {
+    if (isStopped) break;
+
+    // Wait while paused
+    while (isPaused) await new Promise(r => setTimeout(r, 300));
+
+    const row = toProcess[i];
+    const pct = Math.round(((i + 1) / toProcess.length) * 100);
+
+    document.getElementById('progressCounter').textContent = `${i + 1} / ${toProcess.length}`;
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('currentProduct').textContent = `Behandler: ${row['Title']}`;
+
+    try {
+      const result = await claudeFixProduct(apiKey, row, opts);
+
+      const updated = { ...row };
+      if (opts.metaTitle && result.seo_title)       updated['SEO Title']       = result.seo_title;
+      if (opts.metaDesc && result.seo_description)  updated['SEO Description'] = result.seo_description;
+      if (opts.body && result.body_html)             updated['Body (HTML)']     = result.body_html;
+      if (opts.tags && result.tags)                  updated['Tags']            = result.tags;
+      if (opts.vendor)                               updated['Vendor']          = 'HareideART';
+
+      processedResults.push({ original: row, updated, status: 'fixed' });
+      appendRow(row, updated, 'fixed');
+
+    } catch (err) {
+      processedResults.push({ original: row, updated: row, status: 'error', error: err.message });
+      appendRow(row, row, 'error', err.message);
+
+      // Always show error in errorLog
+      const log = document.getElementById('errorLog');
+      log.innerHTML += `<div style="margin-bottom:0.3rem">✗ <b>${esc(row['Title'])}</b>: ${esc(err.message)}</div>`;
+      log.scrollTop = log.scrollHeight;
+
+      // Always show in diagBox (accumulate all errors)
+      const db = document.getElementById('diagBox');
+      db.style.display = 'block';
+      document.getElementById('diagMsg').innerHTML +=
+        `<div style="margin-bottom:0.5rem;border-bottom:1px solid #333;padding-bottom:0.4rem">
+          <span style="color:#888">Produkt:</span> ${esc(row['Title'])}<br>
+          <span style="color:#888">Feil:</span> <span style="color:#ff8888">${esc(err.message)}</span>
+        </div>`;
+    }
+
+    // Small delay to avoid rate limiting
+    await new Promise(r => setTimeout(r, 600));
+  }
+
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressBar').classList.add('done');
+  document.getElementById('currentProduct').textContent = '✓ Ferdig!';
+  document.getElementById('startFixBtn').disabled = false;
+}
+
+function appendRow(original, updated, status, errorMsg) {
+  const tbody = document.getElementById('resultsBody');
+  const tr = document.createElement('tr');
+
+  const metaNew = updated['SEO Title'] || '—';
+  const descNew = updated['SEO Description'] || '—';
+  const tagsNew = updated['Tags'] || '—';
+  const bodyNew = (updated['Body (HTML)'] || '').replace(/<[^>]+>/g, '');
+
+  const wasEnglish = detectEnglish(original);
+  tr.innerHTML = `
+    <td>
+      <div class="product-name">${esc(original['Title'] || '')}</div>
+      <div class="product-handle">${esc(original['Handle'] || '')}</div>
+      ${wasEnglish ? '<div style="font-family:IBM Plex Mono,monospace;font-size:0.58rem;color:#a85a10;margin-top:0.2rem">🇬🇧 engelsk tittel</div>' : ''}
+    </td>
+    <td>
+      <span class="badge ${status === 'fixed' ? 'badge-fixed' : 'badge-error'}">${status === 'fixed' ? 'Fikset' : 'Feil'}</span>
+      ${errorMsg ? `<div style="font-size:0.65rem;color:var(--accent);margin-top:0.3rem">${esc(errorMsg)}</div>` : ''}
+    </td>
+    <td>
+      <div class="field-new">${esc(metaNew)}</div>
+      <span class="char-count">${metaNew.length}/60</span>
+    </td>
+    <td>
+      <div class="field-new">${esc(descNew)}</div>
+      <span class="char-count">${descNew.length}/155</span>
+    </td>
+    <td><div class="field-new" style="max-width:160px">${esc(tagsNew)}</div></td>
+    <td><div class="field-new" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(bodyNew)}">${esc(bodyNew.substring(0, 100))}${bodyNew.length > 100 ? '…' : ''}</div></td>
+  `;
+  tbody.appendChild(tr);
+  tr.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── PAUSE / STOP ─────────────────────────────────────────────────────────────
+function togglePause() {
+  isPaused = !isPaused;
+  document.getElementById('pauseBtn').textContent = isPaused ? '▶ Fortsett' : '⏸ Pause';
+}
+
+function stopFix() {
+  isStopped = true;
+  document.getElementById('currentProduct').textContent = '■ Stoppet.';
+  document.getElementById('startFixBtn').disabled = false;
+}
+
+// ─── FILTER / SEARCH ──────────────────────────────────────────────────────────
+function setResFilter(f, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function searchResults(val) {
+  // Basic live search
+  const rows = document.querySelectorAll('#resultsBody tr');
+  const q = val.toLowerCase();
+  rows.forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// ─── DOWNLOAD ─────────────────────────────────────────────────────────────────
+function buildCSV(rows) {
+  const esc = v => {
+    const s = String(v || '');
+    return (s.includes(',') || s.includes('"') || s.includes('\n'))
+      ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+  return csvHeaders.join(',') + '\n' +
+    rows.map(row => csvHeaders.map(h => esc(row[h] || '')).join(',')).join('\n');
+}
+
+function downloadNO() {
+  const fixed = processedResults.filter(r => r.status === 'fixed').map(r => r.updated);
+  if (!fixed.length) { alert('Ingen fikste produkter ennå.'); return; }
+  const date = new Date().toISOString().slice(0,10);
+  triggerDownload(buildCSV(fixed), `hareide-shopify-NO-${date}.csv`);
+}
+
+function downloadEN() {
+  alert('Engelsk versjon er ikke generert ennå. Klikk "Lag engelsk versjon" først.');
+}
+
+function startEnglishVersion() {
+  alert('Engelsk versjonsgenerering — kommer i neste versjon.');
+}
+
+function triggerDownload(content, filename) {
+  const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Check stored key
+  const stored = localStorage.getItem('hareide_api_key');
+  if (stored) {
+    document.getElementById('apiKeyInput').value = stored;
+    document.getElementById('apiBadge').textContent = 'API: Nøkkel lagret ✓';
+    document.getElementById('apiBadge').className = 'api-badge ok';
+    goToPanel(2);
+  } else {
+    goToPanel(1);
+  }
+
+  // Save API key
+  document.getElementById('saveApiKeyBtn').addEventListener('click', () => {
+    const key = document.getElementById('apiKeyInput').value.trim();
+    if (!key.startsWith('sk-ant-')) {
+      alert('Ugyldig nøkkel. Den skal starte med sk-ant-');
+      return;
+    }
+    localStorage.setItem('hareide_api_key', key);
+    document.getElementById('apiBadge').textContent = 'API: Serverkoblet ✓';
+    document.getElementById('apiBadge').className = 'api-badge ok';
+    goToPanel(2);
+  });
+
+  // File input
+  document.getElementById('fileInput').addEventListener('change', e => {
+    if (e.target.files[0]) handleFile(e.target.files[0]);
+  });
+
+  // Drag and drop
+  const dz = document.getElementById('dropZone');
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault();
+    dz.classList.remove('drag-over');
+    if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+  });
+
+  // Proceed to panel 3
+  document.getElementById('proceedToFixBtn').addEventListener('click', () => {
+    if (!csvData.length) { alert('Ingen CSV lastet'); return; }
+    buildAuditSummary(csvData);
+    goToPanel(3);
+  });
+
+  // Start fix — SINGLE ID, wired here only
+  document.getElementById('startFixBtn').addEventListener('click', startFix);
+
+  // Pause / stop — wired here, not inline onclick
+  document.getElementById('pauseBtn').addEventListener('click', togglePause);
+  document.getElementById('stopBtn').addEventListener('click', stopFix);
+
+});
 </script>
+
 </body>
 </html>
