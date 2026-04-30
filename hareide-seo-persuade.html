@@ -1,1 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HareideART · SEO + PersuadeKit</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --aged: #e8e0cc;
+    --rust: #8b3a2a;
+    --gold: #b8922a;
+    --muted: #6b5f4e;
+    --rule: #c8bda8;
+    --success: #2d5a27;
+    --error: #8b2222;
+  }
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Courier Prime', monospace;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* Masthead */
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 2rem 3rem 1.5rem;
+    background: var(--paper);
+    position: relative;
+  }
+  .masthead::before {
+    content: '';
+    display: block;
+    border-top: 1px solid var(--ink);
+    margin-bottom: 1.2rem;
+  }
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .masthead-sub {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.4rem;
+  }
+  .masthead-rule {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 0.8rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* Layout */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 3rem 4rem;
+  }
+
+  /* Section headers */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-style: italic;
+    color: var(--rust);
+    line-height: 1;
+    min-width: 2rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 2.5rem 0;
+  }
+
+  /* API key field */
+  .field-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .field-input {
+    width: 100%;
+    background: var(--aged);
+    border: 1px solid var(--rule);
+    border-bottom: 2px solid var(--ink);
+    padding: 0.6rem 0.8rem;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.85rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field-input:focus { border-color: var(--rust); }
+
+  /* Upload zone */
+  .upload-zone {
+    border: 2px dashed var(--rule);
+    padding: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--aged);
+    position: relative;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--rust);
+    background: #ede5d0;
+  }
+  .upload-zone input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .upload-icon {
+    font-size: 2rem;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+  .upload-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .upload-hint {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-top: 0.4rem;
+  }
+
+  /* File info */
+  .file-info {
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 0.8rem;
+    display: none;
+  }
+  .file-info.visible { display: block; }
+  .file-info strong { color: var(--gold); }
+
+  /* Product table preview */
+  .preview-wrap {
+    overflow-x: auto;
+    margin-top: 1.2rem;
+    border: 1px solid var(--rule);
+    display: none;
+  }
+  .preview-wrap.visible { display: block; }
+  .preview-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+  }
+  .preview-table th {
+    background: var(--ink);
+    color: var(--gold);
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .preview-table td {
+    padding: 0.45rem 0.8rem;
+    border-bottom: 1px solid var(--rule);
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--muted);
+  }
+  .preview-table tr:nth-child(even) td { background: var(--aged); }
+
+  /* Run button */
+  .run-btn {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 1rem 2.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+  .run-btn:hover:not(:disabled) { background: var(--rust); }
+  .run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Progress */
+  .progress-section {
+    display: none;
+    margin-top: 2rem;
+  }
+  .progress-section.visible { display: block; }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.6rem;
+  }
+  .progress-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .progress-count {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--rust);
+  }
+  .progress-bar-wrap {
+    height: 6px;
+    background: var(--aged);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--ink);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .progress-log {
+< truncated lines 261-539 >
+      apiStatus.style.color = 'var(--success)';
+      apiStatus.textContent = '✓ API connection OK — ready to process.';
+    } else if (!res.ok && parsed?.error) {
+      apiStatus.style.color = 'var(--error)';
+      apiStatus.textContent = `✗ API error (${res.status}): ${parsed.error.message}`;
+    } else {
+      apiStatus.style.color = 'var(--error)';
+      apiStatus.innerHTML = `✗ HTTP ${res.status} — raw response:<br><small style="word-break:break-all">${rawText.slice(0,200)}</small>`;
+    }
+  } catch (e) {
+    apiStatus.style.color = 'var(--error)';
+    // Likely CORS or network block on iOS Safari
+    apiStatus.innerHTML =
+      `✗ ${e.name}: ${e.message}<br>` +
+      `<small>This may be a CORS block in Safari. Try opening this file in Chrome on iPhone, ` +
+      `or use the file from a web server (e.g. upload to your GitHub Pages / Vercel).</small>`;
+  }
+});
+apiKeyEl.addEventListener('input', checkReady);
+
+function handleFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    const text = e.target.result;
+    const all = parseCSV(text);
+    if (all.length < 2) { alert('CSV appears empty or unreadable.'); return; }
+    parsedHeaders = all[0];
+    parsedRows    = all.slice(1);
+
+    // Count unique products (by Handle)
+    const hIdx = parsedHeaders.indexOf('Handle');
+    const handles = new Set();
+    for (const r of parsedRows) {
+      const h = hIdx >= 0 ? r[hIdx] : null;
+      if (h) handles.add(h);
+    }
+    const productCount = handles.size;
+
+    fileInfo.innerHTML = `Loaded <strong>${file.name}</strong> &nbsp;·&nbsp; ${parsedRows.length} rows &nbsp;·&nbsp; <strong>${productCount} unique products</strong>`;
+    fileInfo.classList.add('visible');
+
+    // Preview first 5 unique products
+    buildPreview(productCount);
+    checkReady();
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function buildPreview(count) {
+  const cols = ['Handle', 'Title', 'SEO Title', 'SEO Description'];
+  const idxs = cols.map(c => parsedHeaders.indexOf(c));
+
+  let html = '<thead><tr>';
+  for (const c of cols) html += `<th>${c}</th>`;
+  html += '</tr></thead><tbody>';
+
+  const seen = new Set();
+  let shown = 0;
+  for (const row of parsedRows) {
+    const handle = row[idxs[0]] || '';
+    if (seen.has(handle)) continue;
+    seen.add(handle);
+    html += '<tr>';
+    for (const idx of idxs) html += `<td title="${(row[idx]||'').replace(/"/g,'&quot;')}">${row[idx] || '<em style="opacity:.4">—</em>'}</td>`;
+    html += '</tr>';
+    if (++shown >= 5) break;
+  }
+  html += '</tbody>';
+  previewTable.innerHTML = html;
+  previewWrap.classList.add('visible');
+}
+
+// ── The Hemingway + Art Seller prompt ────────────────────────────────────────
+function buildPrompt(title, bodyHTML, existingSeoTitle, existingSeoDesc, altText) {
+  return `You are writing product copy for HareideART, a fine art print shop selling original Norwegian-themed artworks — landscapes, historical scenes, abstract pieces, portraits.
+
+WRITING STYLE: Hemingway. Short declarative sentences. No adjective stacking. Concrete and visual. Trust the reader. No sentimentality, no clichés. Strong nouns, active verbs. The art speaks — you simply introduce it.
+
+SALES MODE: Art Seller (9-step Cialdini sequence)
+1. Liking — warm, personal opener that connects artist to viewer
+2. Authority — one concrete credential or provenance detail
+3. Visual — describe what the eye actually sees, physically, precisely
+4. Social Proof — imply desirability subtly (limited, sought-after, collected)
+5. Scarcity — one specific limitation (edition size, original digital painting, etc.)
+6. Reciprocity — offer something extra in spirit (care guide, story behind the work)
+7. Consistency — small agreement before the ask
+8. Facts — dimensions, medium, print quality, fulfillment note
+9. CTA — one sentence, specific, with quiet urgency
+
+PRODUCT DATA:
+Title: ${title}
+Description (HTML): ${bodyHTML}
+Current SEO Title: ${existingSeoTitle}
+Current SEO Description: ${existingSeoDesc}
+Current Image Alt Text: ${altText}
+
+OUTPUT: Return ONLY a valid JSON object, no markdown, no backticks, no preamble:
+{
+  "title": "Improved product title (max 70 chars, keyword-rich, Hemingway)",
+  "bodyHTML": "Full product description as plain HTML using <p> tags only. Apply all 9 Art Seller steps. 180–260 words. No <h1>–<h6>, no <ul>/<li>.",
+  "seoTitle": "SEO title max 60 chars",
+  "seoDescription": "SEO meta description max 155 chars — benefit-led, human, no keyword stuffing",
+  "imageAltText": "Descriptive alt text max 125 chars — describe the image visually for accessibility and SEO"
+}`;
+}
+
+// ── Claude API call ───────────────────────────────────────────────────────────
+async function callClaude(apiKey, prompt) {
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `HTTP ${response.status}`);
+  }
+  const data = await response.json();
+  const text = data.content.map(b => b.text || '').join('');
+  const clean = text.replace(/```json|```/g, '').trim();
+  return JSON.parse(clean);
+}
+
+function log(msg, type = '') {
+  const div = document.createElement('div');
+  div.className = type;
+  div.textContent = msg;
+  progressLog.appendChild(div);
+  progressLog.scrollTop = progressLog.scrollHeight;
+}
+
+// ── Main run ──────────────────────────────────────────────────────────────────
+runBtn.addEventListener('click', async () => {
+  const apiKey = apiKeyEl.value.trim();
+  if (!apiKey) return;
+  runError.style.display = 'none';
+
+  // Pre-flight check
+  if (parsedRows.length === 0) {
+    runError.style.display = 'block';
+    runError.textContent = 'No CSV loaded. Please upload a Shopify products CSV first.';
+    return;
+  }
+
+  // Column indices
+  const col = name => parsedHeaders.indexOf(name);
+  const iHandle   = col('Handle');
+  const iTitle    = col('Title');
+  const iBody     = col('Body (HTML)');
+  const iSeoT     = col('SEO Title');
+  const iSeoD     = col('SEO Description');
+  const iAlt      = col('Image Alt Text');
+
+  // Group rows by handle
+  const productMap = new Map(); // handle → [row indices]
+  for (let i = 0; i < parsedRows.length; i++) {
+    const h = parsedRows[i][iHandle] || '';
+    if (!productMap.has(h)) productMap.set(h, []);
+    productMap.get(h).push(i);
+  }
+
+  const handles = [...productMap.keys()].filter(h => {
+    // Only process handles where Title is on first row (main product rows)
+    const firstRow = parsedRows[productMap.get(h)[0]];
+    return firstRow[iTitle] && firstRow[iTitle].trim() !== '';
+  }).slice(0, 50);
+
+  const total = handles.length;
+
+  // Reset UI
+  outputRows = parsedRows.map(r => [...r]); // deep copy
+  progressSection.classList.add('visible');
+  downloadSection.classList.remove('visible');
+  progressLog.innerHTML = '';
+  progressFill.style.width = '0%';
+  progressCount.textContent = `0 / ${total}`;
+  runBtn.disabled = true;
+  runBtnText.innerHTML = '<span class="spinner"></span> &nbsp;Processing…';
+
+  let done = 0, errors = 0;
+
+  for (const handle of handles) {
+    const rowIdxs = productMap.get(handle);
+    const firstIdx = rowIdxs[0];
+    const row = parsedRows[firstIdx];
+
+    const title   = row[iTitle]  || '';
+    const body    = row[iBody]   || '';
+    const seoT    = row[iSeoT]   || '';
+    const seoD    = row[iSeoD]   || '';
+    const altText = row[iAlt]    || '';
+
+    log(`▶ Processing: ${title || handle}`, 'log-working');
+
+    try {
+      const result = await callClaude(apiKey, buildPrompt(title, body, seoT, seoD, altText));
+
+      // Apply to all rows sharing this handle
+      for (const idx of rowIdxs) {
+        if (iTitle >= 0) outputRows[idx][iTitle] = result.title    || outputRows[idx][iTitle];
+        if (iBody  >= 0) outputRows[idx][iBody]  = result.bodyHTML || outputRows[idx][iBody];
+        if (iSeoT  >= 0) outputRows[idx][iSeoT]  = result.seoTitle || outputRows[idx][iSeoT];
+        if (iSeoD  >= 0) outputRows[idx][iSeoD]  = result.seoDescription || outputRows[idx][iSeoD];
+        if (iAlt   >= 0) outputRows[idx][iAlt]   = result.imageAltText || outputRows[idx][iAlt];
+      }
+
+      log(`✓ Done: ${result.title || title}`, 'log-ok');
+    } catch (err) {
+      errors++;
+      log(`✗ Error on "${title || handle}": ${err.message}`, 'log-err');
+      if (done === 1) {
+        runError.style.display = 'block';
+        runError.innerHTML = `<strong>API error on first product:</strong> ${err.message}<br>Check your API key and try the Test button above.`;
+      }
+    }
+
+    done++;
+    progressCount.textContent = `${done} / ${total}`;
+    progressFill.style.width = `${Math.round((done / total) * 100)}%`;
+
+    // Small delay to avoid rate limits
+    if (done < total) await new Promise(r => setTimeout(r, 400));
+  }
+
+  // Done
+  runBtnText.textContent = 'Run PersuadeKit';
+  runBtn.disabled = false;
+
+  downloadStats.innerHTML =
+    `Processed: <strong>${done}</strong> products &nbsp;·&nbsp; ` +
+    `Errors: <strong style="color:${errors > 0 ? '#d4a574' : '#a8c4a2'}">${errors}</strong> &nbsp;·&nbsp; ` +
+    `Total rows in CSV: <strong>${outputRows.length}</strong>`;
+  downloadSection.classList.add('visible');
+  log('─── Complete ───', 'log-ok');
+});
+
+// ── Download ──────────────────────────────────────────────────────────────────
+downloadBtn.addEventListener('click', () => {
+  const csv = rowsToCSV(parsedHeaders, outputRows);
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `hareideart_seo_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
