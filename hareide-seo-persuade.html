@@ -244,9 +244,28 @@ document.addEventListener('DOMContentLoaded', function() {
     apiStatus.className = 'status show';
     apiStatus.textContent = 'Testing…';
     try {
-      await callAPI('Reply with the word OK only.');
-      apiStatus.className = 'status show ok';
-      apiStatus.textContent = '✓ Connection OK — ready to process.';
+      var res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKeyEl.value.trim(),
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 20,
+          messages: [{ role: 'user', content: 'Reply with the word OK only.' }]
+        })
+      });
+      if (res.ok) {
+        apiStatus.className = 'status show ok';
+        apiStatus.textContent = '✓ Connection OK — ready to process.';
+      } else {
+        var txt = await res.text();
+        apiStatus.className = 'status show err';
+        apiStatus.textContent = '✗ HTTP ' + res.status + ': ' + txt.slice(0,120);
+      }
     } catch(e) {
       apiStatus.className = 'status show err';
       apiStatus.textContent = '✗ ' + e.message;
