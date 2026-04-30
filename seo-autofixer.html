@@ -813,16 +813,29 @@ function parseCSV(text) {
 
 // ─── AUDIT ────────────────────────────────────────────────────────────────────
 function detectEnglish(row) {
-  // Common English words that indicate English content
-  const engWords = /\b(the|and|for|with|from|this|that|fine|art|print|limited|edition|couple|abstract|landscape|nordic|norwegian|signed|only|per|size|pieces|souls|resting|together|cliff|above|still|lake|two|three|four|five|six|seven|eight|nine|ten)\b/i;
-  const title   = String(row['Title'] || '');
-  const seoT    = String(row['SEO Title'] || '');
-  const seoD    = String(row['SEO Description'] || '');
-  const body    = String(row['Body (HTML)'] || '').replace(/<[^>]+>/g, ' ');
-  // Check title and SEO fields for English
-  const combined = title + ' ' + seoT + ' ' + seoD + ' ' + body.substring(0, 200);
-  const matches = combined.match(engWords) || [];
-  return matches.length >= 3; // 3+ English words = likely English
+  // Detect English by checking title and SEO fields
+  // Strategy: if title contains common English words OR
+  // if SEO description contains English sentence patterns
+  const engTitle = /\b(the|a|an|and|or|for|with|from|this|that|of|in|on|at|by|to|is|are|was|were|be|been|has|have|had|will|would|could|should|may|might|shall|can|do|does|did|not|no|yes|it|its|we|our|my|your|his|her|their|fine|art|print|limited|edition|couple|abstract|landscape|nordic|norwegian|signed|only|per|size|pieces|souls|resting|together|cliff|above|still|lake|wild|one|calls|happy|chicken|peace|equality|walking|sunset|big|hat|portrait|summer|between|passionat)\b/gi;
+
+  const title = String(row['Title'] || '');
+  const seoT  = String(row['SEO Title'] || '');
+  const seoD  = String(row['SEO Description'] || '');
+  const body  = String(row['Body (HTML)'] || '').replace(/<[^>]+>/g, ' ').substring(0, 300);
+
+  // Title is most reliable signal — if 2+ English words in title, flag it
+  const titleMatches = (title.match(engTitle) || []).length;
+  if (titleMatches >= 2) return true;
+
+  // Check SEO fields too
+  const seoMatches = ((seoT + ' ' + seoD).match(engTitle) || []).length;
+  if (seoMatches >= 4) return true;
+
+  // Check body
+  const bodyMatches = (body.match(engTitle) || []).length;
+  if (bodyMatches >= 6) return true;
+
+  return false;
 }
 
 function auditProduct(row) {
@@ -931,19 +944,19 @@ async function claudeFixProduct(apiKey, row, opts) {
   const requestPayload = {
     model: 'claude-sonnet-4-6',
     max_tokens: 800,
-    system: 'Du er en JSON-generator for HareideART. Svar KUN med et gyldig JSON-objekt. Ingen markdown, ingen forklaring. Bare JSON. ALL tekst i JSON-svaret skal være på NORSK bokmål — uansett hvilket språk produkttittelen er på.',
+    system: 'Du er en norsk tekstforfatter og JSON-generator for HareideART — en norsk kunstner som selger digitale kunsttrykk. Du skriver KUN på norsk bokmål. Du svarer KUN med et gyldig JSON-objekt uten markdown eller forklaring.',
     messages: [{
       role: 'user',
-      content: 'Produkttittel: ' + title + '\n' +
-               'Beskrivelse: ' + body + '\n' +
-               'Tags: ' + tags + '\n' +
-               'Type: ' + productType + '\n\n' +
-               'Generer norsk SEO-tekst som JSON med disse nøklene:\n' +
-               'seo_title: norsk tittel, maks 60 tegn, inkluder HareideART\n' +
-               'seo_description: norsk beskrivelse, maks 155 tegn, engasjerende\n' +
-               'body_html: 2-3 norske setninger, varm Fanny Blake-stil\n' +
-               'tags: 8-10 norske og engelske søkeord, kommaseparert\n\n' +
-               'VIKTIG: Skriv ALT på norsk bokmål. Selv om tittelen er på engelsk, skal all generert tekst være norsk.'
+      content: 'Produktet heter: ' + title + '\n' +
+               'Eksisterende beskrivelse: ' + body + '\n' +
+               'Eksisterende tags: ' + tags + '\n\n' +
+               'Skriv norsk SEO-tekst for dette produktet. Tittelen kan være på engelsk — det spiller ingen rolle, du skal alltid skrive på norsk bokmål.\n\n' +
+               'Returner JSON med nøyaktig disse fire feltene:\n' +
+               '- seo_title: Norsk SEO-tittel, MAKS 60 tegn, inkluder ordet HareideART, beskriv motivet på norsk\n' +
+               '- seo_description: Norsk meta-beskrivelse, MAKS 155 tegn, engasjerende og beskrivende\n' +
+               '- body_html: 2-3 norske setninger om kunstverket, varm og personlig tone\n' +
+               '- tags: 8-10 søkeord på norsk og engelsk, kommaseparert\n\n' +
+               'KRITISK REGEL: Alle fire felt MÅ være på norsk bokmål. Ikke skriv et eneste engelsk ord i seo_title, seo_description eller body_html.'
     }]
   };
 
