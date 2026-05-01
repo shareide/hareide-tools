@@ -39,7 +39,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 3rem; }
 .card-icon { font-size: 1.8rem; line-height: 1; }
 .card-status { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
 .status-live { background: #1a3a22; color: #5cb878; border: 1px solid #2a5a32; }
-.status-live { background: #2a2420; color: var(--muted); border: 1px solid #3a3028; }
+.status-coming { background: #2a2420; color: var(--muted); border: 1px solid #3a3028; }
 .card-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--paper); }
 .card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.2rem; }
 .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
@@ -67,7 +67,7 @@ footer { text-align: center; padding: 2rem; font-family: 'IBM Plex Mono', monosp
     Privat verktøykasse
   </div>
 </header>
- 
+
 <main>
 
   <div class="section-label">Shopify SEO</div>
@@ -134,6 +134,21 @@ footer { text-align: center; padding: 2rem; font-family: 'IBM Plex Mono', monosp
   </div>
   <span class="card-arrow">→</span>
 </a>
+
+<a href="hareide-kritisk-filter.html" class="tool-card">
+  <div class="card-top">
+    <span class="card-icon">🔎</span>
+    <span class="card-status status-live">Live</span>
+  </div>
+  <div class="card-title">Kritisk Filter</div>
+  <div class="card-desc">Analyser alle produkter og hent ut kritiske og forbedringsprodukter. Last ned CSV klar for PersuadeKit eller Autofix.</div>
+  <div class="card-tags">
+    <span class="tag">Shopify CSV</span>
+    <span class="tag">SEO</span>
+    <span class="tag">Ingen API</span>
+  </div>
+  <span class="card-arrow">→</span>
+</a>
 ```
 
   </div>
@@ -141,10 +156,12 @@ footer { text-align: center; padding: 2rem; font-family: 'IBM Plex Mono', monosp
   <div class="section-label">Pinterest</div>
 
   <div class="tools-grid">
-<a href="art-pin-generator.html" class="tool-card">
+
+```
+<a href="art-pin-generator.html" class="tool-card coming">
   <div class="card-top">
     <span class="card-icon">🎨</span>
-    <span class="card-status status-live">Live</span>
+    <span class="card-status status-coming">Kommer juni</span>
   </div>
   <div class="card-title">Art Pin Generator</div>
   <div class="card-desc">Generer 3 Pinterest-pins per Shopify-bilde. Tre typer: kunstfokus, historiepin og interiørmockup. Lenker direkte til produktside.</div>
@@ -155,10 +172,10 @@ footer { text-align: center; padding: 2rem; font-family: 'IBM Plex Mono', monosp
   </div>
 </a>
 
-<a href="portrait-pin-generator.html" class=class="tool-card">
+<a href="portrait-pin-generator.html" class="tool-card coming">
   <div class="card-top">
     <span class="card-icon">🖼️</span>
-    <span class="card-status status-live">Kommer sept</span>
+    <span class="card-status status-coming">Kommer sept</span>
   </div>
   <div class="card-title">Portrait Pin Generator</div>
   <div class="card-desc">Dedikert generator for Etsy AI-portretter. Inspirasjon-pin, digital download-pin og nisjepin mot spesifikke søk.</div>
@@ -177,10 +194,10 @@ footer { text-align: center; padding: 2rem; font-family: 'IBM Plex Mono', monosp
   <div class="tools-grid">
 
 ```
-<a href="blog-topic-generator.html" class=class="tool-card">
+<a href="blog-topic-generator.html" class="tool-card coming">
   <div class="card-top">
     <span class="card-icon">✍️</span>
-    <span class="card-status status-live">Kommer okt</span>
+    <span class="card-status status-coming">Kommer okt</span>
   </div>
   <div class="card-title">Blog Topic Generator</div>
   <div class="card-desc">Generer SEO-optimaliserte blogginnlegg-ideer koblet til Shopify-produkter. Med søkeord, tittel og intern lenkestruktur.</div>
@@ -191,10 +208,10 @@ footer { text-align: center; padding: 2rem; font-family: 'IBM Plex Mono', monosp
   </div>
 </a>
 
-<a href="dashboard.html" class=class="tool-card">
+<a href="dashboard.html" class="tool-card coming">
   <div class="card-top">
     <span class="card-icon">📊</span>
-    <span class="card-status status-live">Kommer des</span>
+    <span class="card-status status-coming">Kommer des</span>
   </div>
   <div class="card-title">HareideART Dashboard</div>
   <div class="card-desc">Ukentlig oversikt over nøkkeltall fra alle kanaler på ett sted. Shopify, Etsy, Pinterest — manuelt oppdatert.</div>
