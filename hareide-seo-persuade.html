@@ -82,13 +82,19 @@ hr { border: none; border-top: 1px solid #c8bda8; margin: 1.5rem 0; }
   <hr>
 
   <div class="section">
-    <h2>III. Process</h2>
+    <h2>III. Prosess</h2>
     <p style="font-size:0.8rem; color:#6b5f4e; margin-bottom:0.8rem;">
-      Rewrites: Title · Body · SEO Title · SEO Description · Image Alt Text<br>
-      Style: Hemingway &nbsp;·&nbsp; Mode: Art Seller 9-step Cialdini
+      Omskriver: Tittel · Beskrivelse · SEO-tittel · SEO-beskrivelse · Alt-tekst
     </p>
+    <div style="margin-bottom:1rem;">
+      <label for="batchSize">Antall produkter å prosessere</label>
+      <select id="batchSize" style="width:100%; padding:0.5rem 0.7rem; font-family:Georgia,serif; font-size:0.9rem; background:#e8e0cc; border:1px solid #c8bda8; border-bottom:2px solid #1a1410; outline:none;">
+        <option value="5">5 produkter — test</option>
+        <option value="50" selected>50 produkter — full batch</option>
+      </select>
+    </div>
     <div class="status err" id="runError" style="display:none;"></div>
-    <button id="runBtn" disabled>Run PersuadeKit</button>
+    <button id="runBtn" disabled>Kjør PersuadeKit</button>
 
 ```
 <div class="progress" id="progressDiv">
@@ -208,15 +214,27 @@ document.addEventListener('DOMContentLoaded', function() {
     logDiv.scrollTop = logDiv.scrollHeight;
   }
 
-  function buildPrompt(title, body, seoT, seoD, alt) {
-    return 'Du skriver produkttekster for HareideART, en nettbutikk som selger norskproduserte kunsttrykk.\n\n'
-      + 'VIKTIG: Skriv ALT på norsk bokmål. Tittel, beskrivelse, SEO-felt og alt-tekst skal alle være på norsk.\n\n'
-      + 'STIL: Hemingway. Korte, direkte setninger. Konkret og visuelt. Ingen klisjeer.\n\n'
-      + 'SALES MODE: Art Seller — 9-step Cialdini sequence:\n'
-      + '1.Liking 2.Authority 3.Visual 4.Social Proof 5.Scarcity 6.Reciprocity 7.Consistency 8.Facts 9.CTA\n\n'
-      + 'PRODUCT:\nTitle: ' + title + '\nDescription: ' + body + '\nSEO Title: ' + seoT + '\nSEO Desc: ' + seoD + '\nAlt: ' + alt + '\n\n'
-      + 'Return ONLY valid JSON, no markdown:\n'
-      + '{"title":"max 70 chars","bodyHTML":"180-260 words HTML with <p> tags only, all 9 steps","seoTitle":"max 60 chars","seoDescription":"max 155 chars","imageAltText":"max 125 chars"}';
+  function buildPrompt(title, body, seoT, seoD, alt, variation) {
+    return 'Du får en original beskrivelse av et kunstmotiv. Oppgaven din er å omskrive teksten til en kort, varm og lun omskriving med en personlig tone og personlig salgstekst i jeg-form, skrevet som kunstneren selv. Behold kjernen i motivet, men gjør språket mer flytende, nærværende og emosjonelt.\n\n'
+      + 'Slik skal teksten være:\n'
+      + '– varm, menneskelig og personlig\n'
+      + '– skrevet i jeg-form, som om kunstneren selv forteller\n'
+      + '– kort, tydelig og salgsfokusert\n'
+      + '– formidle ekte nærhet til motivet, nærvær og ro\n'
+      + '– beskrive motivets stemning (lys, rytme, relasjon)\n'
+      + '– skape en følelse av autentisitet og håndverk\n\n'
+      + 'SKRIVEVINKEL FOR DETTE PRODUKTET: ' + variation + '\n\n'
+      + 'Dette skal alltid inkluderes i teksten:\n'
+      + '– begrenset opplag: 50 eksemplarer\n'
+      + '– 220 g bomullspapir i arkivkvalitet\n'
+      + '– pigmentert blekk som varer i generasjoner\n'
+      + '– gratis frakt\n\n'
+      + 'Avslutning:\n'
+      + 'Rund av med en varm invitasjon til å bestille, uten press, men med følelsen av at kunstverket bringer stillhet, historie og nærvær inn i hjemmet.\n\n'
+      + 'VIKTIG: Skriv ALT på norsk bokmål.\n\n'
+      + 'PRODUKT:\nTittel: ' + title + '\nBeskrivelse: ' + body + '\nSEO-tittel: ' + seoT + '\nSEO-beskrivelse: ' + seoD + '\nAlt-tekst: ' + alt + '\n\n'
+      + 'Returner KUN gyldig JSON, ingen markdown:\n'
+      + '{"title":"maks 70 tegn, behold original tittel om den er god","bodyHTML":"HTML med kun <p>-tagger, varm og personlig i jeg-form","seoTitle":"maks 60 tegn","seoDescription":"maks 155 tegn","imageAltText":"maks 125 tegn, beskriv motivet visuelt"}';
   }
 
   async function callAPI(prompt) {
@@ -294,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var r = parsedRows[idxs[0]];
       if (r[iTitle] && r[iTitle].trim() !== '' && r[iBody] && r[iBody].trim() !== '') handles.push(h);
     });
-    handles = handles.slice(0, 50);
+    handles = handles.slice(0, parseInt(document.getElementById('batchSize').value));
 
     outputRows = parsedRows.map(function(r){ return r.slice(); });
     progressDiv.className = 'progress show';
@@ -313,11 +331,19 @@ document.addEventListener('DOMContentLoaded', function() {
       var row = parsedRows[idxs[0]];
       var title = row[iTitle] || '';
 
+      var variations = [
+        'Start med en konkret sanselig detalj fra motivet.',
+        'Start med en følelse eller stemning motivet vekker.',
+        'Start med en personlig erindring eller opplevelse knyttet til motivet.',
+        'Start med et kort, stillferdig spørsmål til betrakteren.',
+        'Start med å beskrive lyset eller fargene i motivet.'
+      ];
+      var variation = variations[i % variations.length];
       addLog('▶ ' + (title || handle), 'working');
 
       try {
         var result = await callAPI(buildPrompt(
-          title, row[iBody]||'', row[iSeoT]||'', row[iSeoD]||'', row[iAlt]||''
+          title, row[iBody]||'', row[iSeoT]||'', row[iSeoD]||'', row[iAlt]||'', variation
         ));
         idxs.forEach(function(idx) {
           if (iTitle>=0) outputRows[idx][iTitle] = result.title || outputRows[idx][iTitle];
