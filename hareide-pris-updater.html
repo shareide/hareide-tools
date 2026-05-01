@@ -182,11 +182,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function detectFormat(opt1) {
     var v = (opt1 || '').trim().toUpperCase();
-    var found = null;
-    Object.keys(FORMATS).forEach(function(k) {
-      if (v === k || v.startsWith(k + ' ') || v.startsWith(k + '–') || v.startsWith(k + '-')) found = k;
-    });
-    return found;
+    // Match A-format labels
+    if (v === 'A4' || v.startsWith('A4 ') || v.startsWith('A4–') || v.startsWith('A4-')) return 'A4';
+    if (v === 'A3' || v.startsWith('A3 ') || v.startsWith('A3–') || v.startsWith('A3-')) return 'A3';
+    if (v === 'A2' || v.startsWith('A2 ') || v.startsWith('A2–') || v.startsWith('A2-')) return 'A2';
+    if (v === 'A1' || v.startsWith('A1 ') || v.startsWith('A1–') || v.startsWith('A1-')) return 'A1';
+    // Match cm-based values from Shopify (21x29.7, 21×30, A3 – 30×42 etc.)
+    if (v.indexOf('21X29') >= 0 || v.indexOf('21×29') >= 0 || v.indexOf('29.7') >= 0 || v.indexOf('8X12') >= 0 || v.indexOf('8x12') >= 0) return 'A4';
+    if (v.indexOf('30X42') >= 0 || v.indexOf('30×42') >= 0 || v.indexOf('29.7X42') >= 0 || v.indexOf('14X') >= 0) return 'A3';
+    if (v.indexOf('42X60') >= 0 || v.indexOf('42×60') >= 0 || v.indexOf('42X59') >= 0 || v.indexOf('16X20') >= 0) return 'A2';
+    if (v.indexOf('60X84') >= 0 || v.indexOf('60×84') >= 0 || v.indexOf('59X84') >= 0 || v.indexOf('24X33') >= 0) return 'A1';
+    return null;
   }
 
   csvFile.addEventListener('change', function() {
