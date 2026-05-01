@@ -593,7 +593,7 @@ color: var(–ink);
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-bottom:1.2rem">
     <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
-      <input type="checkbox" id="fixMetaTitle" checked> SEO-tittel (meta title)
+      <input type="checkbox" id="fixMetaTitle" checked>  (meta title)
     </label>
     <label style="display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;cursor:pointer">
       <input type="checkbox" id="fixMetaDesc" checked> Meta-beskrivelse
@@ -691,7 +691,7 @@ color: var(–ink);
         <tr>
           <th>Produkt</th>
           <th>Status</th>
-          <th>SEO-tittel</th>
+          <th></th>
           <th>Meta-beskrivelse</th>
           <th>Tags</th>
           <th>Beskrivelse</th>
@@ -1066,7 +1066,7 @@ async function claudeFixProduct(apiKey, row, opts) {
   }
 
   return {
-    seo_title:       parsed.seo_title       || parsed.title       || '',
+    seo_title:       (parsed.seo_title || parsed.title || '').substring(0, 60).trim(),
     seo_description: parsed.seo_description || parsed.description || '',
     body_html:       parsed.body_html       || parsed.body        || '',
     tags:            parsed.tags            || parsed.keywords    || ''
@@ -1089,7 +1089,7 @@ async function startFix() {
     goToPanel(2);
     return;
   }
-
+ 
   // Get unique products by handle
   const seen = new Set();
   let candidates = csvData.filter(r => {
