@@ -1024,6 +1024,7 @@ async function claudeFixProduct(apiKey, row, opts) {
     throw new Error('Nettverksfeil: ' + networkErr.message);
   }
 
+  
   if (!resp.ok) {
     let detail = 'HTTP ' + resp.status;
     try {
