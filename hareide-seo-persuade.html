@@ -385,11 +385,11 @@ document.addEventListener('DOMContentLoaded', function() {
           title, row[iBody]||'', row[iSeoT]||'', row[iSeoD]||'', row[iAlt]||'', variation
         ));
         idxs.forEach(function(idx) {
-          if (iTitle>=0) outputRows[idx][iTitle] = result.title || outputRows[idx][iTitle];
-          if (iBody>=0)  outputRows[idx][iBody]  = result.bodyHTML || outputRows[idx][iBody];
-          if (iSeoT>=0)  outputRows[idx][iSeoT]  = result.seoTitle || outputRows[idx][iSeoT];
-          if (iSeoD>=0)  outputRows[idx][iSeoD]  = result.seoDescription || outputRows[idx][iSeoD];
-          if (iAlt>=0)   outputRows[idx][iAlt]   = result.imageAltText || outputRows[idx][iAlt];
+          if (document.getElementById('ckTitle').checked && iTitle>=0) outputRows[idx][iTitle] = result.title || outputRows[idx][iTitle];
+          if (document.getElementById('ckBody').checked  && iBody>=0)  outputRows[idx][iBody]  = result.bodyHTML || outputRows[idx][iBody];
+          if (document.getElementById('ckSeoT').checked  && iSeoT>=0)  outputRows[idx][iSeoT]  = result.seoTitle || outputRows[idx][iSeoT];
+          if (document.getElementById('ckSeoD').checked  && iSeoD>=0)  outputRows[idx][iSeoD]  = result.seoDescription || outputRows[idx][iSeoD];
+          if (document.getElementById('ckAlt').checked   && iAlt>=0)   outputRows[idx][iAlt]   = result.imageAltText || outputRows[idx][iAlt];
         });
         addLog('✓ ' + (result.title || title), 'ok');
       } catch(e) {
