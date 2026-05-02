@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
       + 'VIKTIG: Skriv ALT på norsk bokmål.\n\n'
       + 'PRODUKT:\nTittel: ' + title + '\nBeskrivelse: ' + body + '\nSEO-tittel: ' + seoT + '\nSEO-beskrivelse: ' + seoD + '\nAlt-tekst: ' + alt + '\n\n'
       + 'Returner KUN gyldig JSON, ingen markdown:\n'
-      + '{"title":"maks 70 tegn, behold original tittel om den er god","bodyHTML":"HTML med kun <p>-tagger, varm og personlig i jeg-form","seoTitle":"maks 60 tegn","seoDescription":"maks 155 tegn","imageAltText":"maks 125 tegn, beskriv motivet visuelt"}';
+      + '{"title":"MINIMUM 20 tegn og MAKS 70 tegn. Lag alltid en beskrivende SEO-vennlig tittel på norsk som inkluderer motivets navn og kunsttype. Eksempel: \'The Happy Dog – Fargerikt Naivistisk Kunsttrykk\'","bodyHTML":"HTML med kun <p>-tagger, varm og personlig i jeg-form, MINIMUM 100 ord og MAKS 180 ord","seoTitle":"maks 60 tegn","seoDescription":"maks 155 tegn","imageAltText":"maks 125 tegn, beskriv motivet visuelt"}';
   }
 
   async function callAPI(prompt) {
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
+        max_tokens: 1500,
         messages: [{ role: 'user', content: prompt }]
       })
     });
