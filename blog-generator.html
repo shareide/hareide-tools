@@ -223,6 +223,15 @@ animation: dots 1.5s infinite;
   </div>
 </div>
 
+<div class="field">
+  <label>Skrivestil</label>
+  <select id="writingStyle">
+    <option value="ingen">— Ingen fast stil —</option>
+    <option value="rimmerman">Jon Rimmerman (Garagiste)</option>
+    <option value="rimmerman_halbert">Rimmerman × Halbert (hybrid)</option>
+  </select>
+</div>
+
 <div class="grid-2">
   <div class="field">
     <label>Lengde</label>
@@ -360,6 +369,7 @@ async function generateBlog() {
   const length   = document.getElementById('length').value;
   const platform = document.getElementById('platform').value;
   const notes    = document.getElementById('notes').value.trim();
+  const writingStyle = document.getElementById('writingStyle').value;
 
   const apiKey = document.getElementById('apiKey').value.trim();
   if (!apiKey) { alert('Lim inn Anthropic API-nøkkel først.'); return; }
@@ -388,6 +398,7 @@ async function generateBlog() {
 - Lengde: ${length}
 - Plattform: ${platform}
 ${notes ? `- Tilleggsnoter: ${notes}` : ''}
+${writingStyle === 'rimmerman_halbert' ? `- Skrivestil: Skriv teksten i en hybrid stil som kombinerer Jon Rimmerman og Gary Halbert. Begynn med Rimmermans verden: narrativ, sanselig og reiseaktig — full av lys, vær, tilfeldigheter, menneskemøter og de små detaljene som bare en som faktisk var der ville legge merke til. La stemningen bygge seg opp organisk, som om teksten ikke har noe bestemt sted å gå. Bruk lange, flytende avsnitt når du etablerer kontekst, terroir og følelse. Så — uten varsel — skift til Halberts register: direkte, personlig, psykologisk presis. Kutt setningslengden. Si det ingen andre tør si. Snakk til leseren som om dere er alene i rommet og du har noe viktig å fortelle. Denne overgangen fra det poetiske til det ufiltrerte er selve hjertet i stilen. Unngå markedsføringsspråk og salgsklisjeer — overtalelsen skjer gjennom ærlighet og nærvær, ikke teknikk. Skriv i første person. Avslutt med en subtil invitasjon som føles som et tilbud mellom venner, ikke en call-to-action.`  : writingStyle === 'rimmerman' ? `- Skrivestil: ${'Skriv teksten i stilen til Jon Rimmerman fra Garagiste. Bruk en lang, narrativ, nesten litterær form. Teksten skal føles som en personlig reiseberetning forkledd som en e-post. Bruk et rytmisk språk med sanselige detaljer, tilfeldige observasjoner, små digresjoner og en følelse av at avsenderen har snublet over noe sjeldent. Vekten skal ligge på stemning, terroir, mennesker, vær, tilfeldigheter og kontekst – ikke salgstaktikker. Teksten skal være varm, nysgjerrig, litt mystisk og skrevet som om leseren er en del av en eksklusiv indre sirkel. Unngå markedsføringsspråk. Skriv med en tone som kombinerer reiseskildring, dagboknotat og poetisk vinjournalistikk. Avslutt med en subtil invitasjon, ikke en call-to-action. Bruk første person.'}`  : ''}
 
 Følg Story → Transition → Lesson-strukturen nøye. Returner kun selve innlegget som ren prosa.`;
 
