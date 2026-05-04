@@ -178,6 +178,13 @@ animation: dots 1.5s infinite;
     <p>Story → Transition → Lesson</p>
   </header>
 
+  <div class="card" id="apiCard" style="border-left:4px solid #c8a951;">
+    <div class="field" style="margin-bottom:0">
+      <label>Anthropic API-nøkkel</label>
+      <input type="password" id="apiKey" placeholder="sk-ant-..." />
+    </div>
+  </div>
+
   <div class="card">
     <div class="field">
       <label>Tema / Tittelidé</label>
@@ -354,6 +361,8 @@ async function generateBlog() {
   const platform = document.getElementById('platform').value;
   const notes    = document.getElementById('notes').value.trim();
 
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!apiKey) { alert('Lim inn Anthropic API-nøkkel først.'); return; }
   if (!topic) {
     alert('Skriv inn et tema før du genererer.');
     return;
@@ -387,7 +396,8 @@ Følg Story → Transition → Lesson-strukturen nøye. Returner kun selve innle
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
-          'anthropic-dangerous-direct-browser-access': 'true'
+          'anthropic-dangerous-direct-browser-access': 'true',
+          'x-api-key': document.getElementById('apiKey').value.trim()
         },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
